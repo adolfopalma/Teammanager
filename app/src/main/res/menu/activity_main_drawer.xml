@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_peñas"
+            android:icon="@drawable/penia"
+            android:title="Crear peña" />
+
+        <item
+            android:id="@+id/nav_multas"
+            android:icon="@drawable/pencil"
+            android:title="Multas" />
+        <item
+            android:id="@+id/nav_estadisticas"
+            android:icon="@drawable/linechar"
+            android:title="Estadisticas" />
+        <item
+            android:id="@+id/nav_partidos"
+            android:icon="@drawable/whistlee"
+            android:title="Partidos" />
+
+        <item
+            android:id="@+id/nav_administrar"
+            android:icon="@drawable/gerente"
+            android:title="Administrar" />
+
+        <item
+            android:id="@+id/nav_jugadores"
+            android:icon="@drawable/new_user"
+            android:title="Invitar jugadores" />
+    </group>
+
+    <item android:title="Extras">
+        <menu>
+            <item
+                android:id="@+id/nav_info"
+                android:icon="@android:drawable/ic_menu_info_details"
+                android:title="Informacion" />
+            <item
+                android:id="@+id/nav_contacto"
+                android:icon="@android:drawable/ic_dialog_email"
+                android:title="Contacto" />
+        </menu>
+    </item>
+
+</menu>
