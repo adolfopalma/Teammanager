@@ -133,6 +133,8 @@ public class GestionEquipo extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                correoAdd = null;
+                correo = null;
                 AddTask task = new AddTask();
                 task.execute();
                 dialog.dismiss();
@@ -408,6 +410,7 @@ public class GestionEquipo extends AppCompatActivity {
 
                         HashMap<String, String> parametrosPost2 = new HashMap<>();
                         parametrosPost2.put("ins_sql", "INSERT INTO estadisticas(CodigoJug, Goles, TarjetaAmarilla, TarjetaRoja, CodPeña) VALUES (" + "'"+correoAdd+"'"+ ",0,0,0," +id+");");
+                        System.out.println("-------------------"+url_insert+parametrosPost2);
                         jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost2);
 
                     } else {

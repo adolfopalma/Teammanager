@@ -125,8 +125,7 @@ public class Adapter_list_claros extends BaseAdapter{
                 for (int i = 0; i < json.length(); i++) {
                     try {
                         jsonObject = json.getJSONObject(i);
-                        goles = jsonObject.getInt("Goles");
-
+                        goles = jsonObject.getInt("Goles")+1;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -160,14 +159,9 @@ public class Adapter_list_claros extends BaseAdapter{
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql","UPDATE estadisticas SET Goles = " +goles+1 + "WHERE Correo = "+"'"+correo+"' and codPeña = "+GlobalParams.codPeña);
-                jSONArray = devuelveJSON.sendRequest(url_insert, parametrosPosteriores);
+                parametrosPosteriores.put("ins_sql"," UPDATE estadisticas SET Goles = " +goles+ " WHERE CodigoJug = "+"'"+correo+"' and codPeña = "+GlobalParams.codPeña);
+                devuelveJSON.sendRequest(url_insert, parametrosPosteriores);
 
-                if (jSONArray.length() > 0) {
-                    return jSONArray;
-                }else{
-                    System.out.println("Error al obtener datos JSON");
-                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

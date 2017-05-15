@@ -60,9 +60,12 @@ public class PartidoActivity extends AppCompatActivity {
     protected Button bDialogAcept,bDialogCancel;
     private Peñas peña;
     private ArrayList<Peñas> arrayPeñas;
+    int idPeña;
 
     private ArrayList<Jugadores> arrayListaJugadores;
     ArrayList<Jugadores> tempList;
+    ArrayList<Jugadores> jugadoresOscuros;
+    ArrayList<Jugadores> jugadoresClaros;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +96,8 @@ public class PartidoActivity extends AppCompatActivity {
         lvOscuro = (ListView) findViewById(R.id.listviewOscuro);
         marcadorClaro = (TextView)findViewById(R.id.MarcadorClaro);
         marcadorOscuro = (TextView)findViewById(R.id.MarcadorOscuro);
-
-
+        jugadoresOscuros = new ArrayList<>();
+        jugadoresClaros = new ArrayList<>();
 
         //btn_start click handler
         mBtnStart.setOnClickListener(new View.OnClickListener() {
@@ -135,8 +138,7 @@ public class PartidoActivity extends AppCompatActivity {
             }
         });
 
-        PartidoTask task2 = new PartidoTask();
-        task2.execute();
+
 
     }
 
@@ -155,7 +157,9 @@ public class PartidoActivity extends AppCompatActivity {
         dialog.findViewById(R.id.bAceptar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                GlobalParams.codPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
+                PartidoTask task2 = new PartidoTask();
+                task2.execute();
                 dialog.dismiss();
             }
         });
@@ -180,6 +184,17 @@ public class PartidoActivity extends AppCompatActivity {
          // lista temporal
         tempList = arrayListaJugadores;
         suffleList(tempList); // mezclar
+
+        for(int i = 0; i < tempList.size(); i++){
+
+            if (i <= tempList.size()/2-1){
+                jugadoresOscuros.add(tempList.get(i));
+
+            }else if(i > tempList.size()/2-1){
+                jugadoresClaros.add(tempList.get(i));
+            }
+        }
+
     }
 
 
@@ -229,6 +244,7 @@ public class PartidoActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
+            idPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
             pDialog = new ProgressDialog(PartidoActivity.this);
             pDialog.setMessage("Cargando...");
             pDialog.setIndeterminate(false);
@@ -241,7 +257,8 @@ public class PartidoActivity extends AppCompatActivity {
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql","select Nombre, Ruta_Foto, Correo from jugadores where Correo in (SELECT CodigoJug FROM componente_peña WHERE CodPeña = 1)");
+                parametrosPosteriores.put("ins_sql","select Nombre, Ruta_Foto, Correo from jugadores where Correo in (SELECT CodigoJug FROM componente_peña WHERE CodPeña = "+idPeña+")");
+
                 jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
@@ -268,6 +285,7 @@ public class PartidoActivity extends AppCompatActivity {
                         jsonObject = json.getJSONObject(i);
                         jugador = new Jugadores();
                         jugador.setNombre(jsonObject.getString("Nombre"));
+                        jugador.setCorreo(jsonObject.getString("Correo"));
                         arrayListaJugadores.add(jugador);
 
                     } catch (JSONException e) {
@@ -275,9 +293,9 @@ public class PartidoActivity extends AppCompatActivity {
                     }
                 }
                 process();
-                lvClaro.setAdapter(new Adapter_list_claros(PartidoActivity.this, tempList));
+                lvClaro.setAdapter(new Adapter_list_claros(PartidoActivity.this, jugadoresClaros));
 
-                lvOscuro.setAdapter(new Adapter_list_oscuros(PartidoActivity.this, tempList));
+                lvOscuro.setAdapter(new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
 
             } else {
                 Snackbar.make(findViewById(android.R.id.content), "Error de conexion", Snackbar.LENGTH_LONG).show();
@@ -304,7 +322,6 @@ public class PartidoActivity extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select * from peña where CodAministrador = "+"'"+correoUsuario+"'");
-                System.out.println("///////////////"+url_consulta+parametrosPosteriores);
                 jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
@@ -327,9 +344,9 @@ public class PartidoActivity extends AppCompatActivity {
                     try {
                         jsonObject = json.getJSONObject(i);
                         peña = new Peñas();
+                        peña.setId(jsonObject.getInt("codPeña"));
                         peña.setNombre(jsonObject.getString("nomPeña"));
                         arrayPeñas.add(peña);
-                        System.out.println("********"+arrayPeñas.get(i).getNombre());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

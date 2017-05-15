@@ -55,6 +55,12 @@ public class RegistroActivity extends AppCompatActivity {
     private static Bitmap bm;
     protected String hora,nombreFoto;
     private Jugadores jugadores;
+    String nombre;
+    String edad;
+    String correo;
+    String pass;
+    String tipoJugador;
+    String rutaFoto;
 
 
 
@@ -110,6 +116,8 @@ public class RegistroActivity extends AppCompatActivity {
         spinner.setSelection(0);
         foto.setImageResource(R.mipmap.ic_launcher_round);
         nombreFoto = null;
+        rutaFoto = null;
+        encodedImageData = null;
     }
 
 
@@ -137,7 +145,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     public String getEncoded64ImageStringFromBitmap(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
         byte[] byteFormat = stream.toByteArray();
         // get the base 64 string
         String imgString = Base64.encodeToString(byteFormat, Base64.NO_WRAP);
@@ -162,15 +170,16 @@ public class RegistroActivity extends AppCompatActivity {
     //Asynctask en la que compruebo si el usuario ya esta registrado, si no lo esta inserto, si no lo esta muestro mensaje
     class RegistroTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
-        String nombre = ednombre.getText().toString();
-        String edad = ededad.getText().toString();
-        String correo = edcorreo.getText().toString();
-        String pass = edcontraseña.getText().toString();
-        String tipoJugador = spinner.getSelectedItem().toString();
-        String rutaFoto = encodedImageData;
 
         @Override
         protected void onPreExecute() {
+            nombre = ednombre.getText().toString();
+            edad = ededad.getText().toString();
+            correo = edcorreo.getText().toString();
+            pass = edcontraseña.getText().toString();
+            tipoJugador = spinner.getSelectedItem().toString();
+            rutaFoto = encodedImageData;
+
             pDialog = new ProgressDialog(RegistroActivity.this);
             pDialog.setMessage("Registrando...");
             pDialog.setIndeterminate(false);
@@ -231,6 +240,7 @@ public class RegistroActivity extends AppCompatActivity {
             if (pDialog != null && pDialog.isShowing()) {
                 pDialog.dismiss();
             }
+
         }
 
         @Override
