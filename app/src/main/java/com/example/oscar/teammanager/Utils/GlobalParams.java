@@ -11,6 +11,7 @@ public class GlobalParams {
     public static String MarcadorOscuro = "";
     public static String MarcadorClaro = "";
 
-
+    //Datos peña en partido
+    public static int codPeña = 0;
 
 }

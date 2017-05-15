@@ -164,7 +164,7 @@ public class LoginActivity extends AppCompatActivity{
                     }
                 }
             } else {
-                Snackbar.make(findViewById(android.R.id.content), "Usuario o contraseña incorrectos  ", Snackbar.LENGTH_LONG).show();;
+                Snackbar.make(findViewById(android.R.id.content), "Error de conexion  ", Snackbar.LENGTH_LONG).show();;
             }
 
         }

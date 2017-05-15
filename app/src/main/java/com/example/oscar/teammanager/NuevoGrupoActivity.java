@@ -373,6 +373,12 @@ public class NuevoGrupoActivity extends AppCompatActivity{
                         parametrosPost3.put("ins_sql", "INSERT INTO administrador(CodAdministrador, CodPeña) VALUES (" + "'" + correoUsuario + "'" + "," + cod + ")");
                         devuelveJSON.sendInsert(url_insert, parametrosPost3);
 
+                        //inserto en la tabla administrador el administrador y peña
+                        HashMap<String, String> parametrosPost4 = new HashMap<>();
+                        parametrosPost4.put("ins_sql", "INSERT INTO estadisticas(CodigoJug, Goles, TarjetaAmarilla, TarjetaRoja, CodPeña) VALUES (" + "'"+correoUsuario+"'"+ ",0,0,0," +cod+");");
+                        System.out.println("---------------"+url_insert+parametrosPost4);
+                        devuelveJSON.sendInsert(url_insert, parametrosPost4);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

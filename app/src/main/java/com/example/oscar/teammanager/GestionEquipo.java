@@ -406,6 +406,10 @@ public class GestionEquipo extends AppCompatActivity {
                         parametrosPost.put("ins_sql", "INSERT INTO componente_peña(CodigoJug, CodPeña) VALUES (" + "'" + arraJugadores.get(0).getCorreo().toString() + "'" + "," + "'" + id + "')");
                         jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost);
 
+                        HashMap<String, String> parametrosPost2 = new HashMap<>();
+                        parametrosPost2.put("ins_sql", "INSERT INTO estadisticas(CodigoJug, Goles, TarjetaAmarilla, TarjetaRoja, CodPeña) VALUES (" + "'"+correoAdd+"'"+ ",0,0,0," +id+");");
+                        jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost2);
+
                     } else {
                         System.out.println("Error al obtener datos JSON");
                         Snackbar.make(findViewById(android.R.id.content), "Este usuario no está aún resgistrado en la aplicación", Snackbar.LENGTH_LONG).show();
