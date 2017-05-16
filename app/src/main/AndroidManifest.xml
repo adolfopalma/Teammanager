@@ -64,13 +64,15 @@
             android:label="Partido"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.NoActionBar">
-
             <service
                 android:name=".NotificationUpdateService"
                 android:enabled="true"
-                android:exported="false">
-            </service>
+                android:exported="false"></service>
         </activity>
+        <activity
+            android:name=".MultaActivity"
+            android:label="@string/title_activity_multa"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 
 </manifest>

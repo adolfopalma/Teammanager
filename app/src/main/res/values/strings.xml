@@ -99,6 +99,8 @@
     <string name="cambiar">Cambiar</string>
     <string name="invitacion">Invita a tus amigos a descargarse app Team Megasur\n y unirse a tu equipo.\n
                               Solo tienes que seleccionar equipo y escribir el correo electronico de la persona que desees invitar.</string>
+    <string name="multa">Selecciona un jugador de la lista y marca el tipo de sancion que va imponer. \n
+                         Pulse aceptar para imponer sancion y si quieres notificar al usuario de la sancion impuesta pulse el boton de notificar.</string>
     <string name="cerrar">Cerrar</string>
     <string name="cancel">Cancelar</string>
     <string name="msj_cerrar">¿Está seguro que quiere salir de la aplicacion?</string>
@@ -108,4 +110,5 @@
     <string name="text_seleccionar_peña">Seleccione en la lista el equipo que va disputar el partido.</string>
     <string name="title_activity_partido">PartidoActivity</string>
     <string name="ganador_partido">\El ganador del partido ha sido :</string>
+    <string name="title_activity_multa">MultaActivity</string>
 </resources>

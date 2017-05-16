@@ -206,7 +206,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         else if (id == R.id.nav_multas) {
-
+            Intent i = new Intent(this, MultaActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_partidos) {
 
         } else if (id == R.id.nav_info) {

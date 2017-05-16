@@ -134,7 +134,6 @@ public class GestionEquipo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 correo = correoAdd.getText().toString();
-                System.out.println("----------correo"+ correo);
                 AddTask task = new AddTask();
                 task.execute();
                 dialog.dismiss();
