@@ -31,7 +31,8 @@ public class Adapter_list_claros extends BaseAdapter{
     protected ArrayList<Jugadores> items;
     Activity actividad;
     int contador =0;
-    String correo;private JSONArray jSONArray;
+    String correo;
+    private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
     private String url_consulta, url_insert;

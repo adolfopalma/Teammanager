@@ -133,8 +133,8 @@ public class GestionEquipo extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                correoAdd = null;
-                correo = null;
+                correo = correoAdd.getText().toString();
+                System.out.println("----------correo"+ correo);
                 AddTask task = new AddTask();
                 task.execute();
                 dialog.dismiss();
@@ -363,7 +363,6 @@ public class GestionEquipo extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             id = datos.getInt("id");
-            correo = correoAdd.getText().toString();
             usuario_repetido = false;
             pDialog = new ProgressDialog(GestionEquipo.this);
             pDialog.setMessage("Añadiendo...");
@@ -406,12 +405,12 @@ public class GestionEquipo extends AppCompatActivity {
 
                         HashMap<String, String> parametrosPost = new HashMap<>();
                         parametrosPost.put("ins_sql", "INSERT INTO componente_peña(CodigoJug, CodPeña) VALUES (" + "'" + arraJugadores.get(0).getCorreo().toString() + "'" + "," + "'" + id + "')");
-                        jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost);
+                        devuelveJSON.sendInsert(url_insert, parametrosPost);
 
                         HashMap<String, String> parametrosPost2 = new HashMap<>();
-                        parametrosPost2.put("ins_sql", "INSERT INTO estadisticas(CodigoJug, Goles, TarjetaAmarilla, TarjetaRoja, CodPeña) VALUES (" + "'"+correoAdd+"'"+ ",0,0,0," +id+");");
+                        parametrosPost2.put("ins_sql", "INSERT INTO estadisticas(CodigoJug, Goles, TarjetaAmarilla, TarjetaRoja, CodPeña) VALUES (" + "'"+correo+"'"+ ",0,0,0," +id+");");
                         System.out.println("-------------------"+url_insert+parametrosPost2);
-                        jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost2);
+                        devuelveJSON.sendInsert(url_insert, parametrosPost2);
 
                     } else {
                         System.out.println("Error al obtener datos JSON");
@@ -431,7 +430,6 @@ public class GestionEquipo extends AppCompatActivity {
             }
             arrayListaJugadores.clear();
             inicializarTask2();
-            Snackbar.make(findViewById(android.R.id.content), "Usuario "+arraJugadores.get(0).getNombre()+" registrado en el equipo "+arrayPeñas.get(0).getNombre(), Snackbar.LENGTH_LONG).show();
         }
 
         @Override

@@ -116,8 +116,6 @@ public class RegistroActivity extends AppCompatActivity {
         spinner.setSelection(0);
         foto.setImageResource(R.mipmap.ic_launcher_round);
         nombreFoto = null;
-        rutaFoto = null;
-        encodedImageData = null;
     }
 
 
@@ -209,7 +207,7 @@ public class RegistroActivity extends AppCompatActivity {
                 }
 
                 if(listaCorreos.contains(correo)){
-                    Snackbar.make(findViewById(android.R.id.content), "Ya existe un usuario registrado con este correo, Pon otro so subnormal.", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), "Ya existe un usuario registrado con este correo. Intentelo con otro", Snackbar.LENGTH_LONG).show();
                 }else{
                     HashMap<String, String> parametrosPost = new HashMap<>();
                     parametrosPost.put("ins_sql","INSERT INTO jugadores(Nombre,Edad,Correo,Pass,TipoJugador,Ruta_Foto) VALUES ("+"'"+nombre+"'"+","+"'"+edad+"'"+","+"'"+correo+"'"+","+"'"+pass+"'"+","+"'"+tipoJugador+"'"+","+"'"+rutaFoto+"')");
@@ -219,6 +217,8 @@ public class RegistroActivity extends AppCompatActivity {
                         switch (jsonObject.getInt("added")){
                             case 1:
                                 Snackbar.make(findViewById(android.R.id.content), "El usuario se registró correctamente.", Snackbar.LENGTH_LONG).show();
+                                rutaFoto = null;
+                                encodedImageData = null;
                                 break;
                             default:
                                 Snackbar.make(findViewById(android.R.id.content), "Error en el registro del usuario.", Snackbar.LENGTH_LONG).show();
