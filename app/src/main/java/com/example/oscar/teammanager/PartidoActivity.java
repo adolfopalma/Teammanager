@@ -1,25 +1,32 @@
 package com.example.oscar.teammanager;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.oscar.teammanager.Adaptadores.Adapter_list_claros;
 import com.example.oscar.teammanager.Adaptadores.Adapter_list_oscuros;
+import com.example.oscar.teammanager.Adaptadores.GestionListAdapter;
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.Chronometer;
@@ -39,7 +46,7 @@ import java.util.Random;
 public class PartidoActivity extends AppCompatActivity {
 
     protected TextView tv1;
-    protected Button mBtnStart, mBtnStop;
+    protected Button BtnStart, BtnStop, BtnSortear;
     protected int mLapCounter = 1;
     protected Chronometer mChrono;
     protected Thread mThreadChrono;
@@ -50,7 +57,7 @@ public class PartidoActivity extends AppCompatActivity {
     private String url_consulta, url_insert;
     private String IP_Server;
     private Jugadores jugador;
-    protected ListView lvOscuro, lvClaro;
+    protected ListView lvOscuro, lvClaro, lv;
     protected TextView marcadorClaro, marcadorOscuro;
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
@@ -60,6 +67,8 @@ public class PartidoActivity extends AppCompatActivity {
     protected Button bDialogAcept,bDialogCancel;
     private Peñas peña;
     private ArrayList<Peñas> arrayPeñas;
+    protected LinearLayout lista_jug;
+    protected LinearLayout empty_equipo;
     int idPeña;
 
     private ArrayList<Jugadores> arrayListaJugadores;
@@ -73,6 +82,10 @@ public class PartidoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_partido);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        lista_jug = (LinearLayout)findViewById(R.id.lista_jugadores);
+        empty_equipo = (LinearLayout)findViewById(R.id.empty_equipo);
+        arrayListaJugadores = new ArrayList<>();
+        arrayPeñas = new ArrayList<>();
         sp = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         editor = sp.edit();
         correoUsuario = sp.getString("us_email", correoUsuario);
@@ -82,25 +95,30 @@ public class PartidoActivity extends AppCompatActivity {
         url_consulta = IP_Server + "/consulta.php";
         url_insert = IP_Server + "/prueba.php";
         devuelveJSON = new ClaseConexion();
+        tempList = new ArrayList<Jugadores>();
         EquipoTask task = new EquipoTask();
         task.execute();
+        if(arrayPeñas.size() < 0){
+            Snackbar.make(findViewById(android.R.id.content), "Avise al administrador para comenzar partido", Snackbar.LENGTH_LONG).show();
+        }else
         dialog();
         tv1 = (TextView) findViewById(R.id.tv1);
         mContext = this;
-        mBtnStart = (Button) findViewById(R.id.bIniciar);
-        mBtnStop = (Button) findViewById(R.id.bParar);
+        BtnSortear = (Button) findViewById(R.id.bSortear);
+        BtnStart= (Button) findViewById(R.id.bComenzar);
+        BtnStop = (Button) findViewById(R.id.bFinalizar);
         tv1 = (TextView) findViewById(R.id.tv1);
-        arrayListaJugadores = new ArrayList<>();
-        arrayPeñas = new ArrayList<>();
         lvClaro = (ListView) findViewById(R.id.listviewClaro);
         lvOscuro = (ListView) findViewById(R.id.listviewOscuro);
-        marcadorClaro = (TextView)findViewById(R.id.MarcadorClaro);
-        marcadorOscuro = (TextView)findViewById(R.id.MarcadorOscuro);
+        lv  = (ListView) findViewById(R.id.lv_gestion);
+        marcadorClaro = (TextView) findViewById(R.id.MarcadorClaro);
+        marcadorOscuro = (TextView) findViewById(R.id.MarcadorOscuro);
         jugadoresOscuros = new ArrayList<>();
         jugadoresClaros = new ArrayList<>();
 
+
         //btn_start click handler
-        mBtnStart.setOnClickListener(new View.OnClickListener() {
+        BtnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //if the chronometer has not been instantiated before...
@@ -121,7 +139,7 @@ public class PartidoActivity extends AppCompatActivity {
         });
 
         //btn_stop click handler
-        mBtnStop.setOnClickListener(new View.OnClickListener() {
+        BtnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //if the chronometer had been instantiated before...
@@ -135,10 +153,34 @@ public class PartidoActivity extends AppCompatActivity {
                     //kill the chrono class
                     mChrono = null;
                 }
+
+                final AlertDialog.Builder builders = new AlertDialog.Builder(PartidoActivity.this);
+                builders.setMessage("Partido finalizado"+getResources().getString(R.string.ganador_partido));
+                builders.setPositiveButton(getResources().getString(R.string.acept),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                                //Intent i = new Intent(PartidoActivity.this, MainActivity.class);
+                                //startActivity(i);
+                            }
+                        });
+                builders.setCancelable(false);
+                builders.create();
+                builders.show();
             }
         });
 
 
+        BtnSortear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               process();
+                lv.setVisibility(View.GONE);
+                lista_jug.setVisibility(View.VISIBLE);
+                lvClaro.setAdapter(new Adapter_list_claros(PartidoActivity.this, jugadoresClaros));
+                lvOscuro.setAdapter(new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
+            }
+        });
 
     }
 
@@ -181,20 +223,17 @@ public class PartidoActivity extends AppCompatActivity {
     }
 
     public void process() {
-         // lista temporal
-        tempList = arrayListaJugadores;
-        suffleList(tempList); // mezclar
+            suffleList(tempList); // mezclar
 
-        for(int i = 0; i < tempList.size(); i++){
+            for (int i = 0; i < tempList.size(); i++) {
 
-            if (i <= tempList.size()/2-1){
-                jugadoresOscuros.add(tempList.get(i));
+                if (i <= tempList.size() / 2 - 1) {
+                    jugadoresOscuros.add(tempList.get(i));
 
-            }else if(i > tempList.size()/2-1){
-                jugadoresClaros.add(tempList.get(i));
+                } else if (i > tempList.size() / 2 - 1) {
+                    jugadoresClaros.add(tempList.get(i));
+                }
             }
-        }
-
     }
 
 
@@ -286,19 +325,25 @@ public class PartidoActivity extends AppCompatActivity {
                         jugador = new Jugadores();
                         jugador.setNombre(jsonObject.getString("Nombre"));
                         jugador.setCorreo(jsonObject.getString("Correo"));
+                        jugador.setRutaFoto(jsonObject.getString("Ruta_Foto"));
                         arrayListaJugadores.add(jugador);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                process();
-                lvClaro.setAdapter(new Adapter_list_claros(PartidoActivity.this, jugadoresClaros));
 
-                lvOscuro.setAdapter(new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
+                lv.setAdapter(new GestionListAdapter(PartidoActivity.this, arrayListaJugadores));
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView adapter, View view, int position, long arg) {
+                        tempList.add(arrayListaJugadores.get(position));
+                        Snackbar.make(findViewById(android.R.id.content), "Jugador : "+arrayListaJugadores.get(position).getNombre() +" añadido", Snackbar.LENGTH_LONG).show();
+                    }
+                });
 
             } else {
-                Snackbar.make(findViewById(android.R.id.content), "Error de conexion", Snackbar.LENGTH_LONG).show();
+
             }
         }
 
@@ -328,7 +373,6 @@ public class PartidoActivity extends AppCompatActivity {
                     return jSONArray;
                 }else{
                     System.out.println("Error al obtener datos JSON");
-                    Snackbar.make(findViewById(android.R.id.content), "Error de conexion", Snackbar.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -355,6 +399,8 @@ public class PartidoActivity extends AppCompatActivity {
                 rellenaEspiners();
 
             } else {
+                lista_jug.setVisibility(View.GONE);
+                empty_equipo.setVisibility(View.VISIBLE);
                 Snackbar.make(findViewById(android.R.id.content), "Error de conexion", Snackbar.LENGTH_LONG).show();
             }
         }
@@ -364,4 +410,10 @@ public class PartidoActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        arrayPeñas.clear();
+        arrayListaJugadores.clear();
+    }
 }
