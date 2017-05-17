@@ -11,13 +11,13 @@ import java.util.List;
  * Created by ptmarketing04 on 30/03/2017.
  */
 
-public class AdministrarAdapter extends FragmentPagerAdapter {
+public class EstadisticasAdapter extends FragmentPagerAdapter {
 
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
 
-    public AdministrarAdapter(FragmentManager manager) {
+    public EstadisticasAdapter(FragmentManager manager) {
         super(manager);
     }
 

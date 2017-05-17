@@ -72,11 +72,9 @@
         <activity
             android:name=".MultaActivity"
             android:label="@string/title_activity_multa"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".AdministracionActivity"
-            android:label="@string/title_activity_administracion"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            />
+        <activity android:name=".EstadisticasActivity"/>
     </application>
 
 </manifest>

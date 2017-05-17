@@ -30,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.example.oscar.teammanager.Adaptadores.PeñaListAdapter;
+import com.example.oscar.teammanager.Objects.Estadisticas;
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
@@ -196,7 +197,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         else if (id == R.id.nav_estadisticas) {
-
+            Intent i = new Intent(this, EstadisticasActivity.class);
+            startActivity(i);
         }
 
         else if(id == R.id.nav_peñas){

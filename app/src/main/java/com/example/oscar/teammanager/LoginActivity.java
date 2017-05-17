@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity{
         }
     }
 
-    //Compruebo datos introducidos, si corresponden con los de la base de datos dejo entrar
+    //Compruebo datos introducidos, si corresponden con los de la base de datos, dejo entrar
     public void compruebaUsuario(String correo, String pass){
         jugadores = new Jugadores();
         for (int i=0; i<arrayJugadores.size(); i++){
@@ -95,6 +95,8 @@ public class LoginActivity extends AppCompatActivity{
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("correoUsuario",sp.getString("us_email", correo));
                 startActivity(intent);
+            }else{
+                Snackbar.make(findViewById(android.R.id.content), "Correo o contraseña erroneos ", Snackbar.LENGTH_LONG).show();;
             }
         }
     }
@@ -132,7 +134,7 @@ public class LoginActivity extends AppCompatActivity{
         protected JSONArray doInBackground(String... args) {
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql","select * from jugadores where Correo="+"'"+mEmail.toString()+"'"+" and Pass="+"'"+mPassword.toString()+"'");
+                parametrosPost.put("ins_sql","select * from jugadores");
                 jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPost);
                 if (jSONArray.length() > 0) {
                     return jSONArray;
@@ -163,8 +165,9 @@ public class LoginActivity extends AppCompatActivity{
                         e.printStackTrace();
                     }
                 }
+
             } else {
-                Snackbar.make(findViewById(android.R.id.content), "Error de conexion  ", Snackbar.LENGTH_LONG).show();;
+                Snackbar.make(findViewById(android.R.id.content), "Error de conexion con el servidor, intentelo en unos minutos.", Snackbar.LENGTH_LONG).show();
             }
 
         }

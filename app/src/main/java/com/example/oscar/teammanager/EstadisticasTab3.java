@@ -1,10 +1,12 @@
 package com.example.oscar.teammanager;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +14,17 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+
 import com.example.oscar.teammanager.Utils.ClaseConexion;
+
 import org.json.JSONObject;
 
 
+/**
+ * Created by ptmarketing04 on 30/03/2017.
+ */
 
-public class GestionTab3 extends Fragment {
+public class EstadisticasTab3 extends Fragment {
     CheckBox passcode,pvd,iva,margin;
     EditText etStore;
     LinearLayout save_pref;
@@ -29,7 +36,7 @@ public class GestionTab3 extends Fragment {
     String pref_margin = "0";
 
 
-    public GestionTab3() {
+    public EstadisticasTab3() {
         // Required empty public constructor
     }
 
@@ -41,21 +48,16 @@ public class GestionTab3 extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        passcode = (CheckBox)view.findViewById(R.id.pref_block_passcode);
-        pvd = (CheckBox)view.findViewById(R.id.pref_tarifa_pvp);
-        iva = (CheckBox)view.findViewById(R.id.pref_precios_iva);
-        margin = (CheckBox)view.findViewById(R.id.pref_margen_propio);
-        etStore = (EditText) view.findViewById(R.id.etNameStore);
-        save_pref = (LinearLayout)view.findViewById(R.id.btn_pref_save);
         devuelveJSON = new ClaseConexion();
 
-    }
+        new PreferencesTask().execute();
 
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.layout_gestion3, container, false);
+        return inflater.inflate(R.layout.layout_estadisticas3, container, false);
     }
 
 
@@ -67,7 +69,10 @@ public class GestionTab3 extends Fragment {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(getContext());
-
+            pDialog.setMessage("Cargando");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
 
         }
 
@@ -75,6 +80,7 @@ public class GestionTab3 extends Fragment {
         protected JSONObject doInBackground(String... args) {
 
             try {
+
 
                 if (jsonObject1 != null) {
                     return jsonObject1;
@@ -96,6 +102,8 @@ public class GestionTab3 extends Fragment {
 
 
             } else {
+
+                Snackbar.make(getView(), "Error", Snackbar.LENGTH_LONG).show();
 
             }
 
