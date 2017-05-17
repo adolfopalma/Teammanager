@@ -8,4 +8,5 @@
     android:gravity="center_horizontal"
     android:singleLine="true"
     android:textAlignment="inherit"
+    android:textColor="@color/Black"
     android:textSize="16sp" />

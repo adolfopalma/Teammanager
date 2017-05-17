@@ -108,7 +108,12 @@
     <string name="title_activity_gestion_equipo">Gestion de equipo</string>
     <string name="text_añadir_jugador">Inserte el correo del jugador que quiera añadir.\nRecuerde que el correo debe estar registrado para poder añadirlo al equipo.</string>
     <string name="text_seleccionar_peña">Seleccione en la lista el equipo que va disputar el partido.</string>
+    <string name="text_pref">Establezca la cantidad deseada en cada tipo de multa.</string>
     <string name="title_activity_partido">PartidoActivity</string>
     <string name="ganador_partido">\El ganador del partido ha sido :</string>
     <string name="title_activity_multa">MultaActivity</string>
+    <string name="lista_partido">Seleccione los jugadores de la lista que disputaran el partido.\n
+                                 Cuando esten todos añadidos pulse sortear.</string>
+    <string name="title_activity_administracion">AdministracionActivity</string>
+
 </resources>

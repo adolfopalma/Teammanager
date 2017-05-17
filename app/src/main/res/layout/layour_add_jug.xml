@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/AntiqueWhite"
     android:orientation="vertical">
 
     <View
@@ -9,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="3dip"
         android:layout_weight="1"
-        android:background="@color/colorPrimary" />
+        android:background="@color/ColorPrueba" />
 
     <TextView
         android:id="@+id/textView7"
@@ -20,7 +21,7 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="Añadir"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/ColorPrueba"
         android:textSize="24sp" />
 
     <View
@@ -28,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="3dip"
         android:layout_weight="1"
-        android:background="@color/colorPrimary" />
+        android:background="@color/ColorPrueba" />
 
     <TextView
         android:id="@+id/textView11"
@@ -38,6 +39,7 @@
         android:layout_margin="20dp"
         android:layout_weight="1"
         android:text="@string/text_añadir_jugador"
+        android:textColor="@color/Black"
         android:textSize="11dip" />
 
     <View
@@ -45,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="3dip"
         android:layout_weight="1"
-        android:background="@color/colorPrimary" />
+        android:background="@color/ColorPrueba" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,7 +83,7 @@
             android:layout_marginTop="15dip"
             android:layout_weight="1"
             android:text="Añadir"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/ColorPrueba" />
 
         <Button
             android:id="@+id/bCancelarFiltro"
@@ -91,7 +93,7 @@
             android:layout_marginTop="15dip"
             android:layout_weight="1"
             android:text="Cancelar"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/ColorPrueba" />
 
     </LinearLayout>
 

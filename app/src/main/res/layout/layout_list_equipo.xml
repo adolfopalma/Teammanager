@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/AntiqueWhite"
     android:orientation="vertical">
 
     <TextView
@@ -13,7 +14,7 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="Seleccione un equipo"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/ColorPrueba"
         android:textSize="24sp" />
 
     <TextView
@@ -24,6 +25,7 @@
         android:layout_margin="20dp"
         android:layout_weight="1"
         android:text="@string/text_seleccionar_peña"
+        android:textColor="@color/Black"
         android:textSize="11dip" />
 
     <View
@@ -31,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="3dip"
         android:layout_weight="1"
-        android:background="@color/colorPrimary" />
+        android:background="@color/ColorPrueba" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,6 +54,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Jugadores:"
+                android:textColor="@color/Black"
                 android:visibility="gone" />
 
             <TextView
@@ -60,7 +63,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Equipos:" />
+                android:text="Equipos:"
+                android:textColor="@color/Black" />
 
             <Spinner
                 android:id="@+id/spinner"
@@ -73,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="3dip"
                 android:layout_weight="1"
-                android:background="@color/colorPrimary" />
+                android:background="@color/ColorPrueba" />
         </LinearLayout>
 
     </LinearLayout>
@@ -94,17 +98,7 @@
             android:layout_marginTop="15dip"
             android:layout_weight="1"
             android:text="Aceptar"
-            android:textColor="@color/colorPrimary" />
-
-        <Button
-            android:id="@+id/bCancelar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dip"
-            android:layout_marginTop="15dip"
-            android:layout_weight="1"
-            android:text="Cancelar"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 
@@ -113,6 +107,6 @@
         android:layout_width="match_parent"
         android:layout_height="3dip"
         android:layout_weight="1"
-        android:background="@color/colorPrimary" />
+        android:background="@color/ColorPrueba" />
 
 </LinearLayout>

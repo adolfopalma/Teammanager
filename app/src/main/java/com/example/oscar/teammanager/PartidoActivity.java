@@ -5,25 +5,21 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.example.oscar.teammanager.Adaptadores.Adapter_list_claros;
 import com.example.oscar.teammanager.Adaptadores.Adapter_list_oscuros;
 import com.example.oscar.teammanager.Adaptadores.GestionListAdapter;
@@ -32,11 +28,9 @@ import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.Chronometer;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -193,23 +187,26 @@ public class PartidoActivity extends AppCompatActivity {
 
         spinner = (Spinner) dialog.findViewById(R.id.spinner);
         bDialogAcept = (Button)dialog.findViewById(R.id.bAceptar);
-        bDialogCancel = (Button)dialog.findViewById(R.id.bCancelar);
+
 
         //Accion de boton guardar filtrado
         dialog.findViewById(R.id.bAceptar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final AlertDialog.Builder builders = new AlertDialog.Builder(PartidoActivity.this);
+                builders.setMessage(getResources().getString(R.string.lista_partido));
+                builders.setPositiveButton(getResources().getString(R.string.acept),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                builders.setCancelable(true);
+                            }
+                        });
+                builders.setCancelable(false);
+                builders.create();
+                builders.show();
                 GlobalParams.codPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
                 PartidoTask task2 = new PartidoTask();
                 task2.execute();
-                dialog.dismiss();
-            }
-        });
-
-        dialog.findViewById(R.id.bCancelar).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
                 dialog.dismiss();
             }
         });
@@ -339,6 +336,8 @@ public class PartidoActivity extends AppCompatActivity {
                     public void onItemClick(AdapterView adapter, View view, int position, long arg) {
                         tempList.add(arrayListaJugadores.get(position));
                         Snackbar.make(findViewById(android.R.id.content), "Jugador : "+arrayListaJugadores.get(position).getNombre() +" añadido", Snackbar.LENGTH_LONG).show();
+                        arrayListaJugadores.remove(position);
+                        lv.setAdapter(new GestionListAdapter(PartidoActivity.this, arrayListaJugadores));
                     }
                 });
 

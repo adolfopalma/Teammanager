@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/Gris">
+
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="10dip">
+
+            <LinearLayout
+                android:id="@+id/bloq_preferencias"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dip"
+                    android:background="@color/Green" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dip"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dip"
+                        android:fontFamily="sans-serif-light"
+                        android:textColor="@color/Black"
+                        android:textSize="20dip" />
+
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/Black" />
+
+                    <EditText
+                        android:id="@+id/etNameStore"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/Gray"
+                        android:ems="10"
+                        android:hint="Nombre de su comercio"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/BlueMegasur" />
+
+                    <TextView
+                        android:id="@+id/textView24"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/Gray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/Black"
+                        android:textSize="12dip" />
+
+                    <CheckBox
+                        android:id="@+id/pref_tarifa_pvp"
+                        style="?attr/checkboxStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:textColor="@color/Black" />
+
+                    <CheckBox
+                        android:id="@+id/pref_precios_iva"
+                        style="?attr/checkboxStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:textColor="@color/Black" />
+
+                    <CheckBox
+                        android:id="@+id/pref_margen_propio"
+                        style="?attr/checkboxStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:textColor="@color/Black" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:paddingLeft="30dip"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textColor="@color/Gray"
+                        android:textSize="12dip" />
+
+                    <!-- GUARDAR PREFERENCIAS VISUALIZACIÓN DE PRECIO -->
+                    <LinearLayout
+                        android:id="@+id/btn_pref_save"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dip"
+                        android:layout_marginTop="5dip"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:padding="5dip">
+
+                        <ImageView
+                            android:layout_width="20dip"
+                            android:layout_height="20dip" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:gravity="fill_vertical"
+                            android:textColor="@color/Gray"
+                            android:textSize="11dip" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginTop="8dip"
+                        android:background="@color/GrisClaro" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/Black"
+                        android:textSize="12dip" />
+
+                    <CheckBox
+                        android:id="@+id/pref_block_passcode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/Black" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:paddingBottom="20dp"
+                        android:paddingLeft="30dip"
+                        android:textColor="@color/Gray"
+                        android:textSize="12dip" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <ProgressBar
+                android:id="@+id/loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

@@ -14,4 +14,9 @@ public class GlobalParams {
     //Datos peña en partido
     public static int codPeña = 0;
 
+    //Datos multa
+    public static int multaRetraso = 3;
+    public static int multaFaltaAsistencia = 5;
+
+
 }
