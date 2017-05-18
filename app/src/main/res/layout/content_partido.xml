@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/Prueba5"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.oscar.teammanager.PartidoActivity"
@@ -22,7 +22,7 @@
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:text="Equipo Claro"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/MarcadorClaro"
@@ -83,7 +83,7 @@
             android:layout_weight="1"
             android:gravity="end"
             android:text="Equipo Oscuro"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 
@@ -147,8 +147,9 @@
 
         <LinearLayout
             android:id="@+id/lista_jugadores"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:background="@color/Prueba5"
             android:orientation="horizontal"
             android:visibility="gone">
 
@@ -160,7 +161,7 @@
 
             <View
                 android:id="@+id/view9"
-                android:layout_width="11dp"
+                android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"

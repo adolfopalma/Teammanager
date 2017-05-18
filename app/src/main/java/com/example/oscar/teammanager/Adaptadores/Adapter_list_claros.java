@@ -72,6 +72,7 @@ public class Adapter_list_claros extends BaseAdapter{
             view = (Item_list_jugador_claros) convertView;
         }
 
+        ImageButton amarilla = (ImageButton)view.findViewById(R.id.btAmarilla);
         view.setListJugador(items.get(position));
         ImageButton gol = (ImageButton)view.findViewById(R.id.bGol);
         gol.setFocusable(false);

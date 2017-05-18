@@ -32,20 +32,20 @@
             android:textSize="16sp" />
 
         <ImageButton
-            android:id="@+id/btRoja"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.31"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/roja" />
-
-        <ImageButton
             android:id="@+id/btAmarilla"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.31"
             android:background="@android:color/transparent"
             app:srcCompat="@drawable/amarilla" />
+
+        <ImageButton
+            android:id="@+id/btRoja"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.31"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/roja" />
 
         <ImageButton
             android:id="@+id/bGol"
