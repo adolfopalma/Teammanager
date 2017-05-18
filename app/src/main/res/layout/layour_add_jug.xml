@@ -64,7 +64,9 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="ejemplo@correo.com"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColor="@color/Black"
+            android:textColorHint="@color/Gray" />
     </LinearLayout>
 
     <LinearLayout
@@ -83,7 +85,7 @@
             android:layout_marginTop="15dip"
             android:layout_weight="1"
             android:text="Añadir"
-            android:textColor="@color/ColorPrueba" />
+            android:textColor="@color/Black" />
 
         <Button
             android:id="@+id/bCancelarFiltro"
@@ -93,7 +95,7 @@
             android:layout_marginTop="15dip"
             android:layout_weight="1"
             android:text="Cancelar"
-            android:textColor="@color/ColorPrueba" />
+            android:textColor="@color/Black" />
 
     </LinearLayout>
 

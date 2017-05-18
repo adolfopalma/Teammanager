@@ -58,6 +58,7 @@ public class EstadisiticasTab1 extends Fragment {
         arrayPeñas = new ArrayList<>();
         new ConsultaTask().execute();
 
+
     }
 
     @Override
@@ -65,6 +66,7 @@ public class EstadisiticasTab1 extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         lvEst = (ListView)view.findViewById(R.id.lvEst);
+
 
 
 
@@ -139,6 +141,7 @@ public class EstadisiticasTab1 extends Fragment {
                 lvEst.setAdapter(new ListaGolesAdapter(getActivity(), arrayListaEstadisticas));
 
             } else {
+                Snackbar.make(getView(), "Error de conexion", Snackbar.LENGTH_LONG).show();
 
             }
         }
@@ -147,5 +150,12 @@ public class EstadisiticasTab1 extends Fragment {
         protected void onCancelled() {
             pDialog.dismiss();
         }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        lvEst.setAdapter(new ListaGolesAdapter(getActivity(), arrayListaEstadisticas));
     }
 }

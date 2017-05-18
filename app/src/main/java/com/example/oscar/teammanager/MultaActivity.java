@@ -181,13 +181,22 @@ public class MultaActivity extends AppCompatActivity {
             retraso = (EditText)dialog.findViewById(R.id.edRetraso);
             asistencia = (EditText)dialog.findViewById(R.id.edAsistencia);
             aceptPref = (Button)dialog.findViewById(R.id.bAceptPref);
+            cancelPref = (Button)dialog.findViewById(R.id.bCancelarPref);
 
-            //Accion de boton guardar filtrado
+            //Accion de boton guardar
             dialog.findViewById(R.id.bAceptPref).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     GlobalParams.multaRetraso = Integer.valueOf(retraso.getText().toString());
                     GlobalParams.multaFaltaAsistencia =Integer.valueOf(asistencia.getText().toString());
+                    dialog.dismiss();
+                }
+            });
+
+            //Accion de boton cancelar
+            dialog.findViewById(R.id.bCancelarPref).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     dialog.dismiss();
                 }
             });

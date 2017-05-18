@@ -9,6 +9,13 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.oscar.teammanager.MainActivity">
 
+    <View
+        android:id="@+id/view12"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_weight="1"
+        android:background="@color/Azure" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,9 +1,13 @@
 package com.example.oscar.teammanager;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -125,6 +129,20 @@ public class RegistroActivity extends AppCompatActivity {
         startActivityForResult(intent, ACT_GALERIA);
     }
 
+    public Bitmap redimensionarImagenMaximo(Bitmap mBitmap, float newWidth, float newHeigth){
+        //Redimensionamos
+        int width = mBitmap.getWidth();
+        int height = mBitmap.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeigth) / height;
+        // create a matrix for the manipulation
+        Matrix matrix = new Matrix();
+        // resize the bit map
+        matrix.postScale(scaleWidth, scaleHeight);
+        // recreate the new Bitmap
+        return Bitmap.createBitmap(mBitmap, 0, 0, width, height, matrix, false);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ACT_GALERIA && resultCode == RESULT_OK) {
@@ -133,6 +151,7 @@ public class RegistroActivity extends AppCompatActivity {
                 is = getContentResolver().openInputStream(fotoGaleria);
                 bis = new BufferedInputStream(is);
                 bm = BitmapFactory.decodeStream(bis);
+                redimensionarImagenMaximo(bm,20,20);
                 foto.setImageBitmap(bm);
                 encodedImageData =getEncoded64ImageStringFromBitmap(bm);
             } catch (FileNotFoundException e) {

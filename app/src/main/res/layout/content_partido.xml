@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:text="Equipo Oscuro"
+            android:text="Equipo Claro"
             android:textColor="@android:color/black" />
 
         <TextView
@@ -82,7 +82,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:gravity="end"
-            android:text="Equipo Claro"
+            android:text="Equipo Oscuro"
             android:textColor="@android:color/black" />
 
     </LinearLayout>

@@ -15,13 +15,37 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <TextView
-            android:id="@+id/textView17"
-            android:layout_width="wrap_content"
+        <ImageButton
+            android:id="@+id/bGol"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Goles"
-            android:textColor="@android:color/black" />
+            android:layout_marginRight="10dp"
+            android:background="@drawable/boton_redondo"
+            app:srcCompat="@drawable/balon" />
+
+        <ImageButton
+            android:id="@+id/btAmarilla"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/amarilla" />
+
+        <ImageButton
+            android:id="@+id/btRoja"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/roja" />
+
+        <TextView
+            android:id="@+id/jugador_nombre_list"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="Nombre"
+            android:textColor="@color/Black"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/textView15"
@@ -29,52 +53,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:text="0"
-            android:textColor="@android:color/black" />
-
-        <ImageButton
-            android:id="@+id/btRoja"
-            android:layout_width="40dp"
-            android:layout_height="34dp"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/roja" />
-
-        <ImageButton
-            android:id="@+id/btAmarilla"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/amarilla" />
-
-        <ImageButton
-            android:id="@+id/bGol"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/boton_redondo"
-            app:srcCompat="@drawable/balon" />
-
-        <TextView
-            android:id="@+id/jugador_nombre_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:gravity="top|fill_vertical"
-            android:text="Nombre jugador"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/numJug"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_weight="1"
             android:text="1"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textColor="@color/Black" />
 
 
     </LinearLayout>
