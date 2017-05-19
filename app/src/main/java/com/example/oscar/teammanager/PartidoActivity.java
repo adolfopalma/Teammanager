@@ -278,8 +278,12 @@ public class PartidoActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_añadir) {
-
             dialog();
+            return true;
+        }
+
+        if (id == R.id.action_invitado) {
+
             return true;
         }
 
