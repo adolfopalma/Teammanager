@@ -42,6 +42,8 @@ public class Item_jugador extends LinearLayout {
 
         if(result != null) {
             imageJug.setImageBitmap(result);
+        }else{
+            imageJug.setImageResource(R.mipmap.ic_launcher_round);
         }
 
     }

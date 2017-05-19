@@ -65,7 +65,8 @@ public class GestionEquipo extends AppCompatActivity {
     protected ImageView fotoPeña;
     protected Bitmap foto;
     protected Dialog dialog;
-    boolean usuario_repetido;
+    boolean usuario_repetido,usuario_registrado;
+    protected GestionListAdapter ga;
 
 
     //Listas
@@ -134,9 +135,22 @@ public class GestionEquipo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 correo = correoAdd.getText().toString();
-                AddTask task = new AddTask();
-                task.execute();
-                dialog.dismiss();
+                for(int i=0; i< arrayListaJugadores.size(); i++){
+                    if(arrayListaJugadores.get(i).getCorreo().equals(correo)) {
+                        usuario_repetido = true;
+                    }
+                }
+
+                if(usuario_repetido){
+                    Snackbar.make(findViewById(android.R.id.content), "El usuario introducido ya es componente de este equipo.", Snackbar.LENGTH_LONG).show();
+                    dialog.dismiss();
+                }else {
+                    ga.notifyDataSetChanged();
+                    AddTask task = new AddTask();
+                    task.execute();
+                    dialog.dismiss();
+                }
+
             }
         });
 
@@ -171,6 +185,8 @@ public class GestionEquipo extends AppCompatActivity {
         }
 
         if (id == R.id.action_añadir_componente) {
+            usuario_repetido = false;
+            correo = "";
             dialogAdd();
             return true;
         }
@@ -337,7 +353,9 @@ public class GestionEquipo extends AppCompatActivity {
                     }
                 }
 
-                lv.setAdapter(new GestionListAdapter(GestionEquipo.this, arrayListaJugadores));
+                ga = new GestionListAdapter(GestionEquipo.this,arrayListaJugadores);
+                lv.setAdapter(ga);
+
                 int tam = arrayListaJugadores.size();
                 if(tam > 1) {
                     componentesPeña.setText(tam + " componentes");
@@ -363,6 +381,7 @@ public class GestionEquipo extends AppCompatActivity {
         protected void onPreExecute() {
             id = datos.getInt("id");
             usuario_repetido = false;
+            usuario_registrado = false;
             pDialog = new ProgressDialog(GestionEquipo.this);
             pDialog.setMessage("Añadiendo...");
             pDialog.setIndeterminate(false);
@@ -374,51 +393,61 @@ public class GestionEquipo extends AppCompatActivity {
         protected JSONArray doInBackground(String... args) {
 
             try {
-                for(int i = 0; i <= arrayListaJugadores.size()-1; i++){
-                    if (arrayListaJugadores.get(i).getCorreo().toString().equals(correo)){
-                        usuario_repetido = true;
-                    }
-                }
-                if(usuario_repetido){
-                    Snackbar.make(findViewById(android.R.id.content), "Este usuario ya es componente de este equipo", Snackbar.LENGTH_LONG).show();
-                } else {
+                HashMap<String, String> parametrosPosteriores = new HashMap<>();
+                parametrosPosteriores.put("ins_sql","select Correo from jugadores");
+                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
 
-                    HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                    parametrosPosteriores.put("ins_sql", "select * from jugadores where Correo = " + "'" + correo + "'");
-                    jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
-
-                    if (jSONArray.length() > 0) {
-
-                        for (int i = 0; i < jSONArray.length(); i++) {
-                            try {
-                                jsonObject = jSONArray.getJSONObject(i);
-                                jugador = new Jugadores();
-                                jugador.setId(jsonObject.getInt("CodigoJug"));
-                                jugador.setNombre(jsonObject.getString("Nombre"));
-                                jugador.setCorreo(jsonObject.getString("Correo"));
-                                arraJugadores.add(jugador);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                if (jSONArray != null) {
+                    for (int i = 0; i < jSONArray.length(); i++) {
+                        try {
+                            jsonObject = jSONArray.getJSONObject(i);
+                            jugador = new Jugadores();
+                            jugador.setCorreo(jsonObject.getString("Correo"));
+                            arraJugadores.add(jugador);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-
-                        HashMap<String, String> parametrosPost = new HashMap<>();
-                        parametrosPost.put("ins_sql", "INSERT INTO componente_peña(CodigoJug, CodPeña) VALUES (" + "'" + arraJugadores.get(0).getCorreo().toString() + "'" + "," + "'" + id + "')");
-                        devuelveJSON.sendInsert(url_insert, parametrosPost);
-
-                        HashMap<String, String> parametrosPost2 = new HashMap<>();
-                        parametrosPost2.put("ins_sql", "INSERT INTO estadisticas(CodigoJug, Goles, TarjetaAmarilla, TarjetaRoja, CodPeña) VALUES (" + "'"+correo+"'"+ ",0,0,0," +id+");");
-                        System.out.println("-------------------"+url_insert+parametrosPost2);
-                        devuelveJSON.sendInsert(url_insert, parametrosPost2);
-
-                    } else {
-                        System.out.println("Error al obtener datos JSON");
-                        Snackbar.make(findViewById(android.R.id.content), "Este usuario no está aún resgistrado en la aplicación", Snackbar.LENGTH_LONG).show();
                     }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+                for(int i=0; i<arraJugadores.size(); i++){
+                    if(arraJugadores.get(i).getCorreo().equals(correo)){
+                        usuario_registrado = true;
+                    }
+                }
+
+                if(usuario_registrado) {
+
+                    HashMap<String, String> parametrosPost = new HashMap<>();
+                    parametrosPost.put("ins_sql", "INSERT INTO componente_peña(CodigoJug, CodPeña) VALUES (" + "'" + correo + "'" + "," + "'" + id + "')");
+                    jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost);
+
+                    HashMap<String, String> parametrosPost2 = new HashMap<>();
+                    parametrosPost2.put("ins_sql", "INSERT INTO estadisticas(CodigoJug, Goles, TarjetaAmarilla, TarjetaRoja, CodPeña, PartidosJugdos, PartidosGanados, PartidosPerdidos, PartidosEmpatados, Puntos) VALUES (" + "'" + correo + "'" + ",0,0,0," +id+" 0,0,0,0,0);");
+                    devuelveJSON.sendInsert(url_insert, parametrosPost2);
+
+                    if(jsonObject != null) {
+                        switch (jsonObject.getInt("added")) {
+                            case 1:
+                                Snackbar.make(findViewById(android.R.id.content), "Usuario "+correo+" se añadio correctamente al equipo "+arrayPeñas.get(0).getNombre(), Snackbar.LENGTH_LONG).show();
+                                inicializarTask2();
+                                break;
+                            default:
+                                Snackbar.make(findViewById(android.R.id.content), "Error de conexion.", Snackbar.LENGTH_LONG).show();
+                                break;
+                        }
+                    }
+
+                }else{
+                    usuario_registrado = false;
+                    Snackbar.make(findViewById(android.R.id.content), "El usuario introducido no esta aún registrado en la aplicacion.", Snackbar.LENGTH_LONG).show();
+
+                }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             return null;
         }
@@ -427,8 +456,8 @@ public class GestionEquipo extends AppCompatActivity {
             if (pDialog != null && pDialog.isShowing()) {
                 pDialog.dismiss();
             }
+
             arrayListaJugadores.clear();
-            inicializarTask2();
         }
 
         @Override

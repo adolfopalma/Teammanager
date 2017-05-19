@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     return jSONArray;
                 }else{
                     System.out.println("Error al obtener datos JSON");
-                    Snackbar.make(findViewById(android.R.id.content), "Usuario o contraseña incorrectos  ", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), "Error de conexion ", Snackbar.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -362,7 +362,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             } else {
                 empty_data.setVisibility(View.VISIBLE);
-                Snackbar.make(findViewById(android.R.id.content), "Error de conexion", Snackbar.LENGTH_LONG).show();
             }
         }
 

@@ -151,7 +151,7 @@ public class RegistroActivity extends AppCompatActivity {
                 is = getContentResolver().openInputStream(fotoGaleria);
                 bis = new BufferedInputStream(is);
                 bm = BitmapFactory.decodeStream(bis);
-                redimensionarImagenMaximo(bm,20,20);
+                redimensionarImagenMaximo(bm, 20,20);
                 foto.setImageBitmap(bm);
                 encodedImageData =getEncoded64ImageStringFromBitmap(bm);
             } catch (FileNotFoundException e) {
@@ -162,7 +162,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     public String getEncoded64ImageStringFromBitmap(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, stream);
         byte[] byteFormat = stream.toByteArray();
         // get the base 64 string
         String imgString = Base64.encodeToString(byteFormat, Base64.NO_WRAP);

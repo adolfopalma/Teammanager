@@ -126,7 +126,7 @@ public class LoginActivity extends AppCompatActivity{
             pDialog = new ProgressDialog(LoginActivity.this);
             pDialog.setMessage("Comprobando...");
             pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
+            pDialog.setCancelable(false);
             pDialog.show();
         }
 
