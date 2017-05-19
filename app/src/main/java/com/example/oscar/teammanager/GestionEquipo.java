@@ -3,6 +3,7 @@ package com.example.oscar.teammanager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,6 +23,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -145,7 +148,6 @@ public class GestionEquipo extends AppCompatActivity {
                     Snackbar.make(findViewById(android.R.id.content), "El usuario introducido ya es componente de este equipo.", Snackbar.LENGTH_LONG).show();
                     dialog.dismiss();
                 }else {
-                    ga.notifyDataSetChanged();
                     AddTask task = new AddTask();
                     task.execute();
                     dialog.dismiss();
@@ -423,13 +425,15 @@ public class GestionEquipo extends AppCompatActivity {
                     jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost);
 
                     HashMap<String, String> parametrosPost2 = new HashMap<>();
-                    parametrosPost2.put("ins_sql", "INSERT INTO estadisticas(CodigoJug, Goles, TarjetaAmarilla, TarjetaRoja, CodPeña, PartidosJugdos, PartidosGanados, PartidosPerdidos, PartidosEmpatados, Puntos) VALUES (" + "'" + correo + "'" + ",0,0,0," +id+" 0,0,0,0,0);");
+                    parametrosPost2.put("ins_sql", "INSERT INTO estadisticas(CodigoJug, Goles, TarjetaAmarilla, TarjetaRoja, CodPeña, PartidosJugados, PartidosGanados, PartidosPerdidos, PartidosEmpatados, Puntos) VALUES (" + "'" + correo + "'" + ",0,0,0," +id+",0,0,0,0,0);");
+                    System.out.println("yeeeeeeeeeeeeeeeeeeeeeeeeeeeeee "+url_insert+parametrosPost2);
                     devuelveJSON.sendInsert(url_insert, parametrosPost2);
 
                     if(jsonObject != null) {
                         switch (jsonObject.getInt("added")) {
                             case 1:
                                 Snackbar.make(findViewById(android.R.id.content), "Usuario "+correo+" se añadio correctamente al equipo "+arrayPeñas.get(0).getNombre(), Snackbar.LENGTH_LONG).show();
+                                ga.notifyDataSetChanged();
                                 inicializarTask2();
                                 break;
                             default:
@@ -466,4 +470,12 @@ public class GestionEquipo extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        finish();
+        Intent i = new Intent(GestionEquipo.this, MainActivity.class);
+        startActivity(i);
+    }
 }

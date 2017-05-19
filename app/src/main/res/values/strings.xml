@@ -116,5 +116,6 @@
     <string name="lista_partido">Seleccione los jugadores de la lista que disputaran el partido.\n
                                  Cuando esten todos añadidos pulse sortear.</string>
     <string name="title_activity_administracion">AdministracionActivity</string>
+    <string name="title_activity_partidos">PartidosActivity</string>
 
 </resources>

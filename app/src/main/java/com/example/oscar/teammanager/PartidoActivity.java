@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -26,7 +28,6 @@ import com.example.oscar.teammanager.Adaptadores.Adapter_list_oscuros;
 import com.example.oscar.teammanager.Adaptadores.GestionListAdapter;
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
-import com.example.oscar.teammanager.Utils.Chronometer;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
 import org.json.JSONArray;
@@ -43,6 +44,13 @@ import java.util.List;
 import java.util.Random;
 
 public class PartidoActivity extends AppCompatActivity {
+
+
+    public static final String START_TIME = "START_TIME";
+    public static final String CHRONO_WAS_RUNNING = "CHRONO_WAS_RUNNING";
+    public static final String TV_TIMER_TEXT = "TV_TIMER_TEXT";
+    public static final String ET_LAPST_TEXT = "ET_LAPST_TEXT";
+    public static final String LAP_COUNTER  = "LAP_COUNTER";
 
     protected Button BtnStart, BtnStop, BtnSortear,bDialogAcept;
     protected int mLapCounter = 1;
@@ -90,6 +98,8 @@ public class PartidoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_partido);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mContext = this;
         lista_jug = (LinearLayout)findViewById(R.id.lista_jugadores);
         empty_equipo = (LinearLayout)findViewById(R.id.empty_equipo);
         arrayListaJugadores = new ArrayList<>();
@@ -97,159 +107,184 @@ public class PartidoActivity extends AppCompatActivity {
         sp = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         editor = sp.edit();
         correoUsuario = sp.getString("us_email", correoUsuario);
-        GlobalParams.MarcadorClaro = "0";
-        GlobalParams.MarcadorOscuro = "0";
         IP_Server = "http://iesayala.ddns.net/19ramajo";
         url_consulta = IP_Server + "/consulta.php";
         url_insert = IP_Server + "/prueba.php";
         devuelveJSON = new ClaseConexion();
         tempList = new ArrayList<Jugadores>();
-        EquipoTask task = new EquipoTask();
-        task.execute();
-        if(arrayPeñas.size() < 0){
-            Snackbar.make(findViewById(android.R.id.content), "Avise al administrador para comenzar partido", Snackbar.LENGTH_LONG).show();
-        }else
-        dialog();
         tv1 = (TextView) findViewById(R.id.tv1);
         mContext = this;
         BtnSortear = (Button) findViewById(R.id.bSortear);
-        BtnStart= (Button) findViewById(R.id.bComenzar);
+        BtnStart = (Button) findViewById(R.id.bComenzar);
         BtnStart.setEnabled(false);
         BtnStop = (Button) findViewById(R.id.bFinalizar);
         BtnStop.setEnabled(false);
         tv1 = (TextView) findViewById(R.id.tv1);
         lvClaro = (ListView) findViewById(R.id.listviewClaro);
         lvOscuro = (ListView) findViewById(R.id.listviewOscuro);
-        lv  = (ListView) findViewById(R.id.lv_gestion);
+        lv = (ListView) findViewById(R.id.lv_gestion);
         marcadorClaro = (TextView) findViewById(R.id.MarcadorClaro);
         marcadorOscuro = (TextView) findViewById(R.id.MarcadorOscuro);
         jugadoresOscuros = new ArrayList<>();
         jugadoresClaros = new ArrayList<>();
         arrayListaPorteros = new ArrayList<>();
+        EquipoTask task = new EquipoTask();
+        task.execute();
 
+            //btn_start click handler
+            BtnStart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-        //btn_start click handler
-        BtnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    BtnSortear.setEnabled(false);
 
-                BtnSortear.setEnabled(false);
+                    //if the chronometer has not been instantiated before...
+                    if (mChrono == null) {
+                        //instantiate the chronometer
+                        mChrono = new Chronometer(mContext);
+                        //run the chronometer on a separate thread
+                        mThreadChrono = new Thread(mChrono);
+                        mThreadChrono.start();
 
-                //if the chronometer has not been instantiated before...
-                if(mChrono == null) {
-                    //instantiate the chronometer
-                    mChrono = new Chronometer(mContext);
-                    //run the chronometer on a separate thread
-                    mThreadChrono = new Thread(mChrono);
-                    mThreadChrono.start();
+                        //start the chronometer!
+                        mChrono.start();
 
-                    //start the chronometer!
-                    mChrono.start();
-
-                    //reset the lap counter
-                    mLapCounter = 1;
-                }
-            }
-        });
-
-        //btn_stop click handler
-        BtnStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //if the chronometer had been instantiated before...
-                if(mChrono != null) {
-                    //stop the chronometer
-                    mChrono.stop();
-                    //stop the thread
-
-                    mThreadChrono.interrupt();
-                    mThreadChrono = null;
-                    //kill the chrono class
-                    mChrono = null;
-                }
-
-                compruebaGanador();
-
-
-                if(listaIdsGanadores != null) {
-                    for (int i = 0; i < listaIdsGanadores.size(); i++) {
-                        compuestoGanadores = compuestoGanadores + " " + listaIdsGanadores.get(i);
+                        //reset the lap counter
+                        mLapCounter = 1;
                     }
                 }
+            });
 
-                if(listaIdsPerdedores != null){
-                    for (int i = 0; i < listaIdsPerdedores.size(); i++) {
-                        compuestoPerdedores = compuestoPerdedores + " " + listaIdsPerdedores.get(i);
+            //btn_stop click handler
+            BtnStop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //if the chronometer had been instantiated before...
+                    if (mChrono != null) {
+                        //stop the chronometer
+                        mChrono.stop();
+                        //stop the thread
+
+                        mThreadChrono.interrupt();
+                        mThreadChrono = null;
+                        //kill the chrono class
+                        mChrono = null;
+                        tv1.setText("00:00:00");
                     }
-                }
 
-                if(listaIdsEmpate != null){
-                    for (int i = 0; i < listaIdsEmpate.size(); i++) {
-                        compuestoEmpate = compuestoEmpate + " " + listaIdsEmpate.get(i);
+                    compruebaGanador();
+
+
+                    if (listaIdsGanadores != null) {
+                        for (int i = 0; i < listaIdsGanadores.size(); i++) {
+                            compuestoGanadores = compuestoGanadores + " " + listaIdsGanadores.get(i);
+                        }
                     }
-                }
 
-                if(listaIdsJugPartido != null){
-                    for (int i = 0; i < listaIdsJugPartido.size(); i++) {
-                        compuestoJugados = compuestoJugados + " " + listaIdsJugPartido.get(i);
+                    if (listaIdsPerdedores != null) {
+                        for (int i = 0; i < listaIdsPerdedores.size(); i++) {
+                            compuestoPerdedores = compuestoPerdedores + " " + listaIdsPerdedores.get(i);
+                        }
                     }
+
+                    if (listaIdsEmpate != null) {
+                        for (int i = 0; i < listaIdsEmpate.size(); i++) {
+                            compuestoEmpate = compuestoEmpate + " " + listaIdsEmpate.get(i);
+                        }
+                    }
+
+                    if (listaIdsJugPartido != null) {
+                        for (int i = 0; i < listaIdsJugPartido.size(); i++) {
+                            compuestoJugados = compuestoJugados + " " + listaIdsJugPartido.get(i);
+                        }
+                    }
+
+
+                    Calendar cal = new GregorianCalendar();
+                    Date date = cal.getTime();
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    fecha = df.format(date);
+
+                    resultado = "Claro: " + marcadorClaro.getText().toString() + " - " + marcadorOscuro.getText().toString() + " :Oscuro";
+
+                    PartidoTask task = new PartidoTask();
+                    task.execute();
+
+                    UpdateTask task1 = new UpdateTask();
+                    task1.execute();
+
+                    GlobalParams.MarcadorClaro = "0";
+                    GlobalParams.MarcadorOscuro = "0";
+
+                    final AlertDialog.Builder builders = new AlertDialog.Builder(PartidoActivity.this);
+                    if (ganador.equals("Empate")) {
+                        builders.setMessage("Ha habido un empate entre el equipo oscuro y el equipo claro");
+                    } else
+                        builders.setMessage(getResources().getString(R.string.ganador_partido) + ganador);
+                    builders.setPositiveButton(getResources().getString(R.string.acept),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                    //Intent i = new Intent(PartidoActivity.this, MainActivity.class);
+                                    //startActivity(i);
+                                }
+                            });
+                    builders.setCancelable(false);
+                    builders.create();
+                    builders.show();
                 }
+            });
 
 
-                Calendar cal = new GregorianCalendar();
-                Date date = cal.getTime();
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                fecha = df.format(date);
-
-                resultado = "Claro: "+marcadorClaro.getText().toString()+" - "+marcadorOscuro.getText().toString()+" :Oscuro";
-
-                PartidoTask task = new PartidoTask();
-                task.execute();
-
-                UpdateTask task1 = new UpdateTask();
-                task1.execute();
-
-                final AlertDialog.Builder builders = new AlertDialog.Builder(PartidoActivity.this);
-                if(ganador.equals("Empate")){
-                    builders.setMessage("Ha habido un empate entre el equipo oscuro y el equipo claro");
-                }else
-                builders.setMessage(getResources().getString(R.string.ganador_partido)+ganador);
-                builders.setPositiveButton(getResources().getString(R.string.acept),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                                //Intent i = new Intent(PartidoActivity.this, MainActivity.class);
-                                //startActivity(i);
-                            }
-                        });
-                builders.setCancelable(false);
-                builders.create();
-                builders.show();
-            }
-        });
-
-
-        BtnSortear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(tempList.size() > 0) {
-                    jugadoresClaros.clear();
-                    jugadoresOscuros.clear();
-                    process();
+            BtnSortear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     lv.setVisibility(View.GONE);
                     lista_jug.setVisibility(View.VISIBLE);
-                    lvClaro.setAdapter(new Adapter_list_claros(PartidoActivity.this, jugadoresClaros));
-                    lvOscuro.setAdapter(new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
-                    BtnStart.setEnabled(true);
-                    BtnStop.setEnabled(true);
-                }else{
-                    Snackbar.make(findViewById(android.R.id.content), "No hay suficientes jugadores seleccionados para jugar", Snackbar.LENGTH_LONG).show();
+                    GlobalParams.MarcadorClaro = "0";
+                    GlobalParams.MarcadorOscuro = "0";
 
+                    if (tempList.size() > 0) {
+                        jugadoresClaros.clear();
+                        jugadoresOscuros.clear();
+                        process();
+                        lvClaro.setAdapter(new Adapter_list_claros(PartidoActivity.this, jugadoresClaros));
+                        lvOscuro.setAdapter(new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
+                        BtnStart.setEnabled(true);
+                        BtnStop.setEnabled(true);
+                    } else {
+                        Snackbar.make(findViewById(android.R.id.content), "No hay suficientes jugadores seleccionados para jugar", Snackbar.LENGTH_LONG).show();
+
+                    }
                 }
-            }
-        });
+            });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_partido, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_añadir) {
+
+            dialog();
+            return true;
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void dialog() {
@@ -272,16 +307,16 @@ public class PartidoActivity extends AppCompatActivity {
                 builders.setPositiveButton(getResources().getString(R.string.acept),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                builders.setCancelable(true);
+                                GlobalParams.codPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
+                                ConsultaTask task2 = new ConsultaTask();
+                                task2.execute();
+                                lv.setVisibility(View.VISIBLE);
+                                dialog.dismiss();
                             }
                         });
                 builders.setCancelable(false);
                 builders.create();
                 builders.show();
-                GlobalParams.codPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
-                ConsultaTask task2 = new ConsultaTask();
-                task2.execute();
-                dialog.dismiss();
             }
         });
 
@@ -440,16 +475,105 @@ public class PartidoActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        loadInstance();
+
+        //stop background services and notifications
+        /*ChronometerApplication ch = new ChronometerApplication();
+        ch.stopBackgroundServices();
+        ch.cancelNotification();*/
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        saveInstance();
+
+        if(mChrono != null && mChrono.isRunning()) {
+            //start background notification and timer
+/*            ((ChronometerApplication)getApplication())
+                    .startBackgroundServices(mChrono.getStartTime());*/
+        }
     }
 
     @Override
     protected void onDestroy() {
+        saveInstance();
+
+        //When back button is pressed, app will be destoyed by OS. We do not want this to stop us
+        //from showing the notification if the chronometer is running!
+        if(mChrono == null || !mChrono.isRunning()) {
+            //stop background services and notifications
+            /*((ChronometerApplication) getApplication()).stopBackgroundServices();
+            ((ChronometerApplication) getApplication()).cancelNotification();*/
+        }
+
         super.onDestroy();
+    }
+
+    private void loadInstance() {
+
+        SharedPreferences pref = getPreferences(MODE_PRIVATE);
+
+        //if chronometer was running
+        if(pref.getBoolean(CHRONO_WAS_RUNNING, false)) {
+            //get the last start time from the bundle
+            long lastStartTime = pref.getLong(START_TIME, 0);
+            //if the last start time is not 0
+            if(lastStartTime != 0) { //because 0 means value was not saved correctly!
+
+                if(mChrono == null) { //make sure we dont create new instance and thread!
+
+                    if(mThreadChrono != null) { //if thread exists...first interrupt and nullify it!
+                        mThreadChrono.interrupt();
+                        mThreadChrono = null;
+                    }
+
+                    //start chronometer with old saved time
+                    mChrono = new Chronometer(mContext, lastStartTime);
+                    mThreadChrono = new Thread(mChrono);
+                    mThreadChrono.start();
+                    mChrono.start();
+                }
+            }
+        }
+
+        //we will load the lap text anyway in any case!
+        //set the old value of lap counter
+        mLapCounter = pref.getInt(LAP_COUNTER, 1);
+
+        String oldEtLapsText = pref.getString(ET_LAPST_TEXT, "");
+        if(!oldEtLapsText.isEmpty()) { //if old timer was saved correctly
+            //mEtLaps.setText(oldEtLapsText);
+        }
+
+        String oldTvTimerText = pref.getString(TV_TIMER_TEXT, "");
+        if(!oldTvTimerText.isEmpty()){
+            //mTvTimer.setText(oldTvTimerText);
+        }
+    }
+
+    private void saveInstance() {
+        SharedPreferences pref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+
+        //TODO move tags to a static class
+        if(mChrono != null && mChrono.isRunning()) {
+            editor.putBoolean(CHRONO_WAS_RUNNING, mChrono.isRunning());
+            editor.putLong(START_TIME, mChrono.getStartTime());
+            editor.putInt(LAP_COUNTER, mLapCounter);
+        } else {
+            editor.putBoolean(CHRONO_WAS_RUNNING, false);
+            editor.putLong(START_TIME, 0); //0 means chronometer was not active! a redundant check!
+            editor.putInt(LAP_COUNTER, 1);
+        }
+
+        //We save the lap text in any case. only a new click on start button should clear this text!
+       // editor.putString(ET_LAPST_TEXT, mEtLaps.getText().toString());
+
+        //Same story for timer text
+       // editor.putString(TV_TIMER_TEXT, mTvTimer.getText().toString());
+
+        editor.commit();
     }
 
     //relleno los datos de los spinner de el filtro
@@ -699,6 +823,20 @@ public class PartidoActivity extends AppCompatActivity {
         protected void onCancelled() {
 
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        lista_jug.setVisibility(View.VISIBLE);
+        lv.setVisibility(View.GONE);
+        jugadoresClaros.clear();
+        jugadoresOscuros.clear();
+        process();
+        lvClaro.setAdapter(new Adapter_list_claros(PartidoActivity.this, jugadoresClaros));
+        lvOscuro.setAdapter(new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
+        BtnStart.setEnabled(true);
+        BtnStop.setEnabled(true);
     }
 
     @Override

@@ -1,8 +1,17 @@
-package com.example.oscar.teammanager.Utils;
+package com.example.oscar.teammanager;
 
-
+/**
+ * Created by saeid on 27.02.16.
+ *
+ * Some constants and helper methods
+ */
 public class Helpers {
 
+    /**
+     * Converts a time in milliseconds to String in hh:mm:ss format
+     * @param timeInMillis
+     * @return
+     */
     public static String ConvertTimeToString(long timeInMillis) {
 
         //convert the resulted time difference into hours, minutes, seconds and milliseconds
@@ -13,6 +22,7 @@ public class Helpers {
         //we dont need milisecs to be returned by this method
         //int millis = (int) timeInMillis % 1000; //the last 3 digits of millisecs
 
-        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        return String.format("%02d:%02d:%02d"
+                , hours, minutes, seconds);
     }
 }

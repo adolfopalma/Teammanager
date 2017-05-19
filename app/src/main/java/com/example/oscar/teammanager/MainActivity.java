@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     return jSONArray;
                 }else{
                     System.out.println("Error al obtener datos JSON");
-                    Snackbar.make(findViewById(android.R.id.content), "Error de conexion ", Snackbar.LENGTH_LONG).show();
+                    //Snackbar.make(findViewById(android.R.id.content), "Error de conexion ", Snackbar.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
