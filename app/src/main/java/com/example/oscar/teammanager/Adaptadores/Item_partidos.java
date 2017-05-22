@@ -22,7 +22,7 @@ import com.example.oscar.teammanager.R;
  * Created by ptmarketing05 on 19/05/2017.
  */
 
-public class Item_partidos extends LinearLayout {
+/*public class Item_partidos extends LinearLayout {
     TextView nomPeña,diaPartido, ganador, resultado;
     ImageView imagenEquipo;
     private  int color;
@@ -85,4 +85,4 @@ public class Item_partidos extends LinearLayout {
 
     }
 
-}
+}*/

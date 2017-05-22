@@ -1,5 +1,9 @@
 package com.example.oscar.teammanager.Utils;
 
+import com.example.oscar.teammanager.Objects.Jugadores;
+
+import java.util.ArrayList;
+
 /**
  * Created by ptmarketing04 on 31/03/2017.
  */
@@ -19,4 +23,6 @@ public class GlobalParams {
     public static int multaFaltaAsistencia = 5;
 
 
+    public static ArrayList<Jugadores> equipo1 = null;
+    public static ArrayList<Jugadores> equipo2 = null;
 }

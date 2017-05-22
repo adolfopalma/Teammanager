@@ -32,7 +32,7 @@ import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.JSONObject;;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -78,6 +78,9 @@ public class PartidoActivity extends AppCompatActivity {
     private ArrayList<Peñas> arrayPeñas;
     protected LinearLayout lista_jug;
     protected LinearLayout empty_equipo;
+
+    protected Adapter_list_claros alc;
+    protected Adapter_list_oscuros alo;
 
 
     //Listas
@@ -128,8 +131,7 @@ public class PartidoActivity extends AppCompatActivity {
         jugadoresOscuros = new ArrayList<>();
         jugadoresClaros = new ArrayList<>();
         arrayListaPorteros = new ArrayList<>();
-        EquipoTask task = new EquipoTask();
-        task.execute();
+
 
             //btn_start click handler
             BtnStart.setOnClickListener(new View.OnClickListener() {
@@ -240,6 +242,9 @@ public class PartidoActivity extends AppCompatActivity {
             BtnSortear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    GlobalParams.equipo1 = new ArrayList<Jugadores>();
+                    GlobalParams.equipo2 = new ArrayList<Jugadores>();
+
                     lv.setVisibility(View.GONE);
                     lista_jug.setVisibility(View.VISIBLE);
                     GlobalParams.MarcadorClaro = "0";
@@ -249,8 +254,12 @@ public class PartidoActivity extends AppCompatActivity {
                         jugadoresClaros.clear();
                         jugadoresOscuros.clear();
                         process();
-                        lvClaro.setAdapter(new Adapter_list_claros(PartidoActivity.this, jugadoresClaros));
-                        lvOscuro.setAdapter(new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
+                        alc = (new Adapter_list_claros(PartidoActivity.this, jugadoresClaros));
+                        lvClaro.setAdapter(alc);
+                        alo = (new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
+                        lvOscuro.setAdapter(alo);
+                        GlobalParams.equipo1 = jugadoresClaros;
+                        GlobalParams.equipo2 = jugadoresOscuros;
                         BtnStart.setEnabled(true);
                         BtnStop.setEnabled(true);
                     } else {
@@ -302,28 +311,31 @@ public class PartidoActivity extends AppCompatActivity {
         bDialogAcept = (Button)dialog.findViewById(R.id.bAceptar);
 
 
-
         dialog.findViewById(R.id.bAceptar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                GlobalParams.codPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
+                lv.setVisibility(View.VISIBLE);
+                ConsultaTask task2 = new ConsultaTask();
+                task2.execute();
+                dialog.dismiss();
+
                 final AlertDialog.Builder builders = new AlertDialog.Builder(PartidoActivity.this);
                 builders.setMessage(getResources().getString(R.string.lista_partido));
                 builders.setPositiveButton(getResources().getString(R.string.acept),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                GlobalParams.codPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
-                                ConsultaTask task2 = new ConsultaTask();
-                                task2.execute();
-                                lv.setVisibility(View.VISIBLE);
-                                dialog.dismiss();
+                                builders.setCancelable(true);
                             }
                         });
                 builders.setCancelable(false);
                 builders.create();
                 builders.show();
+
             }
         });
-
+        EquipoTask task = new EquipoTask();
+        task.execute();
         dialog.show();
     }
 
@@ -596,7 +608,6 @@ public class PartidoActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            idPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
             pDialog = new ProgressDialog(PartidoActivity.this);
             pDialog.setMessage("Cargando...");
             pDialog.setIndeterminate(false);
@@ -609,8 +620,7 @@ public class PartidoActivity extends AppCompatActivity {
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql","select * from jugadores where Correo in (SELECT CodigoJug FROM componente_peña WHERE CodPeña = "+idPeña+")");
-
+                parametrosPosteriores.put("ins_sql","select * from jugadores where Correo in (SELECT CodigoJug FROM componente_peña WHERE CodPeña = "+GlobalParams.codPeña+")");
                 jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
@@ -722,8 +732,6 @@ public class PartidoActivity extends AppCompatActivity {
                 rellenaEspiners();
 
             } else {
-                lista_jug.setVisibility(View.GONE);
-                empty_equipo.setVisibility(View.VISIBLE);
                 Snackbar.make(findViewById(android.R.id.content), "Error de conexion", Snackbar.LENGTH_LONG).show();
             }
         }
@@ -829,24 +837,27 @@ public class PartidoActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        lista_jug.setVisibility(View.VISIBLE);
-        lv.setVisibility(View.GONE);
-        jugadoresClaros.clear();
-        jugadoresOscuros.clear();
-        process();
-        lvClaro.setAdapter(new Adapter_list_claros(PartidoActivity.this, jugadoresClaros));
-        lvOscuro.setAdapter(new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
-        BtnStart.setEnabled(true);
-        BtnStop.setEnabled(true);
-    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         arrayPeñas.clear();
         arrayListaJugadores.clear();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        lv.setVisibility(View.GONE);
+        lista_jug.setVisibility(View.VISIBLE);
+        alc = (new Adapter_list_claros(PartidoActivity.this, GlobalParams.equipo1));
+        alc.notifyDataSetChanged();
+        lvClaro.setAdapter(alc);
+        alo = (new Adapter_list_oscuros(PartidoActivity.this, GlobalParams.equipo2));
+        alo.notifyDataSetChanged();
+        lvOscuro.setAdapter(alo);
+        BtnSortear.setEnabled(false);
+        BtnStart.setEnabled(false);
+        BtnStop.setEnabled(true);
     }
 }

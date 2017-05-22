@@ -426,15 +426,12 @@ public class GestionEquipo extends AppCompatActivity {
 
                     HashMap<String, String> parametrosPost2 = new HashMap<>();
                     parametrosPost2.put("ins_sql", "INSERT INTO estadisticas(CodigoJug, Goles, TarjetaAmarilla, TarjetaRoja, CodPeña, PartidosJugados, PartidosGanados, PartidosPerdidos, PartidosEmpatados, Puntos) VALUES (" + "'" + correo + "'" + ",0,0,0," +id+",0,0,0,0,0);");
-                    System.out.println("yeeeeeeeeeeeeeeeeeeeeeeeeeeeeee "+url_insert+parametrosPost2);
                     devuelveJSON.sendInsert(url_insert, parametrosPost2);
 
                     if(jsonObject != null) {
                         switch (jsonObject.getInt("added")) {
                             case 1:
                                 Snackbar.make(findViewById(android.R.id.content), "Usuario "+correo+" se añadio correctamente al equipo "+arrayPeñas.get(0).getNombre(), Snackbar.LENGTH_LONG).show();
-                                ga.notifyDataSetChanged();
-                                inicializarTask2();
                                 break;
                             default:
                                 Snackbar.make(findViewById(android.R.id.content), "Error de conexion.", Snackbar.LENGTH_LONG).show();
@@ -461,6 +458,8 @@ public class GestionEquipo extends AppCompatActivity {
                 pDialog.dismiss();
             }
 
+            ga.notifyDataSetChanged();
+            inicializarTask2();
             arrayListaJugadores.clear();
         }
 

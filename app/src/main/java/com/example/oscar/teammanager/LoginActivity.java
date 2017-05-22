@@ -167,7 +167,7 @@ public class LoginActivity extends AppCompatActivity{
                 }
 
             } else {
-                Snackbar.make(findViewById(android.R.id.content), "Error de conexion con el servidor, intentelo en unos minutos.", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(android.R.id.content), "Este usuario aún no esta registrado.", Snackbar.LENGTH_LONG).show();
             }
 
         }

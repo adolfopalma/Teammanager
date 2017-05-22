@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Created by ptmarketing05 on 19/05/2017.
  */
 
-public class Adapter_list_partidos extends BaseAdapter {
+/*public class Adapter_list_partidos extends BaseAdapter {
 
     protected ArrayList<Partidos> items;
     final Activity actividad;
@@ -57,4 +57,4 @@ public class Adapter_list_partidos extends BaseAdapter {
 
         return view;
     }
-}
+}*/

@@ -4,14 +4,14 @@
 
     <item
         android:id="@+id/action_añadir"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         android:title="Seleccionar Equipo"
         android:icon="@android:drawable/ic_menu_sort_by_size"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_invitado"
-        android:orderInCategory="2"
+        android:orderInCategory="1"
         android:title="Añadir invitado"
         android:icon="@android:drawable/ic_menu_add"
         app:showAsAction="always" />
