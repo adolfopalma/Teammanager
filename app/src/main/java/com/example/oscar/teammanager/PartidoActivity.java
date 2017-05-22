@@ -62,10 +62,6 @@ public class PartidoActivity extends AppCompatActivity {
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
     private String url_consulta, url_insert,IP_Server;
-    protected String compuestoGanadores = "";
-    protected String compuestoPerdedores = "";
-    protected String compuestoEmpate = "";
-    protected String compuestoJugados = "";
     private Jugadores jugador;
     protected ListView lvOscuro, lvClaro, lv;
     protected TextView marcadorClaro, marcadorOscuro,tv1;
@@ -78,9 +74,12 @@ public class PartidoActivity extends AppCompatActivity {
     private ArrayList<Peñas> arrayPeñas;
     protected LinearLayout lista_jug;
     protected LinearLayout empty_equipo;
-
     protected Adapter_list_claros alc;
     protected Adapter_list_oscuros alo;
+    String compuestoGanadores = "";
+    String compuestoPerdedores = "";
+    String compuestoEmpate = "";
+    String compuestoJugados = "";
 
 
     //Listas
@@ -192,7 +191,7 @@ public class PartidoActivity extends AppCompatActivity {
 
                     if (listaIdsEmpate != null) {
                         for (int i = 0; i < listaIdsEmpate.size(); i++) {
-                            compuestoEmpate = compuestoEmpate + " " + listaIdsEmpate.get(i);
+                           compuestoEmpate = compuestoEmpate + " " + listaIdsEmpate.get(i);
                         }
                     }
 
@@ -754,7 +753,7 @@ public class PartidoActivity extends AppCompatActivity {
             try {
 
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql","INSERT INTO partido(CodPeña,fechaPartido,resultado,ganador) VALUES ("+idPeña+","+"'"+fecha+"'"+","+"'"+resultado+"'"+","+"'"+ganador+"')");
+                parametrosPost.put("ins_sql","INSERT INTO partido(CodPeña,fechaPartido,resultado,ganador) VALUES ("+GlobalParams.codPeña+","+"'"+fecha+"'"+","+"'"+resultado+"'"+","+"'"+ganador+"')");
                 jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost);
 
                 if(jsonObject != null) {
@@ -797,25 +796,25 @@ public class PartidoActivity extends AppCompatActivity {
             try {
 
                 HashMap<String, String> parametrosPostJugados = new HashMap<>();
-                parametrosPostJugados.put("ins_sql", "UPDATE estadisticas SET PartidosJugados = PartidosJugados+1  WHERE (codPeña = "+idPeña+") and ("+ compuestoJugados + ")");
+                parametrosPostJugados.put("ins_sql", "UPDATE estadisticas SET PartidosJugados = PartidosJugados+1  WHERE (codPeña = "+GlobalParams.codPeña+") and ("+ compuestoJugados + ")");
                 devuelveJSON.sendRequest(url_insert, parametrosPostJugados);
 
                 if(listaIdsGanadores != null) {
                     HashMap<String, String> parametrosPostVict = new HashMap<>();
-                    parametrosPostVict.put("ins_sql", "UPDATE estadisticas SET PartidosGanados = PartidosGanados+1, Puntos = Puntos+3  WHERE (codPeña = "+idPeña+") and ("+ compuestoGanadores + ")");
+                    parametrosPostVict.put("ins_sql", "UPDATE estadisticas SET PartidosGanados = PartidosGanados+1, Puntos = Puntos+3  WHERE (codPeña = "+GlobalParams.codPeña+") and ("+ compuestoGanadores + ")");
                     devuelveJSON.sendRequest(url_insert, parametrosPostVict);
                 }
 
                 if(listaIdsPerdedores != null) {
                     HashMap<String, String> parametrosPostPerd = new HashMap<>();
-                    parametrosPostPerd.put("ins_sql","UPDATE estadisticas SET PartidosPerdidos = PartidosPerdidos+1  WHERE (codPeña = "+idPeña+") and ("+ compuestoPerdedores + ")");
+                    parametrosPostPerd.put("ins_sql","UPDATE estadisticas SET PartidosPerdidos = PartidosPerdidos+1  WHERE (codPeña = "+GlobalParams.codPeña+") and ("+ compuestoPerdedores + ")");
                     devuelveJSON.sendRequest(url_insert, parametrosPostPerd);
                 }
 
                 if(listaIdsEmpate != null) {
 
                     HashMap<String, String> parametrosPostEmpt = new HashMap<>();
-                    parametrosPostEmpt.put("ins_sql", "UPDATE estadisticas SET PartidosEmpatados = PartidosEmpatados+1, Puntos = Puntos+1  WHERE (codPeña = "+idPeña+") and ("+ compuestoEmpate + ")");
+                    parametrosPostEmpt.put("ins_sql", "UPDATE estadisticas SET PartidosEmpatados = PartidosEmpatados+1, Puntos = Puntos+1  WHERE (codPeña = "+GlobalParams.codPeña+") and ("+ compuestoEmpate + ")");
                     devuelveJSON.sendRequest(url_insert, parametrosPostEmpt);
                 }
 
@@ -850,10 +849,12 @@ public class PartidoActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         lv.setVisibility(View.GONE);
         lista_jug.setVisibility(View.VISIBLE);
-        alc = (new Adapter_list_claros(PartidoActivity.this, GlobalParams.equipo1));
+        jugadoresClaros = GlobalParams.equipo1;
+        jugadoresOscuros = GlobalParams.equipo2;
+        alc = (new Adapter_list_claros(PartidoActivity.this, jugadoresClaros));
         alc.notifyDataSetChanged();
         lvClaro.setAdapter(alc);
-        alo = (new Adapter_list_oscuros(PartidoActivity.this, GlobalParams.equipo2));
+        alo = (new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
         alo.notifyDataSetChanged();
         lvOscuro.setAdapter(alo);
         BtnSortear.setEnabled(false);
