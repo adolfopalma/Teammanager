@@ -9,22 +9,73 @@ import java.io.Serializable;
 public class Partidos implements Serializable{
 
     int id;
-    String nombre;
-    String horaPartido;
-    String diaPartido;
-    String rutaFoto;
-    String administrador;
-    String fechaCreacion;
+    int CodPeña;
+
+    public String getNomPeña() {
+        return nomPeña;
+    }
+
+    public void setNomPeña(String nomPeña) {
+        this.nomPeña = nomPeña;
+    }
+
+    String nomPeña;
+    String fechaPartido;
+    String resultado;
+    String ganador;
 
 
 
-    public Partidos(int id, String nombre,String administrador,String fechaCreacion, String diaPartido, String horaPartido, String rutaFoto) {
+
+    public Partidos(int id, int CodPeña, String nomPeña, String fechaPartido, String resultado, String ganador) {
         this.id = id;
-        this.nombre = nombre;
-        this.administrador = administrador;
-        this.fechaCreacion = fechaCreacion;
-        this.diaPartido = diaPartido;
-        this.horaPartido = horaPartido;
-        this.rutaFoto = rutaFoto;
+        this.CodPeña = CodPeña;
+        this.nomPeña = nomPeña;
+        this.fechaPartido = fechaPartido;
+        this.resultado = resultado;
+        this.ganador = ganador;
+    }
+
+    public Partidos() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCodPeña() {
+        return CodPeña;
+    }
+
+    public void setCodPeña(int codPeña) {
+        CodPeña = codPeña;
+    }
+
+    public String getFechaPartido() {
+        return fechaPartido;
+    }
+
+    public void setFechaPartido(String fechaPartido) {
+        this.fechaPartido = fechaPartido;
+    }
+
+    public String getResultado() {
+        return resultado;
+    }
+
+    public void setResultado(String resultado) {
+        this.resultado = resultado;
+    }
+
+    public String getGanador() {
+        return ganador;
+    }
+
+    public void setGanador(String ganador) {
+        this.ganador = ganador;
     }
 }

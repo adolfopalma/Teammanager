@@ -211,7 +211,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent i = new Intent(this, MultaActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_partidos) {
-
+            Intent i = new Intent(this, PartidosActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_info) {
 
         } else if (id == R.id.nav_contacto) {

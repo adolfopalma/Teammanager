@@ -16,10 +16,6 @@ public class GlobalParams {
     public static String MarcadorClaro = "";
     public static ArrayList<Jugadores> equipo1 = null;
     public static ArrayList<Jugadores> equipo2 = null;
-    public static ArrayList<String> listaIdsGanadores = null;
-    public static ArrayList<String> listaIdsPerdedores = null;
-    public static ArrayList<String> listaIdsEmpate = null;
-    public static ArrayList<String> listaIdsJugPartido = null;
 
     //Datos peña en partido
     public static int codPeña = 0;

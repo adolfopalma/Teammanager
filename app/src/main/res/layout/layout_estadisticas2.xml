@@ -1,10 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/Gris">
+    android:layout_height="wrap_content"
+    android:background="@color/ColorPrueba"
+    android:orientation="vertical">
 
+
+    <View
+        android:id="@+id/view12"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_weight="1"
+        android:background="@color/Azure" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="28dp"
+            android:layout_weight="10.34"
+            android:text="Nombre" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="PJ" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="PG" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="PE" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Puntos" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lvEstPunt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="@color/ColorPrueba"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="0dp"></ListView>
 
 </LinearLayout>

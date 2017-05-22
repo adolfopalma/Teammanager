@@ -22,7 +22,7 @@ import com.example.oscar.teammanager.R;
  * Created by ptmarketing05 on 19/05/2017.
  */
 
-/*public class Item_partidos extends LinearLayout {
+public class Item_partidos extends LinearLayout {
     TextView nomPeña,diaPartido, ganador, resultado;
     ImageView imagenEquipo;
     private  int color;
@@ -71,18 +71,11 @@ import com.example.oscar.teammanager.R;
     }
 
     public void setPartido(Partidos pa) {
-        nomPeña.setText(""+pa.getNombre());
-        diaPartido.setText(""+pa.getDiaPartido());
-        ganador.setText(""+pa.getHoraPartido());
-        resultado.setText(""+pa.getAdministrador());
-        result = decodeBase64(pa.getRutaFoto());
-
-        if(result != null) {
-            imagenEquipo.setImageBitmap(getRoundedRectBitmap(result, 12));
-        }else{
-            imagenEquipo.setImageResource(R.mipmap.ic_launcher_round);
-        }
+        nomPeña.setText(""+pa.getNomPeña());
+        diaPartido.setText(""+pa.getFechaPartido());
+        ganador.setText(""+pa.getGanador());
+        resultado.setText(""+pa.getResultado());
 
     }
 
-}*/
+}
