@@ -1,10 +1,13 @@
-package com.example.oscar.teammanager;
+package com.example.oscar.teammanager.Utils;
 
 import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+
+import com.example.oscar.teammanager.PartidoActivity;
+import com.example.oscar.teammanager.R;
 
 /**
  * Created by saeid on 27.02.16.

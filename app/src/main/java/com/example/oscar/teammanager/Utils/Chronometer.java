@@ -1,4 +1,4 @@
-package com.example.oscar.teammanager;
+package com.example.oscar.teammanager.Utils;
 
 import android.content.Context;
 import com.example.oscar.teammanager.PartidoActivity;

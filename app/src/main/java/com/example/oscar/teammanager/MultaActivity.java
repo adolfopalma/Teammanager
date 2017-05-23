@@ -58,6 +58,7 @@ public class MultaActivity extends AppCompatActivity {
     private ArrayList<Jugadores> arrayListJugadores;
     protected String correoUsuario;
     protected int idPeña;
+    protected String idJug;
     protected int cantidadMulta = GlobalParams.multaRetraso;
     protected String tipoMulta = "Retraso";
     protected String correo;

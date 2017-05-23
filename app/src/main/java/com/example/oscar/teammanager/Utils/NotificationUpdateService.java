@@ -1,4 +1,4 @@
-package com.example.oscar.teammanager;
+package com.example.oscar.teammanager.Utils;
 
 import android.app.Service;
 import android.content.Intent;

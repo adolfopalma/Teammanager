@@ -71,7 +71,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <service
-            android:name=".NotificationUpdateService"
+            android:name=".Utils.NotificationUpdateService"
             android:enabled="true"
             android:exported="false"></service>
 

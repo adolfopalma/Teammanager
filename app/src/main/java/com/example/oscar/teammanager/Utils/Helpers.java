@@ -1,4 +1,4 @@
-package com.example.oscar.teammanager;
+package com.example.oscar.teammanager.Utils;
 
 /**
  * Created by saeid on 27.02.16.
