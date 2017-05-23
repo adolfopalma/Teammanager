@@ -6,24 +6,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
-import com.example.oscar.teammanager.Adaptadores.EstadisticasAdapter;
-import com.example.oscar.teammanager.Adaptadores.GestionListAdapter;
 import com.example.oscar.teammanager.Adaptadores.ListaGolesAdapter;
 import com.example.oscar.teammanager.Objects.Estadisticas;
-import com.example.oscar.teammanager.Objects.Jugadores;
-import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,10 +27,7 @@ public class EstadisiticasTab1 extends Fragment {
     private JSONObject jsonObject;
     private String url_consulta, url_insert;
     private String IP_Server;
-    private Peñas peña;
     private Estadisticas estadisticas;
-    private Jugadores jugadores;
-    private ArrayList<Peñas> arrayPeñas;
     private ArrayList<Estadisticas> arrayListaEstadisticas;
     ListView lvEst;
 
@@ -50,13 +39,8 @@ public class EstadisiticasTab1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-        url_consulta = IP_Server + "/consulta.php";
-        url_insert = IP_Server + "/prueba.php";
-        devuelveJSON = new ClaseConexion();
-        arrayListaEstadisticas = new ArrayList<>();
-        arrayPeñas = new ArrayList<>();
-        new ConsultaTask().execute();
+
+
 
 
     }
@@ -64,11 +48,14 @@ public class EstadisiticasTab1 extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        System.out.println("Estoy en goleeeeeeeeeeeeeeeeeeeeeeeeeeeees");
         lvEst = (ListView)view.findViewById(R.id.lvEst);
-
-
-
+        IP_Server = "http://iesayala.ddns.net/19ramajo";
+        url_consulta = IP_Server + "/consulta.php";
+        url_insert = IP_Server + "/prueba.php";
+        devuelveJSON = new ClaseConexion();
+        arrayListaEstadisticas = new ArrayList<>();
+        new EstadisiticasTab1.ConsultaTaskGoles().execute();
 
     }
 
@@ -81,7 +68,7 @@ public class EstadisiticasTab1 extends Fragment {
     }
 
     //Creamos asynctask para obtener los datos
-    class ConsultaTask extends AsyncTask<String, String, JSONArray> {
+    class ConsultaTaskGoles extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
         @Override

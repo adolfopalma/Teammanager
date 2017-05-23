@@ -11,55 +11,58 @@
 
         <TextView
             android:id="@+id/tvNum"
-            android:layout_width="wrap_content"
+            android:layout_width="5dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="0.31"
             android:text="1" />
 
         <TextView
             android:id="@+id/tvNombre"
-            android:layout_width="153dp"
+            android:layout_width="95dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.50"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="10"
             android:text="Nombre" />
 
         <TextView
             android:id="@+id/tvJugados"
-            android:layout_width="20dp"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingRight="8dp"
+            android:gravity="center"
             android:text="0" />
 
         <TextView
             android:id="@+id/tvGanados"
-            android:layout_width="20dp"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="5dp"
+            android:gravity="center"
             android:text="0" />
 
         <TextView
             android:id="@+id/tvPerdidos"
-            android:layout_width="20dp"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="5dp"
+            android:gravity="center"
             android:text="0" />
 
         <TextView
             android:id="@+id/tvEmpatados"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.31"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="0" />
 
         <TextView
             android:id="@+id/tvPuntos"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.31"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="0" />
     </LinearLayout>
 </LinearLayout>

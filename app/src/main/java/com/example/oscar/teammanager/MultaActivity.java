@@ -303,6 +303,7 @@ public class MultaActivity extends AppCompatActivity {
                     try {
                         jsonObject = json.getJSONObject(i);
                         peña = new Peñas();
+                        peña.setId(jsonObject.getInt("codPeña"));
                         peña.setNombre(jsonObject.getString("nomPeña"));
                         peña.setId(jsonObject.getInt("codPeña"));
                         arrayPeñas.add(peña);
@@ -413,7 +414,7 @@ public class MultaActivity extends AppCompatActivity {
             try {
 
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql","INSERT INTO multas(TipoMulta,Cantidad,CodigoJug) VALUES ("+"'"+tipoMulta+"'"+","+cantidadMulta+","+"'"+correo+"')");
+                parametrosPost.put("ins_sql","INSERT INTO multas(TipoMulta,Cantidad,CodigoJug,Estado,CodPeña) VALUES ("+"'"+tipoMulta+"'"+","+cantidadMulta+","+"'"+correo+"', 'No pagado', "+idPeña+")");
                 jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost);
 
                 if(jsonObject != null) {

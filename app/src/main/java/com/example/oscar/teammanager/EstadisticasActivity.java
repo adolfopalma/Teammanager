@@ -1,39 +1,20 @@
 package com.example.oscar.teammanager;
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
-import android.os.Parcelable;
-import android.support.design.widget.Snackbar;
+
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.AdapterView;
-
 import com.example.oscar.teammanager.Adaptadores.EstadisticasAdapter;
-import com.example.oscar.teammanager.Adaptadores.GestionListAdapter;
-import com.example.oscar.teammanager.Objects.Estadisticas;
-import com.example.oscar.teammanager.Objects.Jugadores;
-import com.example.oscar.teammanager.Objects.Peñas;
-import com.example.oscar.teammanager.Utils.ClaseConexion;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class EstadisticasActivity extends AppCompatActivity {
 
     protected Toolbar tbt;
     protected ViewPager vp;
     protected TabLayout tabs;
-    protected String url_codificada;
-    protected int tab_activa,credito_actual,impago,credito_limite;
-    protected Bundle extras,bundle;
+    protected int tab_activa;
+    protected Bundle bundle;
 
 
 
@@ -73,19 +54,13 @@ public class EstadisticasActivity extends AppCompatActivity {
         EstadisticasAdapter adapter = new EstadisticasAdapter(getSupportFragmentManager());
 
 
-        //Enviamos datos
-        //Bundle bundle = new Bundle();
-        //bundle.putParcelableArrayList("ListaObjetos", (ArrayList<? extends Parcelable>) arrayListaEstadisticas);
-
-
-
         //Creamos los fragment
         EstadisiticasTab1 pt1 = new EstadisiticasTab1();
-        pt1.setArguments(bundle);
+
         EstadisticasTab2 pt2 = new EstadisticasTab2();
-        pt2.setArguments(bundle);
+
         EstadisticasTab3 pt3 = new EstadisticasTab3();
-        pt3.setArguments(bundle);
+
 
 
         //Cargamos los fragment

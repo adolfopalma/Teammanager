@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,11 +20,9 @@ import com.example.oscar.teammanager.Objects.Estadisticas;
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -39,11 +38,11 @@ public class EstadisticasTab2 extends Fragment {
     private String url_consulta, url_insert;
     private String IP_Server;
     private Peñas peña;
-    private Estadisticas estadisticas;
+    private Estadisticas estadisticas2;
     private Jugadores jugadores;
     private ArrayList<Peñas> arrayPeñas;
-    private ArrayList<Estadisticas> arrayListaEstadisticas;
-    ListView lvEst;
+    private ArrayList<Estadisticas> arrayListaPuntos;
+    protected ListView lvEstPunt;
 
 
     public EstadisticasTab2() {
@@ -53,13 +52,8 @@ public class EstadisticasTab2 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-        url_consulta = IP_Server + "/consulta.php";
-        url_insert = IP_Server + "/prueba.php";
-        devuelveJSON = new ClaseConexion();
-        arrayListaEstadisticas = new ArrayList<>();
-        arrayPeñas = new ArrayList<>();
-        new ConsultaTask().execute();
+
+
 
 
     }
@@ -67,11 +61,15 @@ public class EstadisticasTab2 extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        lvEst = (ListView)view.findViewById(R.id.lvEstPunt);
-
-
-
+        System.out.println("Estoy en puntoooooooooooooooos");
+        lvEstPunt = (ListView)view.findViewById(R.id.lvEstPunt);
+        IP_Server = "http://iesayala.ddns.net/19ramajo";
+        url_consulta = IP_Server + "/consulta.php";
+        url_insert = IP_Server + "/prueba.php";
+        devuelveJSON = new ClaseConexion();
+        arrayListaPuntos = new ArrayList<>();
+        arrayPeñas = new ArrayList<>();
+        new EstadisticasTab2.ConsultaTaskPuntos().execute();
 
     }
 
@@ -84,7 +82,7 @@ public class EstadisticasTab2 extends Fragment {
     }
 
     //Creamos asynctask para obtener los datos
-    class ConsultaTask extends AsyncTask<String, String, JSONArray> {
+    class ConsultaTaskPuntos extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
         @Override
@@ -127,23 +125,23 @@ public class EstadisticasTab2 extends Fragment {
                 for (int i = 0; i < json.length(); i++) {
                     try {
                         jsonObject = json.getJSONObject(i);
-                        estadisticas = new Estadisticas();
-                        estadisticas.setCorreoJug(jsonObject.getString("Nombre"));
-                        estadisticas.setCodjug(jsonObject.getString("CodigoJug"));
-                        estadisticas.setCodPeña(jsonObject.getInt("codPeña"));
-                        estadisticas.setPuntos(jsonObject.getInt("Puntos"));
-                        estadisticas.setPartidosJugados(jsonObject.getInt("PartidosJugados"));
-                        estadisticas.setPartidosGanados(jsonObject.getInt("PartidosGanados"));
-                        estadisticas.setPartidosPerdidos(jsonObject.getInt("PartidosPerdidos"));
-                        estadisticas.setPartidosEmpatados(jsonObject.getInt("PartidosEmpatados"));
-                        arrayListaEstadisticas.add(estadisticas);
-                        System.out.println("----------------"+arrayListaEstadisticas);
+                        estadisticas2 = new Estadisticas();
+                        estadisticas2.setCorreoJug(jsonObject.getString("Nombre"));
+                        estadisticas2.setCodjug(jsonObject.getString("CodigoJug"));
+                        estadisticas2.setCodPeña(jsonObject.getInt("codPeña"));
+                        estadisticas2.setPuntos(jsonObject.getInt("Puntos"));
+                        estadisticas2.setPartidosJugados(jsonObject.getInt("PartidosJugados"));
+                        estadisticas2.setPartidosGanados(jsonObject.getInt("PartidosGanados"));
+                        estadisticas2.setPartidosPerdidos(jsonObject.getInt("PartidosPerdidos"));
+                        estadisticas2.setPartidosEmpatados(jsonObject.getInt("PartidosEmpatados"));
+                        arrayListaPuntos.add(estadisticas2);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
 
-                lvEst.setAdapter(new ListaPuntosAdapter(getActivity(), arrayListaEstadisticas));
+
+                lvEstPunt.setAdapter(new ListaPuntosAdapter(getActivity(), arrayListaPuntos));
 
             } else {
                 Snackbar.make(getView(), "Error de conexion", Snackbar.LENGTH_LONG).show();
@@ -161,6 +159,6 @@ public class EstadisticasTab2 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        lvEst.setAdapter(new ListaGolesAdapter(getActivity(), arrayListaEstadisticas));
+        //lvEstPunt.setAdapter(new ListaPuntosAdapter(getActivity(), arrayListaPuntos));
     }
 }

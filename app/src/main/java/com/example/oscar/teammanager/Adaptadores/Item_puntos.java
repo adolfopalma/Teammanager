@@ -13,7 +13,7 @@ import com.example.oscar.teammanager.R;
 
 public class Item_puntos extends LinearLayout {
 
-    TextView nombreJugador, jugados, ganados, perdidos, empatados, puntos;
+    TextView nombreJugador, jugados, ganados, perdidos, empatados, puntos,num;
     int cont = 1;
 
 
@@ -28,6 +28,7 @@ public class Item_puntos extends LinearLayout {
         perdidos = (TextView) findViewById(R.id.tvPerdidos);
         empatados = (TextView)findViewById(R.id.tvEmpatados);
         puntos = (TextView)findViewById(R.id.tvPuntos);
+        num = (TextView)findViewById(R.id.tvNum);
 
     }
 
@@ -41,7 +42,7 @@ public class Item_puntos extends LinearLayout {
         perdidos.setText(""+e.getPartidosPerdidos());
         empatados.setText(""+e.getPartidosEmpatados());
         puntos.setText(""+e.getPuntos());
-//        tvNum.setText(cont+1);
+        //num.setText();
 
     }
 }
