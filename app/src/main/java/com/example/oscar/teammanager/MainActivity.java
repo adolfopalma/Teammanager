@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Peñas peña;
     private ArrayList<Peñas> arrayPeñas;
     private ArrayList<Jugadores> arrayJugadores;
+    private ArrayList<String> arrayAdministradores;
     protected String correoUsuario;
     protected TextView tvnombre, tvmail;
     protected Bitmap foto;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         devuelveJSON = new ClaseConexion();
         arrayPeñas = new ArrayList<>();
         arrayJugadores = new ArrayList<>();
+        arrayAdministradores = new ArrayList<>();
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         empty_data = (LinearLayout) findViewById(R.id.empty_data);
@@ -104,8 +106,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, PartidoActivity.class);
-                startActivity(i);
+                if(arrayAdministradores.contains(correoUsuario)) {
+                    Intent i = new Intent(MainActivity.this, PartidoActivity.class);
+                    startActivity(i);
+                }else{
+                    Snackbar.make(findViewById(android.R.id.content), "Solo los administradores pueden gestionar un partido.", Snackbar.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -188,12 +194,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_administrar) {
+            if(arrayAdministradores.contains(correoUsuario.toString())) {
 
+            }else{
+
+            }
         }
 
         else if (id == R.id.nav_jugadores) {
-            Intent i = new Intent(this, InvitarJugadorActivity.class);
-            startActivity(i);
+            if(arrayAdministradores.contains(correoUsuario.toString())) {
+                Intent i = new Intent(this, InvitarJugadorActivity.class);
+                startActivity(i);
+            }else{
+                Snackbar.make(findViewById(android.R.id.content), "Solo los administradores pueden acceder a este apartado.", Snackbar.LENGTH_LONG).show();
+
+            }
         }
 
         else if (id == R.id.nav_estadisticas) {
@@ -202,9 +217,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         else if(id == R.id.nav_peñas){
-            Intent i = new Intent(this, NuevoGrupoActivity.class);
-            i.putExtra("correoUsuario",sp.getString("us_email", correoUsuario));
-            startActivity(i);
+            if(arrayAdministradores.contains(correoUsuario.toString())) {
+                Intent i = new Intent(this, NuevoGrupoActivity.class);
+                i.putExtra("correoUsuario", sp.getString("us_email", correoUsuario));
+                startActivity(i);
+            }else{
+                Snackbar.make(findViewById(android.R.id.content), "Solo los administradores pueden acceder a este apartado.", Snackbar.LENGTH_LONG).show();
+            }
         }
 
         else if (id == R.id.nav_multas) {
@@ -356,6 +375,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }
+
+                for(int i=0; i<arrayPeñas.size(); i++){
+                    arrayAdministradores.add(arrayPeñas.get(i).getAdministrador().toString());
                 }
 
 
