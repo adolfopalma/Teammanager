@@ -10,6 +10,27 @@ public class Partidos implements Serializable{
 
     int id;
     int CodPeña;
+    String nomPeña;
+    String fechaPartido;
+    String resultado;
+    String ganador;
+    String rutaFoto;
+
+
+
+
+    public Partidos(int id, int CodPeña, String nomPeña, String fechaPartido, String resultado, String ganador, String rutaFoto) {
+        this.id = id;
+        this.CodPeña = CodPeña;
+        this.nomPeña = nomPeña;
+        this.fechaPartido = fechaPartido;
+        this.resultado = resultado;
+        this.ganador = ganador;
+        this.rutaFoto = rutaFoto;
+    }
+
+    public Partidos() {
+    }
 
     public String getNomPeña() {
         return nomPeña;
@@ -19,24 +40,12 @@ public class Partidos implements Serializable{
         this.nomPeña = nomPeña;
     }
 
-    String nomPeña;
-    String fechaPartido;
-    String resultado;
-    String ganador;
-
-
-
-
-    public Partidos(int id, int CodPeña, String nomPeña, String fechaPartido, String resultado, String ganador) {
-        this.id = id;
-        this.CodPeña = CodPeña;
-        this.nomPeña = nomPeña;
-        this.fechaPartido = fechaPartido;
-        this.resultado = resultado;
-        this.ganador = ganador;
+    public String getRutaFoto() {
+        return rutaFoto;
     }
 
-    public Partidos() {
+    public void setRutaFoto(String rutaFoto) {
+        this.rutaFoto = rutaFoto;
     }
 
     public int getId() {

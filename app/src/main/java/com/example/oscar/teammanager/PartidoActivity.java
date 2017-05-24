@@ -81,6 +81,7 @@ public class PartidoActivity extends AppCompatActivity {
     String compuestoPerdedores = "";
     String compuestoEmpate = "";
     String compuestoJugados = "";
+    String nomPeña;
 
 
     //Listas
@@ -315,6 +316,7 @@ public class PartidoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 GlobalParams.codPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
+                nomPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getNombre();
                 lv.setVisibility(View.VISIBLE);
                 ConsultaTask task2 = new ConsultaTask();
                 task2.execute();
@@ -754,7 +756,7 @@ public class PartidoActivity extends AppCompatActivity {
             try {
 
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql","INSERT INTO partido(CodPeña,fechaPartido,resultado,ganador,nomPeña) VALUES ("+GlobalParams.codPeña+","+"'"+fecha+"'"+","+"'"+resultado+"'"+","+"'"+ganador+"',"+GlobalParams.codPeña+")");
+                parametrosPost.put("ins_sql","INSERT INTO partido(CodPeña,fechaPartido,resultado,ganador,nomPeña) VALUES ("+GlobalParams.codPeña+","+"'"+fecha+"'"+","+"'"+resultado+"'"+","+"'"+ganador+"',"+nomPeña+")");
                 jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost);
 
                 if(jsonObject != null) {

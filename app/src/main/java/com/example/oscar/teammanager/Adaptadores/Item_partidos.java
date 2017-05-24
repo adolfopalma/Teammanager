@@ -75,7 +75,13 @@ public class Item_partidos extends LinearLayout {
         diaPartido.setText(""+pa.getFechaPartido());
         ganador.setText(""+pa.getGanador());
         resultado.setText(""+pa.getResultado());
+        result = decodeBase64(pa.getRutaFoto());
 
+        if(result != null) {
+            imagenEquipo.setImageBitmap(getRoundedRectBitmap(result, 12));
+        }else{
+            imagenEquipo.setImageResource(R.mipmap.ic_launcher);
+        }
     }
 
 }

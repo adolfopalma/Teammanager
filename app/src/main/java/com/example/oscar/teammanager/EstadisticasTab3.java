@@ -53,7 +53,6 @@ public class EstadisticasTab3 extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        System.out.println("Estoy en multaaaaaaaaaaaaaaaaaaaas");
         lvEstMult = (ListView)view.findViewById(R.id.lvEst);
         IP_Server = "http://iesayala.ddns.net/19ramajo";
         url_consulta3 = IP_Server + "/consulta.php";
@@ -89,7 +88,7 @@ public class EstadisticasTab3 extends Fragment {
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql","select m.*, j.Nombre from multas m, jugadores j where m.codPeña = 1");
+                parametrosPosteriores.put("ins_sql","select m.*, j.Nombre from multas m, jugadores j where m.codPeña = 1 and m.CodigoJug = j.Correo");
 
                 jSONArray3 = devuelveJSON.sendRequest(url_consulta3, parametrosPosteriores);
 
