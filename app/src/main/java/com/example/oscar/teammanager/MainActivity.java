@@ -227,8 +227,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         else if (id == R.id.nav_multas) {
-            Intent i = new Intent(this, MultaActivity.class);
-            startActivity(i);
+            if(arrayAdministradores.contains(correoUsuario.toString())) {
+                Intent i = new Intent(this, MultaActivity.class);
+                startActivity(i);
+            }else{
+                Snackbar.make(findViewById(android.R.id.content), "Solo los administradores pueden acceder a este apartado.", Snackbar.LENGTH_LONG).show();
+            }
+
         } else if (id == R.id.nav_partidos) {
             Intent i = new Intent(this, PartidosActivity.class);
             startActivity(i);

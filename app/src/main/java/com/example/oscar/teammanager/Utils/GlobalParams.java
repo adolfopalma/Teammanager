@@ -12,8 +12,8 @@ public class GlobalParams {
 
 
     //Datos partido
-    public static String MarcadorOscuro = "";
-    public static String MarcadorClaro = "";
+    public static int MarcadorOscuro = 0;
+    public static int MarcadorClaro = 0;
     public static ArrayList<Jugadores> equipo1 = null;
     public static ArrayList<Jugadores> equipo2 = null;
 

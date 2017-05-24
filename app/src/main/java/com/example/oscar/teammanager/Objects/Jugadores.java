@@ -27,6 +27,8 @@ public class Jugadores implements Serializable{
         this.rutaFoto = rutaFoto;
     }
 
+
+
     public Jugadores(){
     }
 

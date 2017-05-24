@@ -27,7 +27,6 @@ public class Adapter_list_oscuros extends BaseAdapter {
 
     protected ArrayList<Jugadores> items;
     Activity actividad;
-    int contador =0;
     String correo;
     private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
@@ -75,9 +74,8 @@ public class Adapter_list_oscuros extends BaseAdapter {
 
         gol.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                contador ++;
-                String num = String.valueOf(contador);
-                GlobalParams.MarcadorOscuro = num;
+
+                GlobalParams.MarcadorOscuro = GlobalParams.MarcadorOscuro+1;
                 correo = items.get(position).getCorreo();
                 ConsultaTask task = new ConsultaTask();
                 task.execute();

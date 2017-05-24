@@ -19,6 +19,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -53,9 +54,9 @@ public class PartidoActivity extends AppCompatActivity {
     public static final String ET_LAPST_TEXT = "ET_LAPST_TEXT";
     public static final String LAP_COUNTER  = "LAP_COUNTER";
 
-    protected Button BtnStart, BtnStop, BtnSortear,bDialogAcept;
+    protected Button BtnStart, BtnStop, BtnSortear,bDialogAcept,bAñadir;
+    protected EditText textJugInvi;
     protected int mLapCounter = 1;
-    protected int idPeña;
     protected Chronometer mChrono;
     protected Thread mThreadChrono;
     protected Context mContext;
@@ -65,11 +66,11 @@ public class PartidoActivity extends AppCompatActivity {
     private String url_consulta, url_insert,IP_Server;
     private Jugadores jugador;
     protected ListView lvOscuro, lvClaro, lv;
-    protected TextView marcadorClaro, marcadorOscuro,tv1;
+    protected TextView tvMarcadorClaro, tvMarcadorOscuro,tv1;
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
     protected Dialog dialog;
-    protected Spinner spinner;
+    protected Spinner spinnerP, spinnerJ;
     protected String correoUsuario,ganador,fecha,resultado;
     private Peñas peña;
     private ArrayList<Peñas> arrayPeñas;
@@ -82,6 +83,9 @@ public class PartidoActivity extends AppCompatActivity {
     String compuestoEmpate = "";
     String compuestoJugados = "";
     String nomPeña;
+    String marcadorClaro;
+    String marcadorOscuro;
+    protected Menu menuBar;
 
 
     //Listas
@@ -102,6 +106,7 @@ public class PartidoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_partido);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         mContext = this;
         lista_jug = (LinearLayout)findViewById(R.id.lista_jugadores);
@@ -127,8 +132,8 @@ public class PartidoActivity extends AppCompatActivity {
         lvClaro = (ListView) findViewById(R.id.listviewClaro);
         lvOscuro = (ListView) findViewById(R.id.listviewOscuro);
         lv = (ListView) findViewById(R.id.lv_gestion);
-        marcadorClaro = (TextView) findViewById(R.id.MarcadorClaro);
-        marcadorOscuro = (TextView) findViewById(R.id.MarcadorOscuro);
+        tvMarcadorClaro = (TextView) findViewById(R.id.MarcadorClaro);
+        tvMarcadorOscuro = (TextView) findViewById(R.id.MarcadorOscuro);
         jugadoresOscuros = new ArrayList<>();
         jugadoresClaros = new ArrayList<>();
         arrayListaPorteros = new ArrayList<>();
@@ -138,7 +143,7 @@ public class PartidoActivity extends AppCompatActivity {
             BtnStart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    menuBar.findItem(R.id.action_añadir).setVisible(false);
                     BtnSortear.setEnabled(false);
 
                     //if the chronometer has not been instantiated before...
@@ -209,7 +214,7 @@ public class PartidoActivity extends AppCompatActivity {
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                     fecha = df.format(date);
 
-                    resultado = "Claro: " + marcadorClaro.getText().toString() + " - " + marcadorOscuro.getText().toString() + " :Oscuro";
+                    resultado = "Claro: " + tvMarcadorClaro.getText().toString() + " - " + tvMarcadorOscuro.getText().toString() + " :Oscuro";
 
                     PartidoTask task = new PartidoTask();
                     task.execute();
@@ -217,8 +222,6 @@ public class PartidoActivity extends AppCompatActivity {
                     UpdateTask task1 = new UpdateTask();
                     task1.execute();
 
-                    GlobalParams.MarcadorClaro = "0";
-                    GlobalParams.MarcadorOscuro = "0";
 
                     final AlertDialog.Builder builders = new AlertDialog.Builder(PartidoActivity.this);
                     if (ganador.equals("Empate")) {
@@ -243,15 +246,16 @@ public class PartidoActivity extends AppCompatActivity {
             BtnSortear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    GlobalParams.equipo1 = new ArrayList<Jugadores>();
-                    GlobalParams.equipo2 = new ArrayList<Jugadores>();
-
-                    lv.setVisibility(View.GONE);
-                    lista_jug.setVisibility(View.VISIBLE);
-                    GlobalParams.MarcadorClaro = "0";
-                    GlobalParams.MarcadorOscuro = "0";
-
                     if (tempList.size() > 0) {
+                        GlobalParams.MarcadorClaro = 0;
+                        GlobalParams.MarcadorOscuro = 0;
+                        menuBar.findItem(R.id.action_invitado).setVisible(true);
+                        GlobalParams.equipo1 = new ArrayList<Jugadores>();
+                        GlobalParams.equipo2 = new ArrayList<Jugadores>();
+
+                        lv.setVisibility(View.GONE);
+                        lista_jug.setVisibility(View.VISIBLE);
+
                         jugadoresClaros.clear();
                         jugadoresOscuros.clear();
                         process();
@@ -276,7 +280,10 @@ public class PartidoActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_partido, menu);
-        return true;
+        menu.findItem(R.id.action_invitado).setVisible(false);
+        menuBar = menu;
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -293,7 +300,7 @@ public class PartidoActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_invitado) {
-
+            añadirInvitado();
             return true;
         }
 
@@ -308,15 +315,15 @@ public class PartidoActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.layout_list_equipo);
         dialog.setCancelable(false);
 
-        spinner = (Spinner) dialog.findViewById(R.id.spinner);
+        spinnerP = (Spinner) dialog.findViewById(R.id.spinner);
         bDialogAcept = (Button)dialog.findViewById(R.id.bAceptar);
 
 
         dialog.findViewById(R.id.bAceptar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GlobalParams.codPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
-                nomPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getNombre();
+                GlobalParams.codPeña = arrayPeñas.get(spinnerP.getSelectedItemPosition()).getId();
+                nomPeña = arrayPeñas.get(spinnerP.getSelectedItemPosition()).getNombre();
                 lv.setVisibility(View.VISIBLE);
                 ConsultaTask task2 = new ConsultaTask();
                 task2.execute();
@@ -341,9 +348,60 @@ public class PartidoActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    public void añadirInvitado() {
+        //Creacion dialog de filtrado
+        dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_jugador_invitado);
+        dialog.setCancelable(false);
+
+        bAñadir = (Button)dialog.findViewById(R.id.bAddJugador);
+        textJugInvi = (EditText)dialog.findViewById(R.id.edAddJug);
+
+        dialog.findViewById(R.id.bAddJugador).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String Nombre = textJugInvi.getText().toString();
+                jugador = new Jugadores();
+                jugador.setNombre(Nombre);
+                jugador.setCorreo("");
+                jugador.setRutaFoto(null);
+                jugador.setTipoJug("");
+                if(jugadoresClaros.size() > jugadoresOscuros.size()){
+                    jugadoresOscuros.add(jugador);
+                    alo = (new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
+                    lvOscuro.setAdapter(alo);
+                }else if(jugadoresClaros.size() < jugadoresOscuros.size()){
+                    jugadoresClaros.add(jugador);
+                    alc = (new Adapter_list_claros(PartidoActivity.this, jugadoresClaros));
+                    lvClaro.setAdapter(alc);
+                }else if(jugadoresClaros.size() == jugadoresOscuros.size()){
+                    jugadoresOscuros.add(jugador);
+                    alo = (new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
+                    lvOscuro.setAdapter(alo);
+                }
+
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+
+    //relleno los datos de los spinner de el filtro
+    public void rellenaEspinersPeñas(){
+        List<String> list = new ArrayList<String>();
+        for (int i = 0; i <arrayPeñas.size() ; i++) {
+            list.add(arrayPeñas.get(i).getNombre().toString());
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(PartidoActivity.this, R.layout.spinner_plegado, list);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_desplegado);
+        spinnerP.setAdapter(dataAdapter);
+    }
+
     public void compruebaGanador(){
-        int m1 = Integer.valueOf(marcadorClaro.getText().toString());
-        int m2 = Integer.valueOf(marcadorOscuro.getText().toString());
+        int m1 = Integer.valueOf(tvMarcadorClaro.getText().toString());
+        int m2 = Integer.valueOf(tvMarcadorOscuro.getText().toString());
         listaIdsGanadores = new ArrayList<>();
         listaIdsPerdedores = new ArrayList<>();
         listaIdsEmpate = new ArrayList<>();
@@ -484,8 +542,8 @@ public class PartidoActivity extends AppCompatActivity {
             @Override
             public void run() {
                 tv1.setText(timeAsText);
-                marcadorClaro.setText(GlobalParams.MarcadorClaro);
-                marcadorOscuro.setText(GlobalParams.MarcadorOscuro);
+                tvMarcadorClaro.setText(String.valueOf(GlobalParams.MarcadorClaro));
+                tvMarcadorOscuro.setText(String.valueOf(GlobalParams.MarcadorOscuro));
             }
         });
     }
@@ -594,16 +652,7 @@ public class PartidoActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    //relleno los datos de los spinner de el filtro
-    public void rellenaEspiners(){
-        List<String> list = new ArrayList<String>();
-        for (int i = 0; i <arrayPeñas.size() ; i++) {
-            list.add(arrayPeñas.get(i).getNombre().toString());
-        }
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(PartidoActivity.this, R.layout.spinner_plegado, list);
-        dataAdapter.setDropDownViewResource(R.layout.spinner_desplegado);
-        spinner.setAdapter(dataAdapter);
-    }
+
 
     class ConsultaTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
@@ -731,7 +780,7 @@ public class PartidoActivity extends AppCompatActivity {
                     }
                 }
 
-                rellenaEspiners();
+                rellenaEspinersPeñas();
 
             } else {
                 Snackbar.make(findViewById(android.R.id.content), "Error de conexion", Snackbar.LENGTH_LONG).show();
@@ -756,7 +805,7 @@ public class PartidoActivity extends AppCompatActivity {
             try {
 
                 HashMap<String, String> parametrosPost = new HashMap<>();
-                parametrosPost.put("ins_sql","INSERT INTO partido(CodPeña,fechaPartido,resultado,ganador,nomPeña) VALUES ("+GlobalParams.codPeña+","+"'"+fecha+"'"+","+"'"+resultado+"'"+","+"'"+ganador+"',"+nomPeña+")");
+                parametrosPost.put("ins_sql","INSERT INTO partido(CodPeña,fechaPartido,resultado,ganador) VALUES ("+GlobalParams.codPeña+","+"'"+fecha+"'"+","+"'"+resultado+"'"+","+"'"+ganador+"')");
                 jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost);
 
                 if(jsonObject != null) {
