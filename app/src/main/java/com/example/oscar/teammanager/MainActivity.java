@@ -30,11 +30,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.example.oscar.teammanager.Adaptadores.PeñaListAdapter;
-import com.example.oscar.teammanager.Objects.Estadisticas;
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -122,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
 
-
         View headerView = navigationView.getHeaderView(0);
         tvnombre = (TextView) headerView.findViewById(R.id.NombreMenu);
         tvmail = (TextView) headerView.findViewById(R.id.CorreoMenu);
@@ -147,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         MainTaskPeña task2 = new MainTaskPeña();
         task2.execute();
+
     }
 
 
@@ -194,21 +192,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_administrar) {
-            if(arrayAdministradores.contains(correoUsuario.toString())) {
 
-            }else{
-
-            }
         }
 
         else if (id == R.id.nav_jugadores) {
-            if(arrayAdministradores.contains(correoUsuario.toString())) {
                 Intent i = new Intent(this, InvitarJugadorActivity.class);
                 startActivity(i);
-            }else{
-                Snackbar.make(findViewById(android.R.id.content), "Solo los administradores pueden acceder a este apartado.", Snackbar.LENGTH_LONG).show();
-
-            }
         }
 
         else if (id == R.id.nav_estadisticas) {
@@ -217,29 +206,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         else if(id == R.id.nav_peñas){
-            if(arrayAdministradores.contains(correoUsuario.toString())) {
                 Intent i = new Intent(this, NuevoGrupoActivity.class);
                 i.putExtra("correoUsuario", sp.getString("us_email", correoUsuario));
                 startActivity(i);
-            }else{
-                Snackbar.make(findViewById(android.R.id.content), "Solo los administradores pueden acceder a este apartado.", Snackbar.LENGTH_LONG).show();
-            }
         }
 
         else if (id == R.id.nav_multas) {
-            if(arrayAdministradores.contains(correoUsuario.toString())) {
                 Intent i = new Intent(this, MultaActivity.class);
                 startActivity(i);
-            }else{
-                Snackbar.make(findViewById(android.R.id.content), "Solo los administradores pueden acceder a este apartado.", Snackbar.LENGTH_LONG).show();
-            }
 
         } else if (id == R.id.nav_partidos) {
             Intent i = new Intent(this, PartidosActivity.class);
             startActivity(i);
-        } else if (id == R.id.nav_info) {
+        }
 
-        } else if (id == R.id.nav_contacto) {
+        else if (id == R.id.nav_info) {
+
+        }
+
+        else if (id == R.id.nav_contacto) {
 
         }
 
@@ -384,6 +369,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 for(int i=0; i<arrayPeñas.size(); i++){
                     arrayAdministradores.add(arrayPeñas.get(i).getAdministrador().toString());
+                }
+
+                Menu menuNav = navigationView.getMenu();
+                MenuItem nav_item2 = menuNav.findItem(R.id.nav_administrar);
+                MenuItem nav_item3 = menuNav.findItem(R.id.nav_jugadores);
+                MenuItem nav_item4 = menuNav.findItem(R.id.nav_multas);
+
+
+                if(arrayAdministradores.contains(correoUsuario.toString())) {
+                    nav_item2.setEnabled(true);
+                    nav_item3.setEnabled(true);
+                    nav_item4.setEnabled(true);
+                }else{
+                    nav_item2.setEnabled(false);
+                    nav_item3.setEnabled(false);
+                    nav_item4.setEnabled(false);
                 }
 
 

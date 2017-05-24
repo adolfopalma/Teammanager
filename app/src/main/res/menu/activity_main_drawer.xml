@@ -9,10 +9,6 @@
             android:title="Crear peña" />
 
         <item
-            android:id="@+id/nav_multas"
-            android:icon="@drawable/pencil"
-            android:title="Multas" />
-        <item
             android:id="@+id/nav_estadisticas"
             android:icon="@drawable/linechar"
             android:title="Estadisticas" />
@@ -20,6 +16,11 @@
             android:id="@+id/nav_partidos"
             android:icon="@drawable/whistlee"
             android:title="Partidos" />
+
+        <item
+            android:id="@+id/nav_multas"
+            android:icon="@drawable/pencil"
+            android:title="Multas" />
 
         <item
             android:id="@+id/nav_administrar"
