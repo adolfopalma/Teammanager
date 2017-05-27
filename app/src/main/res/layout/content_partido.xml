@@ -156,9 +156,8 @@
 
             <ListView
                 android:id="@+id/listviewClaro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.80" />
+                android:layout_width="286dp"
+                android:layout_height="wrap_content" />
 
             <View
                 android:id="@+id/view9"

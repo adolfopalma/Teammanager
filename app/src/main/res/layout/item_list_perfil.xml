@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/bloq_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@android:color/white"
+        android:padding="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/peña_img"
+            android:layout_width="50dp"
+            android:layout_height="75dp"
+            android:layout_alignBottom="@+id/linearLayout"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="5dip"
+            android:src="@mipmap/ic_launcher" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/peña_img"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvNomEquip"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_margin="5dp"
+                android:gravity="top|fill_vertical"
+                android:lines="2"
+                android:paddingLeft="40dp"
+                android:text="Prueba"
+                android:textColor="@android:color/black" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>
