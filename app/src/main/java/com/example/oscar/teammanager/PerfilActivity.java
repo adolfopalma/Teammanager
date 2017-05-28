@@ -10,6 +10,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,8 +40,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by ptmarketing05 on 09/05/2017.
  */
 
-public class PerfilActivity extends Activity {
+public class PerfilActivity extends AppCompatActivity {
 
+    protected Toolbar tb;
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
     String correoUsuario;
@@ -63,6 +66,10 @@ public class PerfilActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
+
+        //añadimos toolbar
+        tb = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(tb);
 
         IP_Server = "http://iesayala.ddns.net/19ramajo";
         url_consulta = IP_Server + "/consulta.php";

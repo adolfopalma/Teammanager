@@ -195,7 +195,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_administrar) {
-
+            Intent i = new Intent(this, AdministrarActivity.class);
+            startActivity(i);
         }
 
         else if (id == R.id.nav_jugadores) {
