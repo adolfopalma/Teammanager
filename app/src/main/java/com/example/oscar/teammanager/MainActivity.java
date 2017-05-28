@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected NavigationView navigationView;
     protected ImageView fotoMenu;
     protected LinearLayout empty_data;
+    protected ActionBarDrawerToggle toggle;
 
 
 
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -148,8 +149,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         task2.execute();
 
     }
-
-
 
 
     @Override
@@ -405,10 +404,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
 
     @Override
     public void onBackPressed() {
@@ -439,6 +434,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             builderc.create();
             builderc.show();
         }
+    }
+
+    /*@Override
+    protected void onResume(){
+        super.onResume();
+        toggle.syncState();
+    }*/
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        toggle.syncState();
     }
 
 
