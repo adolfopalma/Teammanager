@@ -31,6 +31,7 @@ import com.example.oscar.teammanager.Objects.Estadisticas;
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
+import com.example.oscar.teammanager.Utils.GlobalParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +55,7 @@ public class PerfilActivity extends AppCompatActivity {
     private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
-    private String url_consulta;
+    private String url_consulta, url_insert;
     private String IP_Server;
     protected Jugadores jugador;
     protected Peñas peña;
@@ -78,6 +79,7 @@ public class PerfilActivity extends AppCompatActivity {
 
         IP_Server = "http://iesayala.ddns.net/19ramajo";
         url_consulta = IP_Server + "/consulta.php";
+        url_insert = IP_Server + "/prueba.php";
         devuelveJSON = new ClaseConexion();
         arrayJugadores = new ArrayList<>();
         arrayEstadisticas = new ArrayList<>();
@@ -322,6 +324,46 @@ public class PerfilActivity extends AppCompatActivity {
 
         @Override
         protected void onCancelled() {
+        }
+    }
+
+    class ModificarTask extends AsyncTask<String, String, JSONArray> {
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(PerfilActivity.this);
+            pDialog.setMessage("Actualizando...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONArray doInBackground(String... args) {
+            try {
+
+                HashMap<String, String> parametrosPostJugados = new HashMap<>();
+                parametrosPostJugados.put("ins_sql", "UPDATE jugadores SET Nombre = , Edad = , Correo = , Pass = ,TipoJugador = , Ruta_Foto =  WHERE (Correo = "+correoUsuario+")");
+                devuelveJSON.sendRequest(url_insert, parametrosPostJugados);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(JSONArray json) {
+            if (pDialog != null && pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            pDialog.dismiss();
         }
     }
 }
