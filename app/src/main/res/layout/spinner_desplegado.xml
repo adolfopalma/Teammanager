@@ -5,6 +5,7 @@
     style="?android:attr/spinnerDropDownItemStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
     android:ellipsize="start"
     android:gravity="center_horizontal"
     android:singleLine="true"

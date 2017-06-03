@@ -44,7 +44,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     //Declaracion de variables
     protected Spinner spinner;
-    protected EditText ednombre,edcorreo,edcontraseña,ededad;
+    protected EditText ednombre,edcorreo,edcontraseña,ededad,edNick;
     protected ImageView foto;
     protected String encodedImageData;
     private String IP_Server;
@@ -59,13 +59,7 @@ public class RegistroActivity extends AppCompatActivity {
     private static Bitmap bm;
     protected String hora,nombreFoto;
     private Jugadores jugadores;
-    String nombre;
-    String edad;
-    String correo;
-    String pass;
-    String tipoJugador;
-    String rutaFoto;
-
+    protected String nombre, nick, edad, correo, pass, tipoJugador, rutaFoto;
 
 
 
@@ -75,11 +69,11 @@ public class RegistroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registro);
 
         //Inicializo variables
-
         spinner = (Spinner)findViewById(R.id.spinner3);
         edcontraseña = (EditText)findViewById(R.id.edContraseña);
         edcorreo = (EditText)findViewById(R.id.edCorreo);
         ededad = (EditText)findViewById(R.id.edEdad);
+        edNick = (EditText)findViewById(R.id.edNick);
         ednombre = (EditText)findViewById(R.id.edNombre);
         foto =(CircleImageView) findViewById(R.id.ivFotoPeña);
         SimpleDateFormat sdf = new SimpleDateFormat("hh-mm-dd-MM-yyyy");
@@ -88,7 +82,7 @@ public class RegistroActivity extends AppCompatActivity {
         url_insert = IP_Server + "/prueba.php";
         url_consulta = IP_Server + "/consulta.php";
         devuelveJSON = new ClaseConexion();
-        foto.setImageResource(R.mipmap.ic_launcher_round);
+        foto.setImageResource(R.drawable.foto);
 
         //Boton flotante con accion, en el comprueblo que estan todos los campos rellenos y la conexion,
         //ejecuto asynctask y limpio campos.
@@ -101,9 +95,15 @@ public class RegistroActivity extends AppCompatActivity {
                 }else if(!ClaseConexion.compruebaConexion(RegistroActivity.this)){
                     Snackbar.make(findViewById(android.R.id.content), "Conexion limitada o nula, comprueba tu conexion.", Snackbar.LENGTH_LONG).show();
                 }else{
-                    RegistroTask task = new RegistroTask();
-                    task.execute();
-                    limpiarCampos();
+                    if (!isEmailValid(edcorreo.getText().toString())) {
+                        Snackbar.make(findViewById(android.R.id.content), "Error, formato de correo no valido", Snackbar.LENGTH_LONG).show();
+                    }else if (!isPasswordValid(edcontraseña.getText().toString())){
+                        Snackbar.make(findViewById(android.R.id.content), "Error, su contraseña debe contener al menos 4 caracteres", Snackbar.LENGTH_LONG).show();
+                    }else{
+                        RegistroTask task = new RegistroTask();
+                        task.execute();
+                        limpiarCampos();
+                    }
                 }
             }
         });
@@ -111,15 +111,26 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
 
-
     private void limpiarCampos() {
         ededad.setText("");
         edcontraseña.setText("");
         ednombre.setText("");
         edcorreo.setText("");
+        edNick.setText("");
         spinner.setSelection(0);
-        foto.setImageResource(R.mipmap.ic_launcher_round);
+        foto.setImageResource(R.drawable.foto);
         nombreFoto = null;
+    }
+
+    //Comprobar si un email es valido o no
+    private boolean isEmailValid(String email) {
+        /**Si la cadena contiene el caracter @ es un email valido*/
+        return email.contains("@");
+    }
+
+    private boolean isPasswordValid(String password) {
+        /**Si la cadena supera los 4 caracteres es una contraseña valida*/
+        return password.length() >= 4;
     }
 
 
@@ -143,6 +154,7 @@ public class RegistroActivity extends AppCompatActivity {
         return Bitmap.createBitmap(mBitmap, 0, 0, width, height, matrix, false);
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ACT_GALERIA && resultCode == RESULT_OK) {
@@ -154,8 +166,7 @@ public class RegistroActivity extends AppCompatActivity {
                 redimensionarImagenMaximo(bm, 20,20);
                 foto.setImageBitmap(bm);
                 encodedImageData =getEncoded64ImageStringFromBitmap(bm);
-            } catch (FileNotFoundException e) {
-            }
+            } catch (FileNotFoundException e) {}
         }
     }
 
@@ -191,6 +202,7 @@ public class RegistroActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             nombre = ednombre.getText().toString();
+            nick = edNick.getText().toString();
             edad = ededad.getText().toString();
             correo = edcorreo.getText().toString();
             pass = edcontraseña.getText().toString();
@@ -229,7 +241,7 @@ public class RegistroActivity extends AppCompatActivity {
                     Snackbar.make(findViewById(android.R.id.content), "Ya existe un usuario registrado con este correo. Intentelo con otro", Snackbar.LENGTH_LONG).show();
                 }else{
                     HashMap<String, String> parametrosPost = new HashMap<>();
-                    parametrosPost.put("ins_sql","INSERT INTO jugadores(Nombre,Edad,Correo,Pass,TipoJugador,Ruta_Foto) VALUES ("+"'"+nombre+"'"+","+"'"+edad+"'"+","+"'"+correo+"'"+","+"'"+pass+"'"+","+"'"+tipoJugador+"'"+","+"'"+rutaFoto+"')");
+                    parametrosPost.put("ins_sql","INSERT INTO jugadores(Nombre,Edad,Correo,Pass,TipoJugador,Ruta_Foto,Nick) VALUES ("+"'"+nombre+"'"+","+"'"+edad+"'"+","+"'"+correo+"'"+","+"'"+pass+"'"+","+"'"+tipoJugador+"'"+","+"'"+rutaFoto+"','"+nick+"')");
                     jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost);
 
                     if(jsonObject != null) {

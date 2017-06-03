@@ -100,6 +100,7 @@ public class GestionEquipo extends AppCompatActivity {
         diaPartido = (TextView)findViewById(R.id.peña_dia);
         horaPartido = (TextView)findViewById(R.id.peña_hora);
         fotoPeña = (ImageView)findViewById(R.id.peña_img);
+        fotoPeña.setImageResource(R.mipmap.ic_launcher);
 
         sp = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         editor = sp.edit();
@@ -286,10 +287,12 @@ public class GestionEquipo extends AppCompatActivity {
                 diaPartido.setText(arrayPeñas.get(0).getDiaPartido().toString());
                 horaPartido.setText(arrayPeñas.get(0).getHoraPartido().toString());
 
-                if(arrayPeñas.get(0).getRutaFoto() != null) {
+
+                if(!arrayPeñas.get(0).getRutaFoto().equals("null")) {
                     foto = decodeBase64(arrayPeñas.get(0).getRutaFoto());
                     fotoPeña.setImageBitmap(getRoundedRectBitmap(foto, 12));
                 }
+
 
             } else {
                 Snackbar.make(findViewById(android.R.id.content), "Error de conexion", Snackbar.LENGTH_LONG).show();
