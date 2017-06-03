@@ -18,17 +18,11 @@
             android:id="@+id/imageView4"
             android:layout_width="match_parent"
             android:layout_height="242dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginTop="80dp"
-            android:paddingBottom="20dp"
+            android:background="@drawable/boton_redondo"
+            android:padding="10dp"
             android:src="@drawable/logo_escalado" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:padding="5dip"
-            android:text="Team Manager"
-            android:textSize="24dip" />
 
         <TextView
             android:id="@+id/textView3"
@@ -36,7 +30,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="5dip"
-            android:text="No estas registrado en ninguna peña"
+            android:text="Aun no estas registrado en ningun equipo"
             android:textSize="14dip" />
 
     </LinearLayout>

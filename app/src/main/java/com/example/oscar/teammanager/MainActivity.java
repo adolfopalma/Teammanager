@@ -318,9 +318,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     class MainTaskPeña extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
+        Menu menuNav = navigationView.getMenu();
+        MenuItem nav_item2 = menuNav.findItem(R.id.nav_administrar);
+        MenuItem nav_item3 = menuNav.findItem(R.id.nav_jugadores);
+        MenuItem nav_item4 = menuNav.findItem(R.id.nav_multas);
+
 
         @Override
         protected void onPreExecute() {
+            nav_item2.setEnabled(false);
+            nav_item3.setEnabled(false);
+            nav_item4.setEnabled(false);
             pDialog = new ProgressDialog(MainActivity.this);
             pDialog.setMessage("Cargando...");
             pDialog.setIndeterminate(false);
@@ -372,22 +380,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 for(int i=0; i<arrayPeñas.size(); i++){
                     arrayAdministradores.add(arrayPeñas.get(i).getAdministrador().toString());
+                    System.out.println("----------"+arrayAdministradores.get(i).toString());
+                    System.out.println("Correo---------"+correoUsuario.toString());
                 }
 
-                Menu menuNav = navigationView.getMenu();
-                MenuItem nav_item2 = menuNav.findItem(R.id.nav_administrar);
-                MenuItem nav_item3 = menuNav.findItem(R.id.nav_jugadores);
-                MenuItem nav_item4 = menuNav.findItem(R.id.nav_multas);
-
-
-                if(arrayAdministradores.contains(correoUsuario.toString())) {
-                    nav_item2.setEnabled(true);
-                    nav_item3.setEnabled(true);
-                    nav_item4.setEnabled(true);
-                }else{
+                if(!arrayAdministradores.contains(correoUsuario.toString()) || arrayAdministradores.size() < 0) {
                     nav_item2.setEnabled(false);
                     nav_item3.setEnabled(false);
                     nav_item4.setEnabled(false);
+                }else{
+                    nav_item2.setEnabled(true);
+                    nav_item3.setEnabled(true);
+                    nav_item4.setEnabled(true);
+
                 }
 
 
