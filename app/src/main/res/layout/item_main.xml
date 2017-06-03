@@ -21,7 +21,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="2dip"
             android:layout_marginRight="5dip"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/penia" />
 
 
         <LinearLayout

@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ArrayList<Jugadores> arrayJugadores;
     private ArrayList<String> arrayAdministradores;
     protected String correoUsuario;
-    protected TextView tvnombre, tvmail;
+    protected TextView tvnombre, tvmail, tvTipo;
     protected Bitmap foto;
     protected ListView lv;
     protected DrawerLayout drawer;
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sp = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         editor = sp.edit();
 
-        correoUsuario = sp.getString("us_email", correoUsuario);
+        correoUsuario = sp.getString("us_email", "");
 
         lv = (ListView) findViewById(R.id.list);
 
@@ -125,10 +125,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         View headerView = navigationView.getHeaderView(0);
         tvnombre = (TextView) headerView.findViewById(R.id.NombreMenu);
+        tvTipo = (TextView) headerView.findViewById(R.id.tvTipo);
         tvmail = (TextView) headerView.findViewById(R.id.CorreoMenu);
         fotoMenu = (CircleImageView) headerView.findViewById(R.id.FotoMenu);
-        fotoMenu.setImageResource(R.mipmap.ic_launcher_round);
-
+        fotoMenu.setImageResource(R.drawable.perfil);
 
 
         headerView.setOnClickListener(new View.OnClickListener() {
@@ -298,8 +298,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 tvnombre.setText(arrayJugadores.get(0).getNombre().toString());
                 tvmail.setText(arrayJugadores.get(0).getCorreo().toString());
+                tvTipo.setText(arrayJugadores.get(0).getTipoJug().toString());
 
-                if(arrayJugadores.get(0).getRutaFoto() != null) {
+                if(!arrayJugadores.get(0).getRutaFoto().equals("null")) {
                     foto = decodeBase64(arrayJugadores.get(0).getRutaFoto());
                     fotoMenu.setImageBitmap(foto);
                 }
@@ -339,7 +340,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     return jSONArray;
                 }else{
                     System.out.println("Error al obtener datos JSON");
-                    //Snackbar.make(findViewById(android.R.id.content), "Error de conexion ", Snackbar.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

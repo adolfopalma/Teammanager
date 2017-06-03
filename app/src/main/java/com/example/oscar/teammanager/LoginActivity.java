@@ -28,7 +28,6 @@ public class LoginActivity extends AppCompatActivity{
     //Declaro variables
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    private View mProgressView;
     private String IP_Server;
     private String url_consulta;
     private JSONArray jSONArray;
@@ -51,7 +50,6 @@ public class LoginActivity extends AppCompatActivity{
         //Inicializo variables
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
-        mProgressView = findViewById(R.id.login_progress);
         IP_Server = "http://iesayala.ddns.net/19ramajo";
         url_consulta = IP_Server + "/consulta.php";
         devuelveJSON = new ClaseConexion();
@@ -59,8 +57,6 @@ public class LoginActivity extends AppCompatActivity{
         alert = new AlertDialog.Builder(this);
         sp = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         editor = sp.edit();
-
-
         mPasswordView = (EditText) findViewById(R.id.password);
 
     }
@@ -74,13 +70,7 @@ public class LoginActivity extends AppCompatActivity{
             if (!ClaseConexion.compruebaConexion(this)) {
                 Snackbar.make(findViewById(android.R.id.content), "Conexion limitada o nula, comprueba tu conexion.", Snackbar.LENGTH_LONG).show();
             } else {
-                sp = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
-                editor = sp.edit();
-
                 //Guardo el email del usuario en preferencias que utilizo en toda aplicacion de clave primaria
-                correo = mEmailView.getText().toString();
-                editor.putString("us_email", correo);
-                editor.commit();
                 UserLoginTask task = new UserLoginTask(mEmailView.getText().toString(), mPasswordView.getText().toString());
                 task.execute();
             }
@@ -93,7 +83,9 @@ public class LoginActivity extends AppCompatActivity{
         for (int i=0; i<arrayJugadores.size(); i++){
             if (arrayJugadores.get(i).getCorreo().toString().equals(correo.toString()) & arrayJugadores.get(i).getPass().toString().equals(pass.toString())) {
                 Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("correoUsuario",sp.getString("us_email", correo));
+                correo = mEmailView.getText().toString();
+                editor.putString("us_email", correo);
+                editor.commit();
                 startActivity(intent);
             }else{
                 Snackbar.make(findViewById(android.R.id.content), "Correo o contraseña erroneos ", Snackbar.LENGTH_LONG).show();;
