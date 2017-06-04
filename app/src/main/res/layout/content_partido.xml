@@ -148,31 +148,30 @@
 
         <LinearLayout
             android:id="@+id/lista_jugadores"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/Prueba5"
-            android:orientation="horizontal"
-            android:visibility="visible">
+            android:orientation="horizontal">
 
             <ListView
                 android:id="@+id/listviewClaro"
-                android:layout_width="286dp"
-                android:layout_height="wrap_content" />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight=".50" />
 
             <View
-                android:id="@+id/view9"
-                android:layout_width="5dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@android:color/holo_blue_light" />
+                android:id="@+id/view11"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/ColorPrueba" />
 
             <ListView
                 android:id="@+id/listviewOscuro"
-                android:layout_width="293dp"
-                android:layout_height="wrap_content" />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight=".50" />
 
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
