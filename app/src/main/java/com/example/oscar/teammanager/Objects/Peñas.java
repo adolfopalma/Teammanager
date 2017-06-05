@@ -13,11 +13,12 @@ public class Peñas implements Serializable {
     String diaPartido;
     String rutaFoto;
     String administrador;
+    String nomAdministrador;
     String fechaCreacion;
 
 
 
-    public Peñas(int id, String nombre,String administrador,String fechaCreacion, String diaPartido, String horaPartido, String rutaFoto) {
+    public Peñas(int id, String nombre,String administrador,String fechaCreacion, String diaPartido, String horaPartido, String rutaFoto, String nomAdministrador) {
         this.id = id;
         this.nombre = nombre;
         this.administrador = administrador;
@@ -25,6 +26,10 @@ public class Peñas implements Serializable {
         this.diaPartido = diaPartido;
         this.horaPartido = horaPartido;
         this.rutaFoto = rutaFoto;
+        this.nomAdministrador = nomAdministrador;
+    }
+
+    public Peñas(){
     }
 
     public int getId() {
@@ -83,7 +88,12 @@ public class Peñas implements Serializable {
         this.fechaCreacion = fechaCreacion;
     }
 
-    public Peñas(){
+    public String getNomAdministrador() {
+        return nomAdministrador;
+    }
+
+    public void setNomAdministrador(String nomAdministrador) {
+        this.nomAdministrador = nomAdministrador;
     }
 
 }

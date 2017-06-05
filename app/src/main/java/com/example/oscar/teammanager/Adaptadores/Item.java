@@ -76,7 +76,7 @@ public class Item extends LinearLayout {
         nomPeña.setText(""+p.getNombre());
         diaPeña.setText(""+p.getDiaPartido());
         horaPeña.setText(""+p.getHoraPartido());
-        administradorPeña.setText(""+p.getAdministrador());
+        administradorPeña.setText(""+p.getNomAdministrador());
         result = decodeBase64(p.getRutaFoto());
 
         if(result != null) {

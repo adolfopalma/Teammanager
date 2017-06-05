@@ -1,5 +1,6 @@
 package com.example.oscar.teammanager;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -33,6 +35,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +62,7 @@ public class RegistroActivity extends AppCompatActivity {
     private static Bitmap bm;
     protected String hora,nombreFoto;
     private Jugadores jugadores;
+    private int mYear, mMonth, mDay;
     protected String nombre, nick, edad, correo, pass, tipoJugador, rutaFoto;
 
 
@@ -97,7 +101,7 @@ public class RegistroActivity extends AppCompatActivity {
                 }else{
                     if (!isEmailValid(edcorreo.getText().toString())) {
                         Snackbar.make(findViewById(android.R.id.content), "Error, formato de correo no valido", Snackbar.LENGTH_LONG).show();
-                    }else if (!isPasswordValid(edcontraseña.getText().toString())){
+                    }else if (!isPasswordValid(edcontraseña.getText().toString())) {
                         Snackbar.make(findViewById(android.R.id.content), "Error, su contraseña debe contener al menos 4 caracteres", Snackbar.LENGTH_LONG).show();
                     }else{
                         RegistroTask task = new RegistroTask();
@@ -121,6 +125,7 @@ public class RegistroActivity extends AppCompatActivity {
         foto.setImageResource(R.drawable.foto);
         nombreFoto = null;
     }
+
 
     //Comprobar si un email es valido o no
     private boolean isEmailValid(String email) {
@@ -152,6 +157,28 @@ public class RegistroActivity extends AppCompatActivity {
         matrix.postScale(scaleWidth, scaleHeight);
         // recreate the new Bitmap
         return Bitmap.createBitmap(mBitmap, 0, 0, width, height, matrix, false);
+    }
+
+    public void fechaNacimiento(View view){
+        // Get Current Date
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+
+                        ededad.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+
+                    }
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
     }
 
 

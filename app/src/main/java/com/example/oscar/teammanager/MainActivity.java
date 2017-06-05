@@ -341,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql","select * from peña where codPeña in (SELECT codPeña FROM componente_peña WHERE CodigoJug = "+"'"+correoUsuario+"')");
+                parametrosPosteriores.put("ins_sql","select p.*, j.Nombre from peña p, jugadores j where codPeña in (SELECT codPeña FROM componente_peña WHERE CodigoJug = "+"'"+correoUsuario+"') and p.CodAministrador = j.Correo");
                 jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
@@ -371,6 +371,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         peña.setDiaPartido(jsonObject.getString("diaEvento"));
                         peña.setHoraPartido(jsonObject.getString("horaEvento"));
                         peña.setAdministrador(jsonObject.getString("CodAministrador"));
+                        peña.setNomAdministrador(jsonObject.getString("Nombre"));
                         peña.setRutaFoto(jsonObject.getString("rutaFoto"));
                         arrayPeñas.add(peña);
                     } catch (JSONException e) {
@@ -380,8 +381,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 for(int i=0; i<arrayPeñas.size(); i++){
                     arrayAdministradores.add(arrayPeñas.get(i).getAdministrador().toString());
-                    System.out.println("----------"+arrayAdministradores.get(i).toString());
-                    System.out.println("Correo---------"+correoUsuario.toString());
                 }
 
                 if(!arrayAdministradores.contains(correoUsuario.toString()) || arrayAdministradores.size() < 0) {
