@@ -35,6 +35,8 @@ import com.example.oscar.teammanager.Adaptadores.PeñaListAdapter;
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
+import com.example.oscar.teammanager.Utils.GlobalParams;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -382,6 +384,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 for(int i=0; i<arrayPeñas.size(); i++){
                     arrayAdministradores.add(arrayPeñas.get(i).getAdministrador().toString());
                 }
+
+                GlobalParams.administradores = new ArrayList<String>();
+                GlobalParams.administradores = arrayAdministradores;
 
                 if(!arrayAdministradores.contains(correoUsuario.toString()) || arrayAdministradores.size() < 0) {
                     nav_item2.setEnabled(false);

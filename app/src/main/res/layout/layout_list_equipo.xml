@@ -2,8 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/AntiqueWhite"
+    android:background="@color/GrisNegro"
     android:orientation="vertical">
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="3dip"
+        android:layout_weight="1"
+        android:background="@color/ColorPrueba" />
 
     <TextView
         android:id="@+id/textView7"
@@ -17,6 +24,13 @@
         android:textColor="@color/ColorPrueba"
         android:textSize="24sp" />
 
+    <View
+        android:id="@+id/view9"
+        android:layout_width="match_parent"
+        android:layout_height="3dip"
+        android:layout_weight="1"
+        android:background="@color/ColorPrueba" />
+
     <TextView
         android:id="@+id/textView11"
         android:layout_width="match_parent"
@@ -25,7 +39,7 @@
         android:layout_margin="20dp"
         android:layout_weight="1"
         android:text="@string/text_seleccionar_peña"
-        android:textColor="@color/Black"
+        android:textColor="@android:color/white"
         android:textSize="11dip" />
 
     <View
@@ -54,7 +68,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Jugadores:"
-                android:textColor="@color/Black"
+                android:textColor="@android:color/white"
                 android:visibility="gone" />
 
             <TextView
@@ -64,7 +78,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Equipos:"
-                android:textColor="@color/Black" />
+                android:textColor="@android:color/white" />
 
             <Spinner
                 android:id="@+id/spinner"
@@ -72,12 +86,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <View
-                android:id="@+id/view2"
-                android:layout_width="match_parent"
-                android:layout_height="3dip"
-                android:layout_weight="1"
-                android:background="@color/ColorPrueba" />
         </LinearLayout>
 
     </LinearLayout>

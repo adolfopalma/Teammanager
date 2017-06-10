@@ -34,6 +34,8 @@ import com.example.oscar.teammanager.Adaptadores.GestionListAdapter;
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
+import com.example.oscar.teammanager.Utils.GlobalParams;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -172,6 +174,13 @@ public class GestionEquipo extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_gestion, menu);
+        if(!GlobalParams.administradores.contains(correoUsuario.toString()) || GlobalParams.administradores.size() < 0){
+            menu.findItem(R.id.action_modificar).setVisible(false);
+            menu.findItem(R.id.action_añadir_componente).setVisible(false);
+        }else{
+            menu.findItem(R.id.action_modificar).setVisible(true);
+            menu.findItem(R.id.action_añadir_componente).setVisible(true);
+        }
         return true;
     }
 
@@ -323,7 +332,7 @@ public class GestionEquipo extends AppCompatActivity {
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql","select Nombre, Ruta_Foto, Correo from jugadores where Correo in (SELECT CodigoJug FROM componente_peña WHERE CodPeña = "+id+")");
+                parametrosPosteriores.put("ins_sql","select Nombre, Ruta_Foto, Correo, TipoJugador from jugadores where Correo in (SELECT CodigoJug FROM componente_peña WHERE CodPeña = "+id+")");
                 jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
@@ -352,6 +361,7 @@ public class GestionEquipo extends AppCompatActivity {
                         jugador.setNombre(jsonObject.getString("Nombre"));
                         jugador.setRutaFoto(jsonObject.getString("Ruta_Foto"));
                         jugador.setCorreo(jsonObject.getString("Correo"));
+                        jugador.setTipoJug(jsonObject.getString("TipoJugador"));
                         arrayListaJugadores.add(jugador);
                     } catch (JSONException e) {
                         e.printStackTrace();

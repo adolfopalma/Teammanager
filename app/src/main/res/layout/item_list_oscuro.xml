@@ -1,39 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lnFondo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:background="@color/White"
+    android:orientation="vertical"
+    android:padding="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="0.09"
-        android:background="@android:color/white"
-        android:gravity="right"
-        android:orientation="horizontal"
-        android:weightSum="1">
+        android:background="@color/GrisNegro"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvGol"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="0.31"
+            android:gravity="center_vertical"
+            android:text="0" />
 
         <ImageButton
             android:id="@+id/bGol"
             android:layout_width="35dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="0.31"
             android:background="@drawable/boton_redondo"
             app:srcCompat="@drawable/balon" />
+
+        <TextView
+            android:id="@+id/tvAmarilla"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.31"
+            android:text="0" />
 
         <ImageButton
             android:id="@+id/btAmarilla"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
+            android:layout_weight="0.31"
             android:background="@android:color/transparent"
             app:srcCompat="@drawable/amarilla" />
+
+        <TextView
+            android:id="@+id/tvRoja"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.31"
+            android:text="0" />
 
         <ImageButton
             android:id="@+id/btRoja"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
+            android:layout_weight="0.31"
             android:background="@android:color/transparent"
             app:srcCompat="@drawable/roja" />
 
@@ -48,16 +74,13 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/textView15"
+            android:id="@+id/tvNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_weight="1"
             android:text="1"
             android:textColor="@color/Black" />
 
-
     </LinearLayout>
-
 </LinearLayout>

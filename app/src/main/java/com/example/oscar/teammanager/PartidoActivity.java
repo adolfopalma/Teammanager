@@ -8,7 +8,9 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -47,13 +49,13 @@ import java.util.Random;
 
 public class PartidoActivity extends AppCompatActivity {
 
-
     public static final String START_TIME = "START_TIME";
     public static final String CHRONO_WAS_RUNNING = "CHRONO_WAS_RUNNING";
     public static final String TV_TIMER_TEXT = "TV_TIMER_TEXT";
     public static final String ET_LAPST_TEXT = "ET_LAPST_TEXT";
     public static final String LAP_COUNTER  = "LAP_COUNTER";
 
+    protected Toolbar toolbar;
     protected Button BtnStart, BtnStop, BtnSortear,bDialogAcept,bAñadir;
     protected EditText textJugInvi;
     protected int mLapCounter = 1;
@@ -104,7 +106,7 @@ public class PartidoActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partido);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -143,7 +145,6 @@ public class PartidoActivity extends AppCompatActivity {
             BtnStart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    menuBar.findItem(R.id.action_añadir).setVisible(false);
                     BtnSortear.setEnabled(false);
 
                     //if the chronometer has not been instantiated before...
@@ -246,7 +247,8 @@ public class PartidoActivity extends AppCompatActivity {
             BtnSortear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (tempList.size() > 0) {
+                    if (tempList.size() > 0 || arrayListaPorteros.size() > 0) {
+                        menuBar.findItem(R.id.action_añadir).setVisible(false);
                         GlobalParams.MarcadorClaro = 0;
                         GlobalParams.MarcadorOscuro = 0;
                         menuBar.findItem(R.id.action_invitado).setVisible(true);
@@ -313,7 +315,7 @@ public class PartidoActivity extends AppCompatActivity {
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_list_equipo);
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
 
         spinnerP = (Spinner) dialog.findViewById(R.id.spinner);
         bDialogAcept = (Button)dialog.findViewById(R.id.bAceptar);
@@ -327,6 +329,7 @@ public class PartidoActivity extends AppCompatActivity {
                 lv.setVisibility(View.VISIBLE);
                 ConsultaTask task2 = new ConsultaTask();
                 task2.execute();
+                toolbar.setTitle(nomPeña);
                 dialog.dismiss();
 
                 final AlertDialog.Builder builders = new AlertDialog.Builder(PartidoActivity.this);
@@ -892,9 +895,34 @@ public class PartidoActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        arrayPeñas.clear();
-        arrayListaJugadores.clear();
+        final AlertDialog.Builder builderc = new AlertDialog.Builder(PartidoActivity.this);
+        builderc.setMessage("Esta sefuro que desea salir, el partido se cancelará.");
+        builderc.setPositiveButton(getResources().getString(R.string.acept),
+                new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                    public void onClick(DialogInterface dialog, int which) {
+                        arrayPeñas.clear();
+                        arrayListaJugadores.clear();
+                        //if the chronometer had been instantiated before...
+                        if (mChrono != null) {
+                            //stop the chronometer
+                            mChrono.stop();
+                            //stop the thread
+
+                            mThreadChrono.interrupt();
+                            mThreadChrono = null;
+                            //kill the chrono class
+                            mChrono = null;
+                            tv1.setText("00:00:00");
+                        }
+                        finish();
+                    }
+                });
+        builderc.setNegativeButton(getResources().getString(R.string.cancel), null);
+        builderc.create();
+        builderc.show();
     }
+
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -913,4 +941,5 @@ public class PartidoActivity extends AppCompatActivity {
         BtnStart.setEnabled(false);
         BtnStop.setEnabled(true);
     }
+
 }

@@ -1,24 +1,20 @@
 package com.example.oscar.teammanager.Adaptadores;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.example.oscar.teammanager.Objects.Jugadores;
-import com.example.oscar.teammanager.PartidoActivity;
 import com.example.oscar.teammanager.R;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,14 +25,13 @@ import java.util.HashMap;
 public class Adapter_list_claros extends BaseAdapter{
 
     protected ArrayList<Jugadores> items;
-    Activity actividad;
-    String correo;
-    private JSONArray jSONArray;
+    protected Activity actividad;
+    protected String correo;
     private ClaseConexion devuelveJSON;
-    private JSONObject jsonObject;
-    private String url_consulta, url_insert;
+    private String  url_insert;
     private String IP_Server;
-    int goles;
+    protected ImageButton amarilla, roja, gol;
+    protected TextView tvGol, tvAmarilla, tvRoja;
 
 
     public Adapter_list_claros(Activity activity, ArrayList<Jugadores> items) {
@@ -64,54 +59,114 @@ public class Adapter_list_claros extends BaseAdapter{
 
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        Item_list_jugador_claros view;
+        final Item_list_jugador_claros view;
         if (convertView == null) {
             view = new Item_list_jugador_claros(parent.getContext());
         }else {
             view = (Item_list_jugador_claros) convertView;
         }
 
-        ImageButton amarilla = (ImageButton)view.findViewById(R.id.btAmarilla);
+        IP_Server = "http://iesayala.ddns.net/19ramajo";
+        url_insert = IP_Server + "/prueba.php";
+        devuelveJSON = new ClaseConexion();
+
+        final LinearLayout fondo = (LinearLayout)view.findViewById(R.id.lnFondo);
+        TextView pos = (TextView)view.findViewById(R.id.tvNum);
+        pos.setText(String.valueOf(position+1));
         view.setListJugador(items.get(position));
-        ImageButton gol = (ImageButton)view.findViewById(R.id.bGol);
+        final ImageButton gol = (ImageButton)view.findViewById(R.id.bGol);
         gol.setFocusable(false);
         gol.setFocusableInTouchMode(false);
 
         gol.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                tvAmarilla = (TextView)view.findViewById(R.id.tvAmarilla);
+                tvRoja = (TextView)view.findViewById(R.id.tvRoja);
+                int num = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
+                int num2 = Integer.parseInt(String.valueOf(tvRoja.getText()));
+                if(num == 2 || num2 == 1){
+                    Snackbar.make(view, "Jugador expulsado", Snackbar.LENGTH_LONG).show();
 
-                GlobalParams.MarcadorClaro = GlobalParams.MarcadorClaro+1;
-                correo = items.get(position).getCorreo();
-                ConsultaTask task = new ConsultaTask();
-                task.execute();
+                }else {
+                    GlobalParams.MarcadorClaro = GlobalParams.MarcadorClaro + 1;
+                    correo = items.get(position).getCorreo();
+                    tvGol = (TextView) view.findViewById(R.id.tvGol);
+                    int num3 = Integer.parseInt(String.valueOf(tvGol.getText()));
+                    tvGol.setText(String.valueOf(num3 + 1));
+                    UpdateGolesTask task = new UpdateGolesTask();
+                    task.execute();
+                }
+            }
+        });
+
+        amarilla = (ImageButton)view.findViewById(R.id.btAmarilla);
+        amarilla.setFocusable(false);
+        amarilla.setFocusableInTouchMode(false);
+
+        amarilla.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                tvAmarilla = (TextView)view.findViewById(R.id.tvAmarilla);
+                tvRoja = (TextView)view.findViewById(R.id.tvRoja);
+                int num = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
+                int num2 = Integer.parseInt(String.valueOf(tvRoja.getText()));
+
+                if(num2 < 1) {
+                    if (num < 2) {
+                        correo = items.get(position).getCorreo();
+                        tvAmarilla.setText(String.valueOf(num + 1));
+                        fondo.setBackgroundColor(Color.YELLOW);
+                    }
+                    if (num >= 1) {
+                        tvRoja = (TextView) view.findViewById(R.id.tvRoja);
+                        fondo.setBackgroundColor(Color.RED);
+                        tvRoja.setText(String.valueOf(1));
+                        tvAmarilla.setText(String.valueOf(2));
+                    }
+
+                    UpdateAmarillaTask task = new UpdateAmarillaTask();
+                    task.execute();
+                }
+
+
+            }
+        });
+
+        roja = (ImageButton)view.findViewById(R.id.btRoja);
+        roja.setFocusable(false);
+        roja.setFocusableInTouchMode(false);
+
+        roja.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                tvAmarilla = (TextView)view.findViewById(R.id.tvAmarilla);
+                int num = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
+
+                if(num < 2) {
+                    correo = items.get(position).getCorreo();
+                    tvRoja = (TextView) view.findViewById(R.id.tvRoja);
+                    fondo.setBackgroundColor(Color.RED);
+                    tvRoja.setText(String.valueOf(1));
+                    amarilla.setEnabled(false);
+                    roja.setEnabled(false);
+                    UpdateRojaTask task = new UpdateRojaTask();
+                    task.execute();
+                }
+
             }
         });
 
         return view;
     }
 
-    class ConsultaTask extends AsyncTask<String, String, JSONArray> {
 
-        @Override
-        protected void onPreExecute() {
-            IP_Server = "http://iesayala.ddns.net/19ramajo";
-            url_consulta = IP_Server + "/consulta.php";
-            devuelveJSON = new ClaseConexion();
-        }
+    class UpdateAmarillaTask extends AsyncTask<String, String, JSONArray> {
 
         @Override
         protected JSONArray doInBackground(String... args) {
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql","select Goles from estadisticas where CodigoJug  = "+"'"+correo+"' and codPeña = "+GlobalParams.codPeña);
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
-
-                if (jSONArray.length() > 0) {
-                    return jSONArray;
-                }else{
-                    System.out.println("Error al obtener datos JSON");
-                }
+                parametrosPosteriores.put("ins_sql"," UPDATE estadisticas SET TarjetaAmarilla = TarjetaAmarilla+1 WHERE CodigoJug = "+"'"+correo+"' and codPeña = "+GlobalParams.codPeña);
+                devuelveJSON.sendRequest(url_insert, parametrosPosteriores);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -119,47 +174,34 @@ public class Adapter_list_claros extends BaseAdapter{
             return null;
         }
 
-        protected void onPostExecute(JSONArray json) {
-
-            if (json != null) {
-                for (int i = 0; i < json.length(); i++) {
-                    try {
-                        jsonObject = json.getJSONObject(i);
-                        goles = jsonObject.getInt("Goles")+1;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            } else {
-
-            }
-
-            UpdateTask task = new UpdateTask();
-            task.execute();
-        }
-
-        @Override
-        protected void onCancelled() {
-
-        }
     }
 
-    class UpdateTask extends AsyncTask<String, String, JSONArray> {
-
-        @Override
-        protected void onPreExecute() {
-            IP_Server = "http://iesayala.ddns.net/19ramajo";
-            url_insert = IP_Server + "/prueba.php";
-            devuelveJSON = new ClaseConexion();
-        }
+    class UpdateRojaTask extends AsyncTask<String, String, JSONArray> {
 
         @Override
         protected JSONArray doInBackground(String... args) {
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql"," UPDATE estadisticas SET Goles = " +goles+ " WHERE CodigoJug = "+"'"+correo+"' and codPeña = "+GlobalParams.codPeña);
+                parametrosPosteriores.put("ins_sql"," UPDATE estadisticas SET TarjetaRoja = TarjetaRoja+1 WHERE CodigoJug = "+"'"+correo+"' and codPeña = "+GlobalParams.codPeña);
+                devuelveJSON.sendRequest(url_insert, parametrosPosteriores);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+    }
+
+    class UpdateGolesTask extends AsyncTask<String, String, JSONArray> {
+
+        @Override
+        protected JSONArray doInBackground(String... args) {
+            try {
+
+                HashMap<String, String> parametrosPosteriores = new HashMap<>();
+                parametrosPosteriores.put("ins_sql"," UPDATE estadisticas SET Goles = Goles+1 WHERE CodigoJug = "+"'"+correo+"' and codPeña = "+GlobalParams.codPeña);
                 devuelveJSON.sendRequest(url_insert, parametrosPosteriores);
 
             } catch (Exception e) {
@@ -167,15 +209,6 @@ public class Adapter_list_claros extends BaseAdapter{
             }
 
             return null;
-        }
-
-        protected void onPostExecute(JSONArray json) {
-
-        }
-
-        @Override
-        protected void onCancelled() {
-
         }
     }
 

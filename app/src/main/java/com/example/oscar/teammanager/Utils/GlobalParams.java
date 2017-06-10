@@ -24,5 +24,6 @@ public class GlobalParams {
     public static int multaRetraso = 3;
     public static int multaFaltaAsistencia = 5;
 
-
+    //Datos administradores
+    public static ArrayList<String> administradores = null;
 }

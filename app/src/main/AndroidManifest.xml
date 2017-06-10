@@ -66,6 +66,7 @@
             android:name=".PartidoActivity"
             android:label="Partido"
             android:screenOrientation="landscape"
+            android:configChanges="screenSize|orientation"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".MultaActivity"

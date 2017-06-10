@@ -108,7 +108,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView9"
+                            android:id="@+id/textView20"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Fecha de creacion:"
@@ -218,7 +218,8 @@
         <ListView
             android:id="@+id/lv_gestion"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:divider="@null"/>
     </LinearLayout>
 
 </LinearLayout>

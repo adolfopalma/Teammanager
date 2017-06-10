@@ -15,7 +15,7 @@ import com.example.oscar.teammanager.R;
  */
 
 public class Item_jugador extends LinearLayout {
-    TextView nombreJugador;
+    TextView nombreJugador, tipoJugador;
     ImageView imageJug;
     private Bitmap result;
 
@@ -25,6 +25,7 @@ public class Item_jugador extends LinearLayout {
         inflate(context, R.layout.item_jugadores, this);
 
         nombreJugador = (TextView) findViewById(R.id.jugador_nombre);
+        tipoJugador = (TextView) findViewById(R.id.jugador_tipo);
         imageJug = (ImageView) findViewById(R.id.peña_img);
     }
 
@@ -38,12 +39,13 @@ public class Item_jugador extends LinearLayout {
 
     public void setJugador(Jugadores j) {
         nombreJugador.setText(""+j.getNombre());
+        tipoJugador.setText(""+j.getTipoJug());
         result = decodeBase64(j.getRutaFoto());
 
         if(result != null) {
             imageJug.setImageBitmap(result);
         }else{
-            imageJug.setImageResource(R.mipmap.ic_launcher_round);
+            imageJug.setImageResource(R.drawable.perfil);
         }
 
     }
