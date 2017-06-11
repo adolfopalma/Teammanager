@@ -19,9 +19,9 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
             android:name=".SplashActivity"
-            android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="TeamManager"
+            android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,9 +64,9 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".PartidoActivity"
+            android:configChanges="screenSize|orientation"
             android:label="Partido"
             android:screenOrientation="landscape"
-            android:configChanges="screenSize|orientation"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".MultaActivity"
@@ -94,6 +94,10 @@
             android:label="@string/title_activity_administracion"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".EditarEquipo"
+            android:label="@string/title_activity_editar_equipo"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 
 </manifest>

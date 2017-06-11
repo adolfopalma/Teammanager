@@ -17,9 +17,10 @@
 
         <TextView
             android:id="@+id/tvGol"
-            android:layout_width="15dp"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="0.31"
             android:gravity="center_vertical"
             android:text="0" />
@@ -35,8 +36,9 @@
 
         <TextView
             android:id="@+id/tvAmarilla"
-            android:layout_width="15dp"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="0.31"
             android:text="0" />
 
@@ -50,8 +52,9 @@
 
         <TextView
             android:id="@+id/tvRoja"
-            android:layout_width="15dp"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="0.31"
             android:text="0" />
 

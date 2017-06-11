@@ -193,6 +193,12 @@ public class GestionEquipo extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_modificar) {
+            Intent i = new Intent(GestionEquipo.this, EditarEquipo.class);
+            i.putExtra("nombre", nombrePeña.getText().toString());
+            i.putExtra("foto", foto);
+            i.putExtra("dia", diaPartido.getText().toString());
+            i.putExtra("hora", horaPartido.getText().toString());
+            startActivity(i);
             return true;
         }
 

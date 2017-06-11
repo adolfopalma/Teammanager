@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
@@ -126,6 +127,7 @@ public class PartidoActivity extends AppCompatActivity {
         tv1 = (TextView) findViewById(R.id.tv1);
         mContext = this;
         BtnSortear = (Button) findViewById(R.id.bSortear);
+        BtnSortear.setEnabled(false);
         BtnStart = (Button) findViewById(R.id.bComenzar);
         BtnStart.setEnabled(false);
         BtnStop = (Button) findViewById(R.id.bFinalizar);
@@ -233,8 +235,8 @@ public class PartidoActivity extends AppCompatActivity {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     finish();
-                                    //Intent i = new Intent(PartidoActivity.this, MainActivity.class);
-                                    //startActivity(i);
+                                    Intent i = new Intent(PartidoActivity.this, PartidosActivity.class);
+                                    startActivity(i);
                                 }
                             });
                     builders.setCancelable(false);
@@ -330,6 +332,7 @@ public class PartidoActivity extends AppCompatActivity {
                 ConsultaTask task2 = new ConsultaTask();
                 task2.execute();
                 toolbar.setTitle(nomPeña);
+                BtnSortear.setEnabled(true);
                 dialog.dismiss();
 
                 final AlertDialog.Builder builders = new AlertDialog.Builder(PartidoActivity.this);
