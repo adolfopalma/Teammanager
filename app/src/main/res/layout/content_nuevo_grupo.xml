@@ -11,12 +11,12 @@
     <RelativeLayout
         android:id="@+id/bloq_details"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/ColorPrueba"
-        android:padding="5dip"
-        android:layout_alignParentTop="true"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/ColorPrueba"
+        android:padding="5dip">
 
         <ImageView
             android:id="@+id/ivFotoPeña"
@@ -72,13 +72,10 @@
                         android:text="Dia de partido"
                         android:textSize="18sp" />
 
-                    <EditText
-                        android:id="@+id/diaPartido"
+                    <Spinner
+                        android:id="@+id/spinner5"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="text"
-                        android:textSize="18sp" />
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 

@@ -102,7 +102,7 @@ public class GestionEquipo extends AppCompatActivity {
         diaPartido = (TextView)findViewById(R.id.peña_dia);
         horaPartido = (TextView)findViewById(R.id.peña_hora);
         fotoPeña = (ImageView)findViewById(R.id.peña_img);
-        fotoPeña.setImageResource(R.mipmap.ic_launcher);
+        fotoPeña.setImageResource(R.drawable.penia);
 
         sp = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         editor = sp.edit();
@@ -194,6 +194,7 @@ public class GestionEquipo extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_modificar) {
             Intent i = new Intent(GestionEquipo.this, EditarEquipo.class);
+            i.putExtra("id", arrayPeñas.get(0).getId());
             i.putExtra("nombre", nombrePeña.getText().toString());
             i.putExtra("foto", foto);
             i.putExtra("dia", diaPartido.getText().toString());
@@ -495,5 +496,11 @@ public class GestionEquipo extends AppCompatActivity {
         finish();
         Intent i = new Intent(GestionEquipo.this, MainActivity.class);
         startActivity(i);
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        inicializarTask();
     }
 }

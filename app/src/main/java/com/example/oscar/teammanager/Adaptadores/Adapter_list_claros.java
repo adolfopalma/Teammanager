@@ -82,17 +82,16 @@ public class Adapter_list_claros extends BaseAdapter{
             public void onClick(View v) {
                 tvAmarilla = (TextView)view.findViewById(R.id.tvAmarilla);
                 tvRoja = (TextView)view.findViewById(R.id.tvRoja);
-                int num = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
-                int num2 = Integer.parseInt(String.valueOf(tvRoja.getText()));
-                if(num == 2 || num2 == 1){
+                int numAmarilla = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
+                int numRoja = Integer.parseInt(String.valueOf(tvRoja.getText()));
+                if(numAmarilla == 2 || numRoja == 1){
                     Snackbar.make(view, "Jugador expulsado", Snackbar.LENGTH_LONG).show();
-
                 }else {
                     GlobalParams.MarcadorClaro = GlobalParams.MarcadorClaro + 1;
                     correo = items.get(position).getCorreo();
                     tvGol = (TextView) view.findViewById(R.id.tvGol);
-                    int num3 = Integer.parseInt(String.valueOf(tvGol.getText()));
-                    tvGol.setText(String.valueOf(num3 + 1));
+                    int numGol = Integer.parseInt(String.valueOf(tvGol.getText()));
+                    tvGol.setText(String.valueOf(numGol + 1));
                     UpdateGolesTask task = new UpdateGolesTask();
                     task.execute();
                 }
@@ -107,24 +106,27 @@ public class Adapter_list_claros extends BaseAdapter{
             public void onClick(View v) {
                 tvAmarilla = (TextView)view.findViewById(R.id.tvAmarilla);
                 tvRoja = (TextView)view.findViewById(R.id.tvRoja);
-                int num = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
-                int num2 = Integer.parseInt(String.valueOf(tvRoja.getText()));
+                int numAmarilla = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
+                int numRoja = Integer.parseInt(String.valueOf(tvRoja.getText()));
 
-                if(num2 < 1) {
-                    if (num < 2) {
+                if(numRoja < 1) {
+                    if (numAmarilla < 2) {
                         correo = items.get(position).getCorreo();
-                        tvAmarilla.setText(String.valueOf(num + 1));
+                        tvAmarilla.setText(String.valueOf(numAmarilla + 1));
                         fondo.setBackgroundColor(Color.YELLOW);
+                        UpdateAmarillaTask task = new UpdateAmarillaTask();
+                        task.execute();
                     }
-                    if (num >= 1) {
+                    if (numAmarilla >= 1) {
                         tvRoja = (TextView) view.findViewById(R.id.tvRoja);
                         fondo.setBackgroundColor(Color.RED);
                         tvRoja.setText(String.valueOf(1));
                         tvAmarilla.setText(String.valueOf(2));
+                        UpdateAmarillaTask task = new UpdateAmarillaTask();
+                        task.execute();
+                        UpdateRojaTask task2 = new UpdateRojaTask();
+                        task2.execute();
                     }
-
-                    UpdateAmarillaTask task = new UpdateAmarillaTask();
-                    task.execute();
                 }
 
 
@@ -138,15 +140,14 @@ public class Adapter_list_claros extends BaseAdapter{
         roja.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 tvAmarilla = (TextView)view.findViewById(R.id.tvAmarilla);
-                int num = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
+                tvRoja = (TextView) view.findViewById(R.id.tvRoja);
+                int numAmarilla = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
+                int numRoja = Integer.parseInt(String.valueOf(tvRoja.getText()));
 
-                if(num < 2) {
+                if(numRoja < 1 || numAmarilla < 2) {
                     correo = items.get(position).getCorreo();
-                    tvRoja = (TextView) view.findViewById(R.id.tvRoja);
                     fondo.setBackgroundColor(Color.RED);
                     tvRoja.setText(String.valueOf(1));
-                    amarilla.setEnabled(false);
-                    roja.setEnabled(false);
                     UpdateRojaTask task = new UpdateRojaTask();
                     task.execute();
                 }

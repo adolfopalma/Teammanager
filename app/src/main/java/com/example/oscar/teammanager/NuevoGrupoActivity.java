@@ -25,8 +25,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -45,13 +48,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class NuevoGrupoActivity extends AppCompatActivity{
 
     //Declaracion de variables
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
-    protected TextView horaPartido;
+    protected TextView horaPartido,horaPeña;
     private static int ACT_GALERIA = 1;
     private static Uri fotoGaleria;
     private static InputStream is;
@@ -74,13 +78,15 @@ public class NuevoGrupoActivity extends AppCompatActivity{
     private Canvas canvas;
     private float roundPx;
     protected ImageView foto;
-    protected EditText nombrePeña, diaPeña, horaPeña;
+    protected EditText nombrePeña;
     protected String encodedImageData;
+    protected Spinner spinner;
+    protected LinearLayout ln;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nuevo_grupo);
+        setContentView(R.layout.activity_editar_equipo);
 
         //Inicializo variables
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -91,14 +97,15 @@ public class NuevoGrupoActivity extends AppCompatActivity{
         url_insert = IP_Server + "/prueba.php";
         url_consulta = IP_Server + "/consulta.php";
         devuelveJSON = new ClaseConexion();
-        foto =(ImageView) findViewById(R.id.ivFotoPeña);
+        foto =(ImageView) findViewById(R.id.peña_img);
         SimpleDateFormat sdf = new SimpleDateFormat("hh-mm-dd-MM-yyyy");
         horaRuta = sdf.format(new Date());
-        horaPartido = (TextView)findViewById(R.id.horaPartido);
-        nombrePeña = (EditText)findViewById(R.id.nomPeña);
-        diaPeña = (EditText)findViewById(R.id.diaPartido);
-        horaPeña = (EditText)findViewById(R.id.horaPartido);
+        horaPartido = (TextView)findViewById(R.id.peña_hora);
+        nombrePeña = (EditText)findViewById(R.id.nom_peña);
+        horaPeña = (TextView)findViewById(R.id.peña_hora);
         listaPeñas = new ArrayList<>();
+        spinner = (Spinner)findViewById(R.id.spinner4);
+        rellenaSpinner();
 
         //Obtengo correo del usuario de las preferencias
         correoUsuario = sp.getString("us_email", correoUsuario);
@@ -155,6 +162,22 @@ public class NuevoGrupoActivity extends AppCompatActivity{
     public void seleccionFoto(View v){
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(intent, ACT_GALERIA);
+    }
+
+    //Relleno spinner de tipo de jugador
+    public void rellenaSpinner(){
+        List<String> tipoJugadores = new ArrayList();
+        tipoJugadores.add("Lunes");
+        tipoJugadores.add("Martes");
+        tipoJugadores.add("Miercoles");
+        tipoJugadores.add("Jueves");
+        tipoJugadores.add("Viernes");
+        tipoJugadores.add("Sabado");
+        tipoJugadores.add("Domingo");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_plegado, tipoJugadores);
+        adapter.setDropDownViewResource(R.layout.spinner_desplegado);
+        spinner.setAdapter(adapter);
     }
 
 
@@ -269,7 +292,7 @@ public class NuevoGrupoActivity extends AppCompatActivity{
     //Asynctask para insertar tabla en la base de datos
     class RegistroPeñaTask extends AsyncTask<String, String, JSONArray> {
         String nombre = nombrePeña.getText().toString();
-        String dia = diaPeña.getText().toString();
+        String dia = spinner.getSelectedItem().toString();
         String hora = horaPeña.getText().toString();
         String rutaFoto = encodedImageData;
 
