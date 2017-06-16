@@ -10,6 +10,12 @@ import java.util.ArrayList;
 
 public class GlobalParams {
 
+    //Datos conexion
+    public static String IP_Server = "http://192.168.0.2";
+    public static String url_consulta = IP_Server+"/consulta.php";
+    public static String url_insert = IP_Server+"/prueba.php";
+
+
 
     //Datos partido
     public static int MarcadorOscuro = 0;

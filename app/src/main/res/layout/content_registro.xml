@@ -16,25 +16,12 @@
         android:layout_marginTop="10dp"
         android:orientation="vertical">
 
-        <LinearLayout
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivFoto"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/ivFotoPeña"
-                    android:layout_width="match_parent"
-                    android:layout_height="85dp"
-                    android:onClick="seleccionFoto"
-                    app:srcCompat="@drawable/foto" />
-
-            </LinearLayout>
-        </LinearLayout>
+            android:layout_height="85dp"
+            android:onClick="seleccionFoto"
+            app:srcCompat="@drawable/foto" />
 
     </LinearLayout>
 
@@ -164,7 +151,8 @@
                 android:id="@+id/spinner3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:layout_marginLeft="125dp"
+                android:layout_marginRight="115dp"
                 android:hint="Tipo de jugador"
                 android:inputType="textPersonName"
                 android:singleLine="true" />

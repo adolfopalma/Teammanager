@@ -33,6 +33,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
+import com.example.oscar.teammanager.Utils.GlobalParams;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,7 +70,6 @@ public class EditarEquipo extends AppCompatActivity {
     protected FloatingActionButton fab;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
-    private String url_insert,IP_Server;
     protected String fot;
     protected int codPeña;
 
@@ -79,9 +80,6 @@ public class EditarEquipo extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-
-        url_insert = IP_Server + "/prueba.php";
         devuelveJSON = new ClaseConexion();
         nombreEquipo = (EditText)findViewById(R.id.nom_peña);
         horaPartido = (TextView)findViewById(R.id.peña_hora);
@@ -103,6 +101,8 @@ public class EditarEquipo extends AppCompatActivity {
             fot = null;
         }else {
             fotoEquipo.setImageBitmap(getRoundedRectBitmap(foto, 12));
+            encodedImageData = getEncoded64ImageStringFromBitmap(foto);
+            fot = encodedImageData;
         }
         rellenaSpinner();
 
@@ -293,11 +293,11 @@ public class EditarEquipo extends AppCompatActivity {
             nombre = nombreEquipo.getText().toString();
             dia = spinner.getSelectedItem().toString();
             hora = horaPartido.getText().toString();
-            if(fot == null){
+            /*if(fot == null){
                 fot = null;
             }else {
                 fot = encodedImageData;
-            }
+            }*/
         }
 
         @Override
@@ -306,8 +306,7 @@ public class EditarEquipo extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "UPDATE peña set nomPeña = "+"'"+nombre+"',"+"  diaEvento = "+"'"+dia+"',"+"  horaEvento = "+"'"+hora+"',"+ " rutaFoto = " +"'"+fot+"' where  codPeña = "+codPeña);
-                jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost);
-
+                jsonObject = devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -383,15 +382,15 @@ public class EditarEquipo extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql"," delete from peña where codPeña = "+codPeña);
-                devuelveJSON.sendInsert(url_insert, parametrosPost);
+                devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost);
 
                 HashMap<String, String> parametrosPost2 = new HashMap<>();
                 parametrosPost2.put("ins_sql"," delete from administrador where codPeña = "+codPeña);
-                devuelveJSON.sendInsert(url_insert, parametrosPost2);
+                devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost2);
 
                 HashMap<String, String> parametrosPost3 = new HashMap<>();
                 parametrosPost3.put("ins_sql"," delete from componente_peña where codPeña = "+codPeña);
-                devuelveJSON.sendInsert(url_insert, parametrosPost3);
+                devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost3);
 
             } catch (Exception e) {
                 e.printStackTrace();

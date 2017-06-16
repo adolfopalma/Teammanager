@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class Jugadores implements Serializable{
     int id;
     String nombre;
+    String nick;
     String edad;
     String correo;
     String pass;
@@ -17,9 +18,10 @@ public class Jugadores implements Serializable{
 
 
 
-    public Jugadores(int id, String nombre, String edad, String correo, String pass, String tipoJug, String rutaFoto) {
+    public Jugadores(int id, String nombre, String nick, String edad, String correo, String pass, String tipoJug, String rutaFoto) {
         this.id = id;
         this.nombre = nombre;
+        this.nick = nick;
         this.edad = edad;
         this.correo = correo;
         this.pass = pass;
@@ -46,6 +48,13 @@ public class Jugadores implements Serializable{
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 
     public String getEdad() {

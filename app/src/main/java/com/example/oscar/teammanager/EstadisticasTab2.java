@@ -20,6 +20,8 @@ import com.example.oscar.teammanager.Objects.Estadisticas;
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
+import com.example.oscar.teammanager.Utils.GlobalParams;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,8 +37,6 @@ public class EstadisticasTab2 extends Fragment {
     private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
-    private String url_consulta, url_insert;
-    private String IP_Server;
     private Peñas peña;
     private Estadisticas estadisticas2;
     private Jugadores jugadores;
@@ -63,9 +63,6 @@ public class EstadisticasTab2 extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         System.out.println("Estoy en puntoooooooooooooooos");
         lvEstPunt = (ListView)view.findViewById(R.id.lvEstPunt);
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-        url_consulta = IP_Server + "/consulta.php";
-        url_insert = IP_Server + "/prueba.php";
         devuelveJSON = new ClaseConexion();
         arrayListaPuntos = new ArrayList<>();
         arrayPeñas = new ArrayList<>();
@@ -101,7 +98,7 @@ public class EstadisticasTab2 extends Fragment {
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select j.Nombre, e.CodigoJug, e.PartidosJugados, e.PartidosGanados, e.PartidosPerdidos, e.PartidosEmpatados, e.Puntos, e.codPeña from estadisticas e, jugadores j where e.codPeña = 1 and e.CodigoJug = j.Correo ORDER BY Puntos DESC");
 
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
                     return jSONArray;

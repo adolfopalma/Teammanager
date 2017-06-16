@@ -97,6 +97,10 @@
         <activity
             android:name=".EditarEquipo"
             android:label="@string/title_activity_editar_equipo"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".EditarPerfil"
+            android:label="@string/title_activity_editar_perfil"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 

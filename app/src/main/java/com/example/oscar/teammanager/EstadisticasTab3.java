@@ -15,6 +15,8 @@ import android.widget.ListView;
 import com.example.oscar.teammanager.Adaptadores.ListaMultasAdapter;
 import com.example.oscar.teammanager.Objects.Multas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
+import com.example.oscar.teammanager.Utils.GlobalParams;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,8 +33,6 @@ public class EstadisticasTab3 extends Fragment {
     private JSONArray jSONArray3;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject3;
-    private String url_consulta3, url_insert;
-    private String IP_Server;
     private Multas multa;
     private ArrayList<Multas> arrayListaMultas;
     ListView lvEstMult;
@@ -54,8 +54,6 @@ public class EstadisticasTab3 extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         lvEstMult = (ListView)view.findViewById(R.id.lvEst);
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-        url_consulta3 = IP_Server + "/consulta.php";
         devuelveJSON = new ClaseConexion();
         arrayListaMultas = new ArrayList<>();
         new EstadisticasTab3.ConsultaTaskMultas().execute();
@@ -90,7 +88,7 @@ public class EstadisticasTab3 extends Fragment {
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select m.*, j.Nombre from multas m, jugadores j where m.codPeña = 1 and m.CodigoJug = j.Correo");
 
-                jSONArray3 = devuelveJSON.sendRequest(url_consulta3, parametrosPosteriores);
+                jSONArray3 = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray3.length() > 0) {
                     return jSONArray3;

@@ -9,11 +9,4 @@
         android:icon="@drawable/pencil_edit"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/action_borrar"
-        android:orderInCategory="2"
-        android:title="Borrar"
-        android:icon="@drawable/borrar"
-        app:showAsAction="always" />
-
 </menu>

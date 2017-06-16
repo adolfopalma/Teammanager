@@ -52,8 +52,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
-    private String url_consulta;
-    private String IP_Server;
     private Jugadores jugadores;
     private Peñas peña;
     private ArrayList<Peñas> arrayPeñas;
@@ -78,8 +76,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-        url_consulta = IP_Server + "/consulta.php";
         devuelveJSON = new ClaseConexion();
         arrayPeñas = new ArrayList<>();
         arrayJugadores = new ArrayList<>();
@@ -139,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(MainActivity.this, PerfilActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+
             }
         });
 
@@ -197,32 +194,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_administrar) {
             Intent i = new Intent(this, AdministrarActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
+            finish();
+
         }
 
         else if (id == R.id.nav_jugadores) {
-                Intent i = new Intent(this, InvitarJugadorActivity.class);
-                startActivity(i);
+            Intent i = new Intent(this, InvitarJugadorActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
+
         }
 
         else if (id == R.id.nav_estadisticas) {
             Intent i = new Intent(this, EstadisticasActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
+            finish();
         }
 
         else if(id == R.id.nav_peñas){
-                Intent i = new Intent(this, NuevoGrupoActivity.class);
-                i.putExtra("correoUsuario", sp.getString("us_email", correoUsuario));
-                startActivity(i);
+            Intent i = new Intent(this, NuevoGrupoActivity.class);
+            i.putExtra("correoUsuario", sp.getString("us_email", correoUsuario));
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
         }
 
         else if (id == R.id.nav_multas) {
-                Intent i = new Intent(this, MultaActivity.class);
-                startActivity(i);
-
-        } else if (id == R.id.nav_partidos) {
-            Intent i = new Intent(this, PartidosActivity.class);
+            Intent i = new Intent(this, MultaActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
+            finish();
+        }
+
+        else if (id == R.id.nav_partidos) {
+            Intent i = new Intent(this, PartidosActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
         }
 
         else if (id == R.id.nav_info) {
@@ -262,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select * from jugadores where Correo= "+"'"+correoUsuario+"'");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
                     return jSONArray;
@@ -344,7 +356,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select p.*, j.Nombre from peña p, jugadores j where codPeña in (SELECT codPeña FROM componente_peña WHERE CodigoJug = "+"'"+correoUsuario+"') and p.CodAministrador = j.Correo");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
                     return jSONArray;
@@ -445,11 +457,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    /*@Override
-    protected void onResume(){
-        super.onResume();
-        toggle.syncState();
-    }*/
 
     @Override
     protected void onRestart() {

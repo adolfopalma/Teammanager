@@ -1,6 +1,7 @@
 package com.example.oscar.teammanager;
 
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -72,5 +73,12 @@ public class EstadisticasActivity extends AppCompatActivity {
         viewPager.setCurrentItem(tab_activa);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+    }
 
 }

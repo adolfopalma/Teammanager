@@ -2,6 +2,7 @@ package com.example.oscar.teammanager;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.example.oscar.teammanager.Adaptadores.PeñaListAdapter;
 import com.example.oscar.teammanager.Objects.Partidos;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
+import com.example.oscar.teammanager.Utils.GlobalParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,8 +35,6 @@ public class PartidosActivity extends AppCompatActivity {
     private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
-    private String url_consulta;
-    private String IP_Server;
     protected Partidos partido;
     private ArrayList<Partidos> arrayPartidos;
     ListView lvPartido;
@@ -51,8 +51,6 @@ public class PartidosActivity extends AppCompatActivity {
 
         correoUsuario = sp.getString("us_email", correoUsuario);
 
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-        url_consulta = IP_Server + "/consulta.php";
         devuelveJSON = new ClaseConexion();
         arrayPartidos = new ArrayList<>();
 
@@ -81,7 +79,7 @@ public class PartidosActivity extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select p.*, pe.nomPeña, pe.rutaFoto from partido p, peña pe where p.codPeña in (SELECT codPeña FROM componente_peña WHERE CodigoJug = "+"'"+correoUsuario+"'"+") and p.codPeña = pe.codPeña");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
                     return jSONArray;
@@ -131,4 +129,11 @@ public class PartidosActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+    }
 }

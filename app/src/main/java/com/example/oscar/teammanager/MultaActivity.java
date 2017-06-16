@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -50,8 +51,6 @@ public class MultaActivity extends AppCompatActivity {
     private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
-    private String url_consulta, url_insert;;
-    private String IP_Server;
     private Jugadores jugador;
     private Peñas peña;
     private ArrayList<Peñas> arrayPeñas;
@@ -77,9 +76,6 @@ public class MultaActivity extends AppCompatActivity {
 
         user = "soporteteammanager@gmail.com";
         passwd = "TM100517";
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-        url_consulta = IP_Server + "/consulta.php";
-        url_insert = IP_Server + "/prueba.php";
         aceptar = (Button)findViewById(R.id.bAceptar);
         devuelveJSON = new ClaseConexion();
         arrayPeñas = new ArrayList<>();
@@ -279,7 +275,7 @@ public class MultaActivity extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select * from peña where CodAministrador  = "+"'"+correoUsuario+"'");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
                     return jSONArray;
@@ -344,7 +340,7 @@ public class MultaActivity extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select Nombre, Ruta_Foto, Correo from jugadores where Correo in (SELECT CodigoJug FROM componente_peña WHERE CodPeña = "+idPeña+")");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
                     return jSONArray;
@@ -416,7 +412,7 @@ public class MultaActivity extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql","INSERT INTO multas(TipoMulta,Cantidad,CodigoJug,Estado,CodPeña) VALUES ("+"'"+tipoMulta+"'"+","+cantidadMulta+","+"'"+correo+"', 'No pagado', "+idPeña+")");
-                jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost);
+                jsonObject = devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost);
 
                 if(jsonObject != null) {
                     try {
@@ -457,5 +453,12 @@ public class MultaActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+    }
 
 }

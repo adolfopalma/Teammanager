@@ -58,8 +58,6 @@ public class PerfilActivity extends AppCompatActivity {
     private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
-    private String url_consulta, url_insert;
-    private String IP_Server;
     protected Jugadores jugador;
     protected Peñas peña;
     protected Estadisticas estadistica;
@@ -81,9 +79,6 @@ public class PerfilActivity extends AppCompatActivity {
         tb = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(tb);
 
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-        url_consulta = IP_Server + "/consulta.php";
-        url_insert = IP_Server + "/prueba.php";
         devuelveJSON = new ClaseConexion();
         arrayJugadores = new ArrayList<>();
         arrayEstadisticas = new ArrayList<>();
@@ -130,11 +125,16 @@ public class PerfilActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_modificar) {
-
-        }
-
-        else if(id == R.id.action_borrar){
-
+            Intent i = new Intent(PerfilActivity.this, EditarPerfil.class);
+            i.putExtra("correo", correo.getText().toString());
+            i.putExtra("nombre", nombre.getText().toString());
+            i.putExtra("nick", arrayJugadores.get(0).getNick());
+            i.putExtra("edad", arrayJugadores.get(0).getEdad());
+            i.putExtra("tipo", tipo.getText().toString());
+            i.putExtra("foto", arrayJugadores.get(0).getRutaFoto());
+            startActivity(i);
+            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -189,7 +189,7 @@ public class PerfilActivity extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select * from jugadores where Correo = "+"'"+correoUsuario+"'");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
                     return jSONArray;
@@ -215,6 +215,7 @@ public class PerfilActivity extends AppCompatActivity {
                         jsonObject = json.getJSONObject(i);
                         jugador = new Jugadores();
                         jugador.setNombre(jsonObject.getString("Nombre"));
+                        jugador.setNick(jsonObject.getString("Nick"));
                         jugador.setEdad(jsonObject.getString("Edad"));
                         jugador.setCorreo(jsonObject.getString("Correo"));
                         jugador.setTipoJug(jsonObject.getString("TipoJugador"));
@@ -230,10 +231,13 @@ public class PerfilActivity extends AppCompatActivity {
                 edad.setText(String.valueOf(año));
                 correo.setText(arrayJugadores.get(0).getCorreo());
                 tipo.setText(arrayJugadores.get(0).getTipoJug());
-                if(arrayJugadores.get(0).getRutaFoto() != null) {
+                if(arrayJugadores.get(0).getRutaFoto().equals("null")){
+                    foto.setImageResource(R.drawable.perfil);
+                }else {
                     result = decodeBase64(arrayJugadores.get(0).getRutaFoto());
                     foto.setImageBitmap(result);
                 }
+
 
 
             } else {
@@ -260,13 +264,10 @@ public class PerfilActivity extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select sum(Goles),sum(TarjetaAmarilla),sum(TarjetaRoja) from estadisticas where CodigoJug = "+"'"+correoUsuario+"'");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
                     return jSONArray;
-                }else{
-                    System.out.println("Error al obtener datos JSON");
-                    //Snackbar.make(findViewById(android.R.id.content), "Error de conexion ", Snackbar.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -317,7 +318,7 @@ public class PerfilActivity extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","SELECT c.CodPeña , p.nomPeña, p.rutaFoto FROM peña p, componente_peña c WHERE c.CodigoJug = "+"'"+correoUsuario+"' and c.CodPeña = p.codPeña");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
                     return jSONArray;
@@ -376,7 +377,7 @@ public class PerfilActivity extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPostJugados = new HashMap<>();
                 parametrosPostJugados.put("ins_sql", "UPDATE jugadores SET Nombre = , Edad = , Correo = , Pass = ,TipoJugador = , Ruta_Foto =  WHERE (Correo = "+correoUsuario+")");
-                devuelveJSON.sendRequest(url_insert, parametrosPostJugados);
+                devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPostJugados);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -396,5 +397,18 @@ public class PerfilActivity extends AppCompatActivity {
         protected void onCancelled() {
             pDialog.dismiss();
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 }

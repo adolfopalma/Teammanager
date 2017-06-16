@@ -66,4 +66,12 @@ public class AdministrarActivity extends AppCompatActivity {
         }
     }*/
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+    }
+
 }

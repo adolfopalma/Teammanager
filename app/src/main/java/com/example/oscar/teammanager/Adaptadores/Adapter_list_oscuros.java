@@ -172,7 +172,7 @@ public class Adapter_list_oscuros extends BaseAdapter{
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql"," UPDATE estadisticas SET TarjetaAmarilla = TarjetaAmarilla+1 WHERE CodigoJug = "+"'"+correo+"' and codPeña = "+GlobalParams.codPeña);
-                devuelveJSON.sendRequest(url_insert, parametrosPosteriores);
+                devuelveJSON.sendInsert(url_insert, parametrosPosteriores);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -190,7 +190,7 @@ public class Adapter_list_oscuros extends BaseAdapter{
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql"," UPDATE estadisticas SET TarjetaRoja = TarjetaRoja+1 WHERE CodigoJug = "+"'"+correo+"' and codPeña = "+GlobalParams.codPeña);
-                devuelveJSON.sendRequest(url_insert, parametrosPosteriores);
+                devuelveJSON.sendInsert(url_insert, parametrosPosteriores);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -208,7 +208,7 @@ public class Adapter_list_oscuros extends BaseAdapter{
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql"," UPDATE estadisticas SET Goles = Goles+1 WHERE CodigoJug = "+"'"+correo+"' and codPeña = "+GlobalParams.codPeña);
-                devuelveJSON.sendRequest(url_insert, parametrosPosteriores);
+                devuelveJSON.sendInsert(url_insert, parametrosPosteriores);
 
             } catch (Exception e) {
                 e.printStackTrace();

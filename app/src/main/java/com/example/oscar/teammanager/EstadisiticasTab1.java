@@ -13,6 +13,8 @@ import android.widget.ListView;
 import com.example.oscar.teammanager.Adaptadores.ListaGolesAdapter;
 import com.example.oscar.teammanager.Objects.Estadisticas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
+import com.example.oscar.teammanager.Utils.GlobalParams;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,8 +27,6 @@ public class EstadisiticasTab1 extends Fragment {
     private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
-    private String url_consulta, url_insert;
-    private String IP_Server;
     private Estadisticas estadisticas;
     private ArrayList<Estadisticas> arrayListaEstadisticas;
     ListView lvEst;
@@ -50,9 +50,6 @@ public class EstadisiticasTab1 extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         System.out.println("Estoy en goleeeeeeeeeeeeeeeeeeeeeeeeeeeees");
         lvEst = (ListView)view.findViewById(R.id.lvEst);
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-        url_consulta = IP_Server + "/consulta.php";
-        url_insert = IP_Server + "/prueba.php";
         devuelveJSON = new ClaseConexion();
         arrayListaEstadisticas = new ArrayList<>();
         new EstadisiticasTab1.ConsultaTaskGoles().execute();
@@ -87,7 +84,7 @@ public class EstadisiticasTab1 extends Fragment {
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select j.Nombre, e.CodigoJug, e.Goles, e.TarjetaAmarilla, e.TarjetaRoja, e.codPeña from estadisticas e, jugadores j where e.codPeña = 1 and e.CodigoJug = j.Correo ORDER BY Goles DESC");
 
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
                     return jSONArray;

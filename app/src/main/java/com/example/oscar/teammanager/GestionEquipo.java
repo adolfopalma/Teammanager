@@ -47,8 +47,6 @@ public class GestionEquipo extends AppCompatActivity {
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
     private Bundle datos;
-    private String url_consulta, url_insert;
-    private String IP_Server;
     private Peñas peña;
     private Jugadores jugador;
     private  int color;
@@ -87,9 +85,6 @@ public class GestionEquipo extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         datos = getIntent().getExtras();
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-        url_consulta = IP_Server + "/consulta.php";
-        url_insert = IP_Server + "/prueba.php";
         devuelveJSON = new ClaseConexion();
         arrayPeñas = new ArrayList<>();
         arrayListaJugadores = new ArrayList<>();
@@ -259,7 +254,7 @@ public class GestionEquipo extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select * from peña where codPeña = "+id);
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
                     return jSONArray;
@@ -340,7 +335,7 @@ public class GestionEquipo extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select Nombre, Ruta_Foto, Correo, TipoJugador from jugadores where Correo in (SELECT CodigoJug FROM componente_peña WHERE CodPeña = "+id+")");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
                     return jSONArray;
@@ -417,7 +412,7 @@ public class GestionEquipo extends AppCompatActivity {
             try {
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select Correo from jugadores");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray != null) {
                     for (int i = 0; i < jSONArray.length(); i++) {
@@ -442,11 +437,11 @@ public class GestionEquipo extends AppCompatActivity {
 
                     HashMap<String, String> parametrosPost = new HashMap<>();
                     parametrosPost.put("ins_sql", "INSERT INTO componente_peña(CodigoJug, CodPeña) VALUES (" + "'" + correo + "'" + "," + "'" + id + "')");
-                    jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost);
+                    jsonObject = devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost);
 
                     HashMap<String, String> parametrosPost2 = new HashMap<>();
                     parametrosPost2.put("ins_sql", "INSERT INTO estadisticas(CodigoJug, Goles, TarjetaAmarilla, TarjetaRoja, CodPeña, PartidosJugados, PartidosGanados, PartidosPerdidos, PartidosEmpatados, Puntos) VALUES (" + "'" + correo + "'" + ",0,0,0," +id+",0,0,0,0,0);");
-                    devuelveJSON.sendInsert(url_insert, parametrosPost2);
+                    devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost2);
 
                     if(jsonObject != null) {
                         switch (jsonObject.getInt("added")) {
@@ -492,7 +487,6 @@ public class GestionEquipo extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
         finish();
         Intent i = new Intent(GestionEquipo.this, MainActivity.class);
         startActivity(i);

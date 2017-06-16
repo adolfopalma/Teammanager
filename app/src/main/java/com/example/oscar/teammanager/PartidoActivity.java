@@ -66,7 +66,6 @@ public class PartidoActivity extends AppCompatActivity {
     private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
-    private String url_consulta, url_insert,IP_Server;
     private Jugadores jugador;
     protected ListView lvOscuro, lvClaro, lv;
     protected TextView tvMarcadorClaro, tvMarcadorOscuro,tv1;
@@ -119,9 +118,6 @@ public class PartidoActivity extends AppCompatActivity {
         sp = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         editor = sp.edit();
         correoUsuario = sp.getString("us_email", correoUsuario);
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-        url_consulta = IP_Server + "/consulta.php";
-        url_insert = IP_Server + "/prueba.php";
         devuelveJSON = new ClaseConexion();
         tempList = new ArrayList<Jugadores>();
         tv1 = (TextView) findViewById(R.id.tv1);
@@ -678,7 +674,7 @@ public class PartidoActivity extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select * from jugadores where Correo in (SELECT CodigoJug FROM componente_peña WHERE CodPeña = "+GlobalParams.codPeña+")");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
                     return jSONArray;
@@ -757,7 +753,7 @@ public class PartidoActivity extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select * from peña where CodAministrador = "+"'"+correoUsuario+"'");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
                     return jSONArray;
@@ -812,7 +808,7 @@ public class PartidoActivity extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql","INSERT INTO partido(CodPeña,fechaPartido,resultado,ganador) VALUES ("+GlobalParams.codPeña+","+"'"+fecha+"'"+","+"'"+resultado+"'"+","+"'"+ganador+"')");
-                jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost);
+                jsonObject = devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost);
 
                 if(jsonObject != null) {
                     switch (jsonObject.getInt("added")){
@@ -855,25 +851,25 @@ public class PartidoActivity extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPostJugados = new HashMap<>();
                 parametrosPostJugados.put("ins_sql", "UPDATE estadisticas SET PartidosJugados = PartidosJugados+1  WHERE (codPeña = "+GlobalParams.codPeña+") and ("+ compuestoJugados + ")");
-                devuelveJSON.sendRequest(url_insert, parametrosPostJugados);
+                devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPostJugados);
 
                 if(listaIdsGanadores != null) {
                     HashMap<String, String> parametrosPostVict = new HashMap<>();
                     parametrosPostVict.put("ins_sql", "UPDATE estadisticas SET PartidosGanados = PartidosGanados+1, Puntos = Puntos+3  WHERE (codPeña = "+GlobalParams.codPeña+") and ("+ compuestoGanadores + ")");
-                    devuelveJSON.sendRequest(url_insert, parametrosPostVict);
+                    devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPostVict);
                 }
 
                 if(listaIdsPerdedores != null) {
                     HashMap<String, String> parametrosPostPerd = new HashMap<>();
                     parametrosPostPerd.put("ins_sql","UPDATE estadisticas SET PartidosPerdidos = PartidosPerdidos+1  WHERE (codPeña = "+GlobalParams.codPeña+") and ("+ compuestoPerdedores + ")");
-                    devuelveJSON.sendRequest(url_insert, parametrosPostPerd);
+                    devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPostPerd);
                 }
 
                 if(listaIdsEmpate != null) {
 
                     HashMap<String, String> parametrosPostEmpt = new HashMap<>();
                     parametrosPostEmpt.put("ins_sql", "UPDATE estadisticas SET PartidosEmpatados = PartidosEmpatados+1, Puntos = Puntos+1  WHERE (codPeña = "+GlobalParams.codPeña+") and ("+ compuestoEmpate + ")");
-                    devuelveJSON.sendRequest(url_insert, parametrosPostEmpt);
+                    devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPostEmpt);
                 }
 
 

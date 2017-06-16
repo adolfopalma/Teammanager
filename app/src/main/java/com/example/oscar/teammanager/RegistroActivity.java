@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
+import com.example.oscar.teammanager.Utils.GlobalParams;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,8 +47,6 @@ public class RegistroActivity extends AppCompatActivity {
     protected EditText ednombre,edcorreo,edcontraseña,ededad,edNick;
     protected ImageView foto;
     protected String encodedImageData;
-    private String IP_Server;
-    private String url_consulta, url_insert;
     private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
@@ -74,12 +74,9 @@ public class RegistroActivity extends AppCompatActivity {
         ededad = (EditText)findViewById(R.id.edEdad);
         edNick = (EditText)findViewById(R.id.edNick);
         ednombre = (EditText)findViewById(R.id.edNombre);
-        foto =(CircleImageView) findViewById(R.id.ivFotoPeña);
+        foto =(CircleImageView) findViewById(R.id.ivFoto);
         SimpleDateFormat sdf = new SimpleDateFormat("hh-mm-dd-MM-yyyy");
         hora = sdf.format(new Date());
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-        url_insert = IP_Server + "/prueba.php";
-        url_consulta = IP_Server + "/consulta.php";
         devuelveJSON = new ClaseConexion();
         foto.setImageResource(R.drawable.foto);
 
@@ -244,7 +241,7 @@ public class RegistroActivity extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select Correo from jugadores");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 ArrayList listaCorreos = new ArrayList();
 
@@ -264,7 +261,7 @@ public class RegistroActivity extends AppCompatActivity {
                 }else{
                     HashMap<String, String> parametrosPost = new HashMap<>();
                     parametrosPost.put("ins_sql","INSERT INTO jugadores(Nombre,Edad,Correo,Pass,TipoJugador,Ruta_Foto,Nick) VALUES ("+"'"+nombre+"'"+","+"'"+edad+"'"+","+"'"+correo+"'"+","+"'"+pass+"'"+","+"'"+tipoJugador+"'"+","+"'"+rutaFoto+"','"+nick+"')");
-                    jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost);
+                    jsonObject = devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost);
 
                     if(jsonObject != null) {
                         switch (jsonObject.getInt("added")){

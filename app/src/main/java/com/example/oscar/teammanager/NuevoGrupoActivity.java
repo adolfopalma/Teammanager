@@ -35,6 +35,7 @@ import android.widget.TimePicker;
 
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
+import com.example.oscar.teammanager.Utils.GlobalParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,8 +66,7 @@ public class NuevoGrupoActivity extends AppCompatActivity{
     private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
-    private String IP_Server;
-    private String url_consulta, url_insert,correoUsuario;
+    private String correoUsuario;
     private Peñas peña;
     private ArrayList<Peñas> listaPeñas;
     private ProgressDialog pDialog;
@@ -93,9 +93,6 @@ public class NuevoGrupoActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
         sp = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         editor = sp.edit();
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-        url_insert = IP_Server + "/prueba.php";
-        url_consulta = IP_Server + "/consulta.php";
         devuelveJSON = new ClaseConexion();
         foto =(ImageView) findViewById(R.id.peña_img);
         SimpleDateFormat sdf = new SimpleDateFormat("hh-mm-dd-MM-yyyy");
@@ -250,7 +247,7 @@ public class NuevoGrupoActivity extends AppCompatActivity{
             try {
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql","select CodAministrador, nomPeña from peña where nomPeña= "+"'"+nombre+"'"+" and "+"CodAministrador= "+"'"+correoUsuario+"'");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPosteriores);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
 
                 if(jSONArray.length() == 0)
@@ -302,7 +299,7 @@ public class NuevoGrupoActivity extends AppCompatActivity{
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "INSERT INTO peña(nomPeña,CodAministrador,fechaCreacion,diaEvento,horaEvento,rutaFoto) VALUES (" + "'" + nombre + "'" + "," + "'" + correoUsuario + "'" + "," + "'" + horaRuta + "'" + "," + "'" + dia + "'" + "," + "'" + hora + "'" + "," + "'" + rutaFoto + "')");
-                jsonObject = devuelveJSON.sendInsert(url_insert, parametrosPost);
+                jsonObject = devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -364,7 +361,7 @@ public class NuevoGrupoActivity extends AppCompatActivity{
 
                 HashMap<String, String> parametrosPost2 = new HashMap<>();
                 parametrosPost2.put("ins_sql","select * from peña where nomPeña= "+"'"+nombre+"'"+" and "+"CodAministrador= "+"'"+correoUsuario+"'");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPost2);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPost2);
 
                 if (jSONArray != null) {
 
@@ -389,17 +386,17 @@ public class NuevoGrupoActivity extends AppCompatActivity{
                         //inserto en tabla componentes el usuario y la peña
                         HashMap<String, String> parametrosPost = new HashMap<>();
                         parametrosPost.put("ins_sql","INSERT INTO componente_peña(CodigoJug, CodPeña) VALUES (" + "'" + correoUsuario + "'" + "," + cod + ")");
-                        devuelveJSON.sendInsert(url_insert, parametrosPost);
+                        devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost);
 
                         //inserto en la tabla administrador el administrador y peña
                         HashMap<String, String> parametrosPost3 = new HashMap<>();
                         parametrosPost3.put("ins_sql", "INSERT INTO administrador(CodAdministrador, CodPeña) VALUES (" + "'" + correoUsuario + "'" + "," + cod + ")");
-                        devuelveJSON.sendInsert(url_insert, parametrosPost3);
+                        devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost3);
 
                         //inserto en la tabla administrador el administrador y peña
                         HashMap<String, String> parametrosPost4 = new HashMap<>();
                         parametrosPost4.put("ins_sql", "INSERT INTO estadisticas(CodigoJug, Goles, TarjetaAmarilla, TarjetaRoja, CodPeña, PartidosJugados, PartidosGanados, PartidosPerdidos, PartidosEmpatados, Puntos) VALUES (" + "'"+correoUsuario+"'"+ ",0,0,0," +cod+",0,0,0,0,0);");
-                        devuelveJSON.sendInsert(url_insert, parametrosPost4);
+                        devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost4);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -413,6 +410,14 @@ public class NuevoGrupoActivity extends AppCompatActivity{
             return null;
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 
 }

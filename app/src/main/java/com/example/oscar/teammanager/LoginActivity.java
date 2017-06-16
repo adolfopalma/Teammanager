@@ -16,6 +16,7 @@ import android.widget.EditText;
 
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
+import com.example.oscar.teammanager.Utils.GlobalParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,8 +29,6 @@ public class LoginActivity extends AppCompatActivity{
     //Declaro variables
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    private String IP_Server;
-    private String url_consulta;
     private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
@@ -50,8 +49,6 @@ public class LoginActivity extends AppCompatActivity{
         //Inicializo variables
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-        url_consulta = IP_Server + "/consulta.php";
         devuelveJSON = new ClaseConexion();
         arrayJugadores = new ArrayList<>();
         alert = new AlertDialog.Builder(this);
@@ -127,10 +124,11 @@ public class LoginActivity extends AppCompatActivity{
             try {
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql","select * from jugadores");
-                jSONArray = devuelveJSON.sendRequest(url_consulta, parametrosPost);
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPost);
                 if (jSONArray.length() > 0) {
                     return jSONArray;
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -152,14 +150,15 @@ public class LoginActivity extends AppCompatActivity{
                         jugadores.setCorreo(jsonObject.getString("Correo"));
                         jugadores.setPass(jsonObject.getString("Pass"));
                         arrayJugadores.add(jugadores);
-                        compruebaUsuario(mEmail.toString(),mPassword.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
 
-            } else {
-                Snackbar.make(findViewById(android.R.id.content), "Este usuario aún no esta registrado.", Snackbar.LENGTH_LONG).show();
+                compruebaUsuario(mEmail.toString(), mPassword.toString());
+            }else{
+                Snackbar.make(findViewById(android.R.id.content), "Problema de conexion con el servidor.", Snackbar.LENGTH_LONG).show();
+
             }
 
         }
