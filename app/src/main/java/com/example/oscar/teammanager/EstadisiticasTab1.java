@@ -30,6 +30,7 @@ public class EstadisiticasTab1 extends Fragment {
     private Estadisticas estadisticas;
     private ArrayList<Estadisticas> arrayListaEstadisticas;
     ListView lvEst;
+    protected int idPeña;
 
 
     public EstadisiticasTab1() {
@@ -39,16 +40,11 @@ public class EstadisiticasTab1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        System.out.println("Estoy en goleeeeeeeeeeeeeeeeeeeeeeeeeeeees");
         lvEst = (ListView)view.findViewById(R.id.lvEst);
         devuelveJSON = new ClaseConexion();
         arrayListaEstadisticas = new ArrayList<>();
@@ -59,7 +55,7 @@ public class EstadisiticasTab1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        idPeña = getArguments().getInt("id");
         return inflater.inflate(R.layout.layout_estadisticas1, container, false);
 
     }
@@ -67,6 +63,7 @@ public class EstadisiticasTab1 extends Fragment {
     //Creamos asynctask para obtener los datos
     class ConsultaTaskGoles extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
+
 
         @Override
         protected void onPreExecute() {
@@ -82,7 +79,7 @@ public class EstadisiticasTab1 extends Fragment {
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql","select j.Nombre, e.CodigoJug, e.Goles, e.TarjetaAmarilla, e.TarjetaRoja, e.codPeña from estadisticas e, jugadores j where e.codPeña = 1 and e.CodigoJug = j.Correo ORDER BY Goles DESC");
+                parametrosPosteriores.put("ins_sql","select j.Nombre, e.CodigoJug, e.Goles, e.TarjetaAmarilla, e.TarjetaRoja, e.codPeña from estadisticas e, jugadores j where e.codPeña = "+idPeña+" and e.CodigoJug = j.Correo ORDER BY Goles DESC");
 
                 jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 

@@ -43,6 +43,7 @@ public class EstadisticasTab2 extends Fragment {
     private ArrayList<Peñas> arrayPeñas;
     private ArrayList<Estadisticas> arrayListaPuntos;
     protected ListView lvEstPunt;
+    protected int idPeña;
 
 
     public EstadisticasTab2() {
@@ -53,15 +54,11 @@ public class EstadisticasTab2 extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        System.out.println("Estoy en puntoooooooooooooooos");
         lvEstPunt = (ListView)view.findViewById(R.id.lvEstPunt);
         devuelveJSON = new ClaseConexion();
         arrayListaPuntos = new ArrayList<>();
@@ -73,7 +70,7 @@ public class EstadisticasTab2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        idPeña = getArguments().getInt("id");
         return inflater.inflate(R.layout.layout_estadisticas2, container, false);
 
     }
@@ -96,7 +93,7 @@ public class EstadisticasTab2 extends Fragment {
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql","select j.Nombre, e.CodigoJug, e.PartidosJugados, e.PartidosGanados, e.PartidosPerdidos, e.PartidosEmpatados, e.Puntos, e.codPeña from estadisticas e, jugadores j where e.codPeña = 1 and e.CodigoJug = j.Correo ORDER BY Puntos DESC");
+                parametrosPosteriores.put("ins_sql","select j.Nombre, e.CodigoJug, e.PartidosJugados, e.PartidosGanados, e.PartidosPerdidos, e.PartidosEmpatados, e.Puntos, e.codPeña from estadisticas e, jugadores j where e.codPeña = "+idPeña+" and e.CodigoJug = j.Correo ORDER BY Puntos DESC");
 
                 jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 

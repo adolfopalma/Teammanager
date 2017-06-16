@@ -194,47 +194,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_administrar) {
             Intent i = new Intent(this, AdministrarActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
-            finish();
-
         }
 
         else if (id == R.id.nav_jugadores) {
             Intent i = new Intent(this, InvitarJugadorActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
-            finish();
-
         }
 
         else if (id == R.id.nav_estadisticas) {
             Intent i = new Intent(this, EstadisticasActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
-            finish();
         }
 
         else if(id == R.id.nav_peñas){
             Intent i = new Intent(this, NuevoGrupoActivity.class);
             i.putExtra("correoUsuario", sp.getString("us_email", correoUsuario));
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
-            finish();
         }
 
         else if (id == R.id.nav_multas) {
             Intent i = new Intent(this, MultaActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
-            finish();
         }
 
         else if (id == R.id.nav_partidos) {
             Intent i = new Intent(this, PartidosActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
-            finish();
         }
 
         else if (id == R.id.nav_info) {

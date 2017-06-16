@@ -1,13 +1,37 @@
 package com.example.oscar.teammanager;
 
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+
 import com.example.oscar.teammanager.Adaptadores.EstadisticasAdapter;
+import com.example.oscar.teammanager.Objects.Estadisticas;
+import com.example.oscar.teammanager.Objects.Peñas;
+import com.example.oscar.teammanager.Utils.ClaseConexion;
+import com.example.oscar.teammanager.Utils.GlobalParams;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class EstadisticasActivity extends AppCompatActivity {
 
@@ -16,8 +40,18 @@ public class EstadisticasActivity extends AppCompatActivity {
     protected TabLayout tabs;
     protected int tab_activa;
     protected Bundle bundle;
-
-
+    protected Dialog dialog;
+    protected Spinner spinner;
+    protected Button bDialogAcept;
+    protected int idPeña;
+    protected String nomPeña, correoUsuario;
+    public static SharedPreferences sp;
+    public static SharedPreferences.Editor editor;
+    private JSONArray jSONArray;
+    private ClaseConexion devuelveJSON;
+    private JSONObject jsonObject;
+    private Peñas peña;
+    private ArrayList<Peñas> arrayPeñas;
 
 
     @Override
@@ -36,9 +70,16 @@ public class EstadisticasActivity extends AppCompatActivity {
         setSupportActionBar(tbt);
         //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        sp = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+        editor = sp.edit();
+
+        correoUsuario = sp.getString("us_email", correoUsuario);
 
         vp = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(vp);
+
+        devuelveJSON = new ClaseConexion();
+        arrayPeñas = new ArrayList<>();
 
         //añadimos tabs
         tabs = (TabLayout) findViewById(R.id.tabs);
@@ -47,30 +88,132 @@ public class EstadisticasActivity extends AppCompatActivity {
         tabs.setSelectedTabIndicatorColor(getResources().getColor(R.color.DeepSkyBlue));
         tabs.setSelectedTabIndicatorHeight(15);
 
+        ConsultEquipTask task= new ConsultEquipTask();
+        task.execute();
 
 
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        EstadisticasAdapter adapter = new EstadisticasAdapter(getSupportFragmentManager());
+    private void setupViewPager(final ViewPager viewPager) {
+        final EstadisticasAdapter adapter = new EstadisticasAdapter(getSupportFragmentManager());
+
+        //Creacion dialog de filtrado
+        dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_list_equipo);
+        dialog.setCancelable(false);
+
+        spinner = (Spinner) dialog.findViewById(R.id.spinner);
+        bDialogAcept = (Button)dialog.findViewById(R.id.bAceptar);
 
 
-        //Creamos los fragment
-        EstadisiticasTab1 pt1 = new EstadisiticasTab1();
+        //Accion de boton guardar filtrado
+        dialog.findViewById(R.id.bAceptar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                idPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
+                nomPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getNombre();
 
-        EstadisticasTab2 pt2 = new EstadisticasTab2();
+                //Enviamos datos
+                bundle=new Bundle();
+                bundle.putInt("id",idPeña);
 
-        EstadisticasTab3 pt3 = new EstadisticasTab3();
+                //Creamos los fragment
+                final EstadisiticasTab1 pt1 = new EstadisiticasTab1();
+                pt1.setArguments(bundle);
+                final EstadisticasTab2 pt2 = new EstadisticasTab2();
+                pt2.setArguments(bundle);
+                final EstadisticasTab3 pt3 = new EstadisticasTab3();
+                pt3.setArguments(bundle);
+
+                //Cargamos los fragment
+                adapter.addFragment(pt1, "Goleadores");
+                adapter.addFragment(pt2, "Puntuaciones");
+                adapter.addFragment(pt3, "Multas");
+                viewPager.setAdapter(adapter);
+
+                viewPager.setCurrentItem(tab_activa);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
 
 
+    public void rellenaEspinersPeña(){
+        List<String> list = new ArrayList<String>();
+        for (int i = 0; i <arrayPeñas.size() ; i++) {
+            list.add(arrayPeñas.get(i).getNombre().toString());
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(EstadisticasActivity.this, R.layout.spinner_plegado, list);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_desplegado);
+        spinner.setAdapter(dataAdapter);
+    }
 
-        //Cargamos los fragment
-        adapter.addFragment(pt1, "Goleadores");
-        adapter.addFragment(pt2, "Puntuaciones");
-        adapter.addFragment(pt3, "Multas");
-        viewPager.setAdapter(adapter);
+    class ConsultEquipTask extends AsyncTask<String, String, JSONArray> {
+        private ProgressDialog pDialog;
 
-        viewPager.setCurrentItem(tab_activa);
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(EstadisticasActivity.this);
+            pDialog.setMessage("Cargando...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONArray doInBackground(String... args) {
+            try {
+
+                HashMap<String, String> parametrosPosteriores = new HashMap<>();
+                parametrosPosteriores.put("ins_sql","select * from peña where CodAministrador  = "+"'"+correoUsuario+"'");
+                jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
+
+                if (jSONArray.length() > 0) {
+                    return jSONArray;
+                }else{
+                    System.out.println("Error al obtener datos JSON");
+                    Snackbar.make(findViewById(android.R.id.content), "Error de conexion", Snackbar.LENGTH_LONG).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(JSONArray json) {
+            if (pDialog != null && pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+
+            if (json != null) {
+                for (int i = 0; i < json.length(); i++) {
+                    try {
+                        jsonObject = json.getJSONObject(i);
+                        peña = new Peñas();
+                        peña.setId(jsonObject.getInt("codPeña"));
+                        peña.setNombre(jsonObject.getString("nomPeña"));
+                        peña.setId(jsonObject.getInt("codPeña"));
+                        arrayPeñas.add(peña);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                rellenaEspinersPeña();
+            } else {
+
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            pDialog.dismiss();
+        }
     }
 
     @Override

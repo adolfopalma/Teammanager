@@ -457,7 +457,7 @@ public class MultaActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(MultaActivity.this, MainActivity.class);
         startActivity(i);
     }
 

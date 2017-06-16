@@ -36,6 +36,7 @@ public class EstadisticasTab3 extends Fragment {
     private Multas multa;
     private ArrayList<Multas> arrayListaMultas;
     ListView lvEstMult;
+    protected int idPeña;
 
 
     public EstadisticasTab3() {
@@ -45,8 +46,6 @@ public class EstadisticasTab3 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
     }
 
@@ -63,7 +62,7 @@ public class EstadisticasTab3 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        idPeña = getArguments().getInt("id");
         return inflater.inflate(R.layout.layout_estadisticas3, container, false);
 
     }
@@ -86,7 +85,7 @@ public class EstadisticasTab3 extends Fragment {
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql","select m.*, j.Nombre from multas m, jugadores j where m.codPeña = 1 and m.CodigoJug = j.Correo");
+                parametrosPosteriores.put("ins_sql","select m.*, j.Nombre from multas m, jugadores j where m.codPeña = "+idPeña+" and m.CodigoJug = j.Correo");
 
                 jSONArray3 = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
