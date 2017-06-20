@@ -26,12 +26,19 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.example.oscar.teammanager.Adaptadores.GestionListAdapter;
+import com.example.oscar.teammanager.Adaptadores.PeñaListAdapter;
+import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
 
@@ -51,7 +58,9 @@ public class EditarEquipo extends AppCompatActivity {
 
     protected Bundle extras;
     protected EditText nombreEquipo;
-    protected TextView horaPartido;
+    protected Button gestionar;
+    protected ListView lv;
+    protected TextView horaPartido,tvInfo;
     protected ImageView fotoEquipo;
     private  int color;
     private Paint paint;
@@ -72,6 +81,8 @@ public class EditarEquipo extends AppCompatActivity {
     private JSONObject jsonObject;
     protected String fot;
     protected int codPeña;
+    protected ArrayList<Jugadores> jugadores;
+    protected String CodUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +92,14 @@ public class EditarEquipo extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         devuelveJSON = new ClaseConexion();
+        jugadores = new ArrayList<>();
         nombreEquipo = (EditText)findViewById(R.id.nom_peña);
         horaPartido = (TextView)findViewById(R.id.peña_hora);
         fotoEquipo = (ImageView) findViewById(R.id.peña_img);
         spinner = (Spinner)findViewById(R.id.spinner4);
+        gestionar = (Button)findViewById(R.id.bGestionar);
+        lv = (ListView)findViewById(R.id.lv_gestion);
+        tvInfo = (TextView)findViewById(R.id.tvInfo);
 
 
         extras = getIntent().getExtras();
@@ -92,6 +107,7 @@ public class EditarEquipo extends AppCompatActivity {
         String nombre = extras.getString("nombre");
         String dia = extras.getString("dia");
         String hora = extras.getString("hora");
+        final String administrador = extras.getString("administrador");
         foto = (Bitmap) extras.get("foto");
 
         nombreEquipo.setText(nombre);
@@ -130,8 +146,43 @@ public class EditarEquipo extends AppCompatActivity {
                 break;
         }
 
+        jugadores = GlobalParams.listaJugadores;
+        lv.setAdapter(new GestionListAdapter(EditarEquipo.this, jugadores));
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
+
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+                CodUsuario = jugadores.get(pos).getCorreo().toString();
+
+                if(jugadores.get(pos).getCorreo().equals(administrador)){
+                    final AlertDialog.Builder builderc = new AlertDialog.Builder(EditarEquipo.this);
+                    builderc.setMessage("El jugador seleccionado es el administrador de este equipo, no se puede eliminar. Para cambiar de administrador desde el menu administrar podrá gestionarlo");
+                    builderc.setPositiveButton(getResources().getString(R.string.acept),
+                            new DialogInterface.OnClickListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                                public void onClick(DialogInterface dialog, int which) {
+                                    builderc.setCancelable(true);
+                                }
+                            });
+                    builderc.create();
+                    builderc.show();
+                }else {
+                    jugadores.remove(pos);
+                    lv.setAdapter(new GestionListAdapter(EditarEquipo.this, jugadores));
+                    BorrarComponentTask task = new BorrarComponentTask();
+                    task.execute();
+                }
+
+                if(jugadores.size() < 0){
+                    lv.setVisibility(View.GONE);
+                    tvInfo.setText("No hay componentes");
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -177,6 +228,12 @@ public class EditarEquipo extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onClick(View v){
+        gestionar.setVisibility(View.GONE);
+        tvInfo.setText("Componentes");
+        lv.setVisibility(View.VISIBLE);
     }
 
     //Metodo para seleccionar foto desde galeria
@@ -391,6 +448,50 @@ public class EditarEquipo extends AppCompatActivity {
                 HashMap<String, String> parametrosPost3 = new HashMap<>();
                 parametrosPost3.put("ins_sql"," delete from componente_peña where codPeña = "+codPeña);
                 devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost3);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(JSONArray json) {
+            if (pDialog != null && pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            Snackbar.make(findViewById(android.R.id.content), "Error.", Snackbar.LENGTH_LONG).show();
+
+        }
+    }
+
+    class BorrarComponentTask extends AsyncTask<String, String, JSONArray> {
+        private ProgressDialog pDialog;
+
+
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(EditarEquipo.this);
+            pDialog.setMessage("Borrando...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONArray doInBackground(String... args) {
+            try {
+
+                HashMap<String, String> parametrosPost = new HashMap<>();
+                parametrosPost.put("ins_sql"," delete from componente_peña where CodigoJug = "+"'"+CodUsuario+"' and CodPeña = "+codPeña);
+                devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost);
+
 
             } catch (Exception e) {
                 e.printStackTrace();

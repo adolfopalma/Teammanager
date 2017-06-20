@@ -1,12 +1,16 @@
 package com.example.oscar.teammanager;
 
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -17,7 +21,9 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.oscar.teammanager.Adaptadores.EstadisticasAdapter;
 import com.example.oscar.teammanager.Objects.Estadisticas;
@@ -52,6 +58,8 @@ public class EstadisticasActivity extends AppCompatActivity {
     private JSONObject jsonObject;
     private Peñas peña;
     private ArrayList<Peñas> arrayPeñas;
+    protected TextView tvTitulo, tvInfoDialog;
+    protected LinearLayout ln;
 
 
     @Override
@@ -75,11 +83,14 @@ public class EstadisticasActivity extends AppCompatActivity {
 
         correoUsuario = sp.getString("us_email", correoUsuario);
 
-        vp = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(vp);
-
         devuelveJSON = new ClaseConexion();
         arrayPeñas = new ArrayList<>();
+
+        ConsultEquipTask task= new ConsultEquipTask();
+        task.execute();
+
+        vp = (ViewPager) findViewById(R.id.viewpager);
+
 
         //añadimos tabs
         tabs = (TabLayout) findViewById(R.id.tabs);
@@ -88,56 +99,63 @@ public class EstadisticasActivity extends AppCompatActivity {
         tabs.setSelectedTabIndicatorColor(getResources().getColor(R.color.DeepSkyBlue));
         tabs.setSelectedTabIndicatorHeight(15);
 
-        ConsultEquipTask task= new ConsultEquipTask();
-        task.execute();
-
-
     }
 
     private void setupViewPager(final ViewPager viewPager) {
-        final EstadisticasAdapter adapter = new EstadisticasAdapter(getSupportFragmentManager());
 
-        //Creacion dialog de filtrado
-        dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.layout_list_equipo);
-        dialog.setCancelable(false);
+            //Creacion dialog de filtrado
+            dialog = new Dialog(this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.layout_list_equipo);
+            dialog.setCancelable(false);
 
-        spinner = (Spinner) dialog.findViewById(R.id.spinner);
-        bDialogAcept = (Button)dialog.findViewById(R.id.bAceptar);
+            tvInfoDialog = (TextView)dialog.findViewById(R.id.tvInfoDialog);
+            //tvInfoDialog.setText("Equipos");
+            tvTitulo = (TextView)dialog.findViewById(R.id.tvTitulo);
+            tvTitulo.setVisibility(View.VISIBLE);
+            ln = (LinearLayout) dialog.findViewById(R.id.lnEquipos);
+            ln.setVisibility(View.VISIBLE);
+            spinner = (Spinner) dialog.findViewById(R.id.spinner);
+            bDialogAcept = (Button) dialog.findViewById(R.id.bAceptar);
 
 
-        //Accion de boton guardar filtrado
-        dialog.findViewById(R.id.bAceptar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                idPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
-                nomPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getNombre();
 
-                //Enviamos datos
-                bundle=new Bundle();
-                bundle.putInt("id",idPeña);
 
-                //Creamos los fragment
-                final EstadisiticasTab1 pt1 = new EstadisiticasTab1();
-                pt1.setArguments(bundle);
-                final EstadisticasTab2 pt2 = new EstadisticasTab2();
-                pt2.setArguments(bundle);
-                final EstadisticasTab3 pt3 = new EstadisticasTab3();
-                pt3.setArguments(bundle);
+            //Accion de boton guardar filtrado
+            dialog.findViewById(R.id.bAceptar).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                //Cargamos los fragment
-                adapter.addFragment(pt1, "Goleadores");
-                adapter.addFragment(pt2, "Puntuaciones");
-                adapter.addFragment(pt3, "Multas");
-                viewPager.setAdapter(adapter);
+                    final EstadisticasAdapter adapter = new EstadisticasAdapter(getSupportFragmentManager());
 
-                viewPager.setCurrentItem(tab_activa);
-                dialog.dismiss();
-            }
-        });
+                    idPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
+                    nomPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getNombre();
 
-        dialog.show();
+                    //Enviamos datos
+                    bundle = new Bundle();
+                    bundle.putInt("id", idPeña);
+
+                    //Creamos los fragment
+                    final EstadisiticasTab1 pt1 = new EstadisiticasTab1();
+                    pt1.setArguments(bundle);
+                    final EstadisticasTab2 pt2 = new EstadisticasTab2();
+                    pt2.setArguments(bundle);
+                    final EstadisticasTab3 pt3 = new EstadisticasTab3();
+                    pt3.setArguments(bundle);
+
+                    //Cargamos los fragment
+                    adapter.addFragment(pt1, "Goleadores");
+                    adapter.addFragment(pt2, "Puntuaciones");
+                    adapter.addFragment(pt3, "Multas");
+                    viewPager.setAdapter(adapter);
+
+                    viewPager.setCurrentItem(tab_activa);
+                    dialog.dismiss();
+                }
+
+            });
+
+            dialog.show();
     }
 
 
@@ -173,9 +191,6 @@ public class EstadisticasActivity extends AppCompatActivity {
 
                 if (jSONArray.length() > 0) {
                     return jSONArray;
-                }else{
-                    System.out.println("Error al obtener datos JSON");
-                    Snackbar.make(findViewById(android.R.id.content), "Error de conexion", Snackbar.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -198,16 +213,27 @@ public class EstadisticasActivity extends AppCompatActivity {
                         peña.setNombre(jsonObject.getString("nomPeña"));
                         peña.setId(jsonObject.getInt("codPeña"));
                         arrayPeñas.add(peña);
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-
+                setupViewPager(vp);
                 rellenaEspinersPeña();
-            } else {
 
+            }else {
+                AlertDialog.Builder builderc = new AlertDialog.Builder(EstadisticasActivity.this);
+                builderc.setMessage("No esta registrado en ningun equipo del que mostrar estadisiticas");
+                builderc.setPositiveButton(getResources().getString(R.string.acept),
+                        new DialogInterface.OnClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+                builderc.create();
+                builderc.show();
             }
+
         }
 
         @Override

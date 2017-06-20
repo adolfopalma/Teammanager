@@ -69,6 +69,7 @@ public class PerfilActivity extends AppCompatActivity {
     private Bitmap result;
     protected ListView lv;
     protected int año;
+    protected TextView tvInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,7 @@ public class PerfilActivity extends AppCompatActivity {
         tipo = (TextView)findViewById(R.id.tvTipoPerfil);
         foto = (CircleImageView) findViewById(R.id.ivFotoPerfil);
         lv = (ListView) findViewById(R.id.lvPerfil);
+        tvInfo = (TextView)findViewById(R.id.tvInfo);
 
         sp = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         editor = sp.edit();
@@ -266,7 +268,7 @@ public class PerfilActivity extends AppCompatActivity {
                 parametrosPosteriores.put("ins_sql","select sum(Goles),sum(TarjetaAmarilla),sum(TarjetaRoja) from estadisticas where CodigoJug = "+"'"+correoUsuario+"'");
                 jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
-                if (jSONArray.length() > 0) {
+                if (jSONArray != null) {
                     return jSONArray;
                 }
             } catch (Exception e) {
@@ -292,9 +294,18 @@ public class PerfilActivity extends AppCompatActivity {
                     }
                 }
 
-                goles.setText(String.valueOf(arrayEstadisticas.get(0).getGoles()));
-                amarillas.setText(String.valueOf(arrayEstadisticas.get(0).getTarjetaAmarilla()));
-                rojas.setText(String.valueOf(arrayEstadisticas.get(0).getTarjetaRoja()));
+                if(arrayEstadisticas.size() == 0){
+                    goles.setText(String.valueOf(0));
+                    amarillas.setText(String.valueOf(0));
+                    rojas.setText(String.valueOf(0));
+                }else {
+                    goles.setText(String.valueOf(arrayEstadisticas.get(0).getGoles()));
+                    amarillas.setText(String.valueOf(arrayEstadisticas.get(0).getTarjetaAmarilla()));
+                    rojas.setText(String.valueOf(arrayEstadisticas.get(0).getTarjetaRoja()));
+
+                }
+
+
             } else {
                 Snackbar.make(findViewById(android.R.id.content), "Error de conexion ", Snackbar.LENGTH_LONG).show();
             }
@@ -347,10 +358,12 @@ public class PerfilActivity extends AppCompatActivity {
                     }
                 }
 
+
                 lv.setAdapter(new Adapter_List_perfil(PerfilActivity.this, arrayPeñas));
 
             } else {
-                Snackbar.make(findViewById(android.R.id.content), "Error de conexion ", Snackbar.LENGTH_LONG).show();
+                lv.setVisibility(View.GONE);
+                tvInfo.setText("No hay equipos en los que estes registrado");
             }
         }
 

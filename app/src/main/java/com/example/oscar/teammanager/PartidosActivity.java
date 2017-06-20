@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.oscar.teammanager.Adaptadores.Adapter_list_partidos;
@@ -37,7 +38,8 @@ public class PartidosActivity extends AppCompatActivity {
     private JSONObject jsonObject;
     protected Partidos partido;
     private ArrayList<Partidos> arrayPartidos;
-    ListView lvPartido;
+    protected LinearLayout empty_partido;
+    protected ListView lvPartido;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,8 @@ public class PartidosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_partidos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        empty_partido = (LinearLayout)findViewById(R.id.emptyPartido);
 
         sp = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         editor = sp.edit();
@@ -115,11 +119,11 @@ public class PartidosActivity extends AppCompatActivity {
                     }
                 }
 
-
                 lvPartido.setAdapter(new Adapter_list_partidos(PartidosActivity.this, arrayPartidos));
 
             } else {
-
+                lvPartido.setVisibility(View.GONE);
+                empty_partido.setVisibility(View.VISIBLE);
             }
         }
 

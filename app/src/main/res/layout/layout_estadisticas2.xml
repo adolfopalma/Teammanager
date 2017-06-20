@@ -4,20 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Prueba6"
     android:orientation="vertical">
 
-
-    <View
-        android:id="@+id/view12"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_weight="1"
-        android:background="@color/Azure" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/Prueba6"
         android:orientation="horizontal">
 
         <TextView
@@ -73,7 +66,6 @@
         android:id="@+id/lvEstPunt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
         android:background="@color/ColorPrueba"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp"></ListView>

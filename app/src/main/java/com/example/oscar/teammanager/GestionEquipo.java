@@ -191,6 +191,7 @@ public class GestionEquipo extends AppCompatActivity {
             Intent i = new Intent(GestionEquipo.this, EditarEquipo.class);
             i.putExtra("id", arrayPeñas.get(0).getId());
             i.putExtra("nombre", nombrePeña.getText().toString());
+            i.putExtra("administrador", arrayPeñas.get(0).getAdministrador());
             i.putExtra("foto", foto);
             i.putExtra("dia", diaPartido.getText().toString());
             i.putExtra("hora", horaPartido.getText().toString());
@@ -253,7 +254,7 @@ public class GestionEquipo extends AppCompatActivity {
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql","select * from peña where codPeña = "+id);
+                parametrosPosteriores.put("ins_sql","select p.*, j.Nombre from peña p, jugadores j where codPeña in (SELECT codPeña FROM componente_peña WHERE CodigoJug = "+"'"+correoUsuario+"') and p.CodAministrador = j.Correo and codPeña = "+id);
                 jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
@@ -285,6 +286,7 @@ public class GestionEquipo extends AppCompatActivity {
                         peña.setFechaCreacion(jsonObject.getString("fechaCreacion"));
                         peña.setHoraPartido(jsonObject.getString("horaEvento"));
                         peña.setAdministrador(jsonObject.getString("CodAministrador"));
+                        peña.setNomAdministrador(jsonObject.getString("Nombre"));
                         peña.setRutaFoto(jsonObject.getString("rutaFoto"));
                         arrayPeñas.add(peña);
                     } catch (JSONException e) {
@@ -294,7 +296,7 @@ public class GestionEquipo extends AppCompatActivity {
 
                 nombrePeña.setText(arrayPeñas.get(0).getNombre().toString());
                 creacionPeña.setText(arrayPeñas.get(0).getFechaCreacion().toString());
-                administrador.setText(arrayPeñas.get(0).getAdministrador().toString());
+                administrador.setText(arrayPeñas.get(0).getNomAdministrador().toString());
                 diaPartido.setText(arrayPeñas.get(0).getDiaPartido().toString());
                 horaPartido.setText(arrayPeñas.get(0).getHoraPartido().toString());
 
@@ -369,6 +371,9 @@ public class GestionEquipo extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+
+                GlobalParams.listaJugadores = new ArrayList<Jugadores>();
+                GlobalParams.listaJugadores = arrayListaJugadores;
 
                 ga = new GestionListAdapter(GestionEquipo.this,arrayListaJugadores);
                 lv.setAdapter(ga);

@@ -68,19 +68,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginTop="20dp"
-                android:layout_weight="0.03"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="Inserte correo electronico:" />
 
-            <EditText
-                android:id="@+id/correoInvitado"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="0.02"
-                android:ems="10"
-                android:inputType="textEmailAddress" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/correoInvitado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textEmailAddress" />
+
+                <Button
+                    android:id="@+id/bAddInvit"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:drawable/ic_menu_add" />
+
+            </LinearLayout>
 
             <View
                 android:id="@+id/view5"

@@ -213,7 +213,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Jugadores registrados" />
+            android:text="Componentes" />
 
         <ListView
             android:id="@+id/lv_gestion"

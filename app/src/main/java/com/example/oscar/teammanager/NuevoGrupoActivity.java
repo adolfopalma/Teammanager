@@ -101,6 +101,8 @@ public class NuevoGrupoActivity extends AppCompatActivity{
         nombrePeña = (EditText)findViewById(R.id.nom_peña);
         horaPeña = (TextView)findViewById(R.id.peña_hora);
         listaPeñas = new ArrayList<>();
+        ln= (LinearLayout)findViewById(R.id.linear);
+        ln.setVisibility(View.GONE);
         spinner = (Spinner)findViewById(R.id.spinner4);
         rellenaSpinner();
 

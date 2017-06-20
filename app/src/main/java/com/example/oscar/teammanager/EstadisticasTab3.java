@@ -2,15 +2,19 @@ package com.example.oscar.teammanager;
 
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.oscar.teammanager.Adaptadores.ListaMultasAdapter;
 import com.example.oscar.teammanager.Objects.Multas;
@@ -35,8 +39,9 @@ public class EstadisticasTab3 extends Fragment {
     private JSONObject jsonObject3;
     private Multas multa;
     private ArrayList<Multas> arrayListaMultas;
-    ListView lvEstMult;
+    protected ListView lvEstMult;
     protected int idPeña;
+    protected TextView tvInfo;
 
 
     public EstadisticasTab3() {
@@ -55,6 +60,7 @@ public class EstadisticasTab3 extends Fragment {
         lvEstMult = (ListView)view.findViewById(R.id.lvEst);
         devuelveJSON = new ClaseConexion();
         arrayListaMultas = new ArrayList<>();
+        tvInfo = (TextView)view.findViewById(R.id.tvInfoMult);
         new EstadisticasTab3.ConsultaTaskMultas().execute();
 
     }
@@ -91,9 +97,6 @@ public class EstadisticasTab3 extends Fragment {
 
                 if (jSONArray3.length() > 0) {
                     return jSONArray3;
-                }else{
-                    System.out.println("Error al obtener datos JSON");
-                    Snackbar.make(getView(), "Error de conexion", Snackbar.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -123,10 +126,13 @@ public class EstadisticasTab3 extends Fragment {
                     }
                 }
 
+                lvEstMult.setVisibility(View.VISIBLE);
+                tvInfo.setVisibility(View.GONE);
                 lvEstMult.setAdapter(new ListaMultasAdapter(getActivity(), arrayListaMultas));
 
             } else {
-                Snackbar.make(getView(), "Error de conexion", Snackbar.LENGTH_LONG).show();
+                lvEstMult.setVisibility(View.GONE);
+                tvInfo.setVisibility(View.VISIBLE);
 
             }
         }

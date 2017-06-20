@@ -1,6 +1,7 @@
 package com.example.oscar.teammanager.Utils;
 
 import com.example.oscar.teammanager.Objects.Jugadores;
+import com.example.oscar.teammanager.Objects.Peñas;
 
 import java.util.ArrayList;
 
@@ -11,11 +12,14 @@ import java.util.ArrayList;
 public class GlobalParams {
 
     //Datos conexion
+    //public static String IP_Server = "http://iesayala.ddns.net/19ramajo";
     public static String IP_Server = "http://192.168.0.2";
     public static String url_consulta = IP_Server+"/consulta.php";
     public static String url_insert = IP_Server+"/prueba.php";
 
 
+    //Datos notificaciones
+    public static ArrayList<Peñas> diaPartido = null;
 
     //Datos partido
     public static int MarcadorOscuro = 0;
@@ -32,4 +36,7 @@ public class GlobalParams {
 
     //Datos administradores
     public static ArrayList<String> administradores = null;
+
+    //Datos editar equipo
+    public static ArrayList<Jugadores> listaJugadores = null;
 }

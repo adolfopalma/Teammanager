@@ -1,6 +1,7 @@
 package com.example.oscar.teammanager;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,10 +13,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
@@ -38,11 +41,15 @@ public class InvitarJugadorActivity extends AppCompatActivity {
     private JSONObject jsonObject;
     private Peñas peña;
     private ArrayList<Peñas> arrayPeñas;
+    private ArrayList<String> arrayCorreos;
     protected Spinner spinner;
-    protected Button benviar;
+    protected Button benviar,bAdd,bDialogAcept,bDialogCancel;
     protected String user,passwd;
-    protected EditText correoInvitado;
+    protected TextView correoInvitado;
     protected String correoUsuario;
+    protected EditText correo;
+    protected Dialog dialog;
+    protected int cont=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +72,13 @@ public class InvitarJugadorActivity extends AppCompatActivity {
 
         spinner		= (Spinner) findViewById(R.id.spinner_peñas);
         arrayPeñas = new ArrayList<>();
+        arrayCorreos = new ArrayList<String>();
         devuelveJSON = new ClaseConexion();
         benviar = (Button)findViewById(R.id.bEnviar);
+        bAdd = (Button)findViewById(R.id.bAddInvit);
         user = "soporteteammanager@gmail.com";
         passwd = "TM100517";
-        correoInvitado = (EditText) findViewById(R.id.correoInvitado);
+        correoInvitado = (TextView) findViewById(R.id.correoInvitado);
 
         sp = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         editor = sp.edit();
@@ -82,6 +91,7 @@ public class InvitarJugadorActivity extends AppCompatActivity {
         benviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cont =0;
                 if(correoInvitado.getText().toString().isEmpty()){
                     Snackbar.make(findViewById(android.R.id.content), "Inserte al menos un correo valido", Snackbar.LENGTH_LONG).show();
                 }else {
@@ -90,6 +100,55 @@ public class InvitarJugadorActivity extends AppCompatActivity {
             }
         });
 
+        bAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogAdd();
+            }
+        });
+
+    }
+
+    public void dialogAdd() {
+        //Creacion dialog de filtrado
+        dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_correo_invitacion);
+        dialog.setCancelable(false);
+
+        correo = (EditText)dialog.findViewById(R.id.correoAdd);
+        bDialogAcept = (Button)dialog.findViewById(R.id.bGuardar);
+        bDialogCancel = (Button)dialog.findViewById(R.id.bCancelarFiltro);
+
+        //Accion de boton guardar filtrado
+        dialog.findViewById(R.id.bGuardar).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                if(arrayCorreos.size() <= 0) {
+                    arrayCorreos.add(correo.getText().toString());
+                }else{
+                    arrayCorreos.add(","+correo.getText().toString());
+                }
+
+                dialog.dismiss();
+
+                correoInvitado.setText(correoInvitado.getText()+arrayCorreos.get(cont));
+                cont++;
+
+            }
+        });
+
+        dialog.findViewById(R.id.bCancelar).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     //relleno los datos de los spinner de el filtro
@@ -192,6 +251,7 @@ public class InvitarJugadorActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        cont = 0;
         finish();
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);

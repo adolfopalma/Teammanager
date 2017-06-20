@@ -36,6 +36,7 @@ import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
+import com.example.oscar.teammanager.Utils.MyserviceActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected ImageView fotoMenu;
     protected LinearLayout empty_data;
     protected ActionBarDrawerToggle toggle;
-
 
 
     @Override
@@ -149,6 +149,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    public void startService(){
+        Intent intent = new Intent(this, MyserviceActivity.class);
+        startService(intent);
+    }
+
+    public void stopService(){
+        Intent intent = new Intent(this, MyserviceActivity.class);
+        stopService(intent);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -165,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_desconectar) {
+        if (id == R.id.salir) {
             AlertDialog.Builder builderc = new AlertDialog.Builder(MainActivity.this);
             builderc.setMessage(R.string.msj_desconectar);
             builderc.setPositiveButton(getResources().getString(R.string.acept),
@@ -228,6 +238,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         else if (id == R.id.nav_contacto) {
+            stopService();
 
         }
 
@@ -296,6 +307,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         e.printStackTrace();
                     }
                 }
+
                 tvnombre.setText(arrayJugadores.get(0).getNombre().toString());
                 tvmail.setText(arrayJugadores.get(0).getCorreo().toString());
                 tvTipo.setText(arrayJugadores.get(0).getTipoJug().toString());
@@ -378,6 +390,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         e.printStackTrace();
                     }
                 }
+
+                GlobalParams.diaPartido = new ArrayList<Peñas>();
+                GlobalParams.diaPartido = arrayPeñas;
+
+                //startService();
 
                 for(int i=0; i<arrayPeñas.size(); i++){
                     arrayAdministradores.add(arrayPeñas.get(i).getAdministrador().toString());
