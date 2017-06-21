@@ -12,11 +12,13 @@ import java.util.ArrayList;
 public class GlobalParams {
 
     //Datos conexion
-    //public static String IP_Server = "http://iesayala.ddns.net/19ramajo";
-    public static String IP_Server = "http://192.168.0.2";
+    public static String IP_Server = "http://iesayala.ddns.net/19ramajo";
+    //public static String IP_Server = "http://192.168.0.2";
     public static String url_consulta = IP_Server+"/consulta.php";
     public static String url_insert = IP_Server+"/prueba.php";
 
+    //Datos usuario
+    public static String correoUsuario = "";
 
     //Datos notificaciones
     public static ArrayList<Peñas> diaPartido = null;

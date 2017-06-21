@@ -453,12 +453,12 @@ public class MultaActivity extends AppCompatActivity {
         }
     }
 
-    @Override
+   /* @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
         Intent i = new Intent(MultaActivity.this, MainActivity.class);
         startActivity(i);
-    }
+    }*/
 
 }

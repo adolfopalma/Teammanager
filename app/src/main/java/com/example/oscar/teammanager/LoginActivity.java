@@ -81,6 +81,7 @@ public class LoginActivity extends AppCompatActivity{
             if (arrayJugadores.get(i).getCorreo().toString().equals(correo.toString()) & arrayJugadores.get(i).getPass().toString().equals(pass.toString())) {
                 Intent intent = new Intent(this, MainActivity.class);
                 correo = mEmailView.getText().toString();
+                GlobalParams.correoUsuario = correo;
                 editor.putString("us_email", correo);
                 editor.commit();
                 startActivity(intent);

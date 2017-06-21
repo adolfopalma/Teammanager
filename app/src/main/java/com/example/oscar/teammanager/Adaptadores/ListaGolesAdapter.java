@@ -57,6 +57,9 @@ public class ListaGolesAdapter extends BaseAdapter {
 
         view.setGoles(items.get(position));
 
+        TextView pos = (TextView)view.findViewById(R.id.tvNum);
+        pos.setText(String.valueOf(position+1));
+
         return view;
     }
 }

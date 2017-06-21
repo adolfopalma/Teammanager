@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.example.oscar.teammanager.Objects.Estadisticas;
+import com.example.oscar.teammanager.R;
 
 import java.util.ArrayList;
 
@@ -53,6 +55,9 @@ public class ListaPuntosAdapter extends BaseAdapter {
         }
 
         view.setPuntos(items.get(position));
+
+        TextView pos = (TextView)view.findViewById(R.id.tvNum);
+        pos.setText(String.valueOf(position+1));
 
         return view;
     }

@@ -66,8 +66,7 @@ public class Adapter_list_claros extends BaseAdapter{
             view = (Item_list_jugador_claros) convertView;
         }
 
-        IP_Server = "http://iesayala.ddns.net/19ramajo";
-        url_insert = IP_Server + "/prueba.php";
+
         devuelveJSON = new ClaseConexion();
 
         final LinearLayout fondo = (LinearLayout)view.findViewById(R.id.lnFondo);
@@ -167,7 +166,7 @@ public class Adapter_list_claros extends BaseAdapter{
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql"," UPDATE estadisticas SET TarjetaAmarilla = TarjetaAmarilla+1 WHERE CodigoJug = "+"'"+correo+"' and codPeña = "+GlobalParams.codPeña);
-                devuelveJSON.sendInsert(url_insert, parametrosPosteriores);
+                devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPosteriores);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -185,7 +184,7 @@ public class Adapter_list_claros extends BaseAdapter{
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql"," UPDATE estadisticas SET TarjetaRoja = TarjetaRoja+1 WHERE CodigoJug = "+"'"+correo+"' and codPeña = "+GlobalParams.codPeña);
-                devuelveJSON.sendInsert(url_insert, parametrosPosteriores);
+                devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPosteriores);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -203,7 +202,7 @@ public class Adapter_list_claros extends BaseAdapter{
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql"," UPDATE estadisticas SET Goles = Goles+1 WHERE CodigoJug = "+"'"+correo+"' and codPeña = "+GlobalParams.codPeña);
-                devuelveJSON.sendInsert(url_insert, parametrosPosteriores);
+                devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPosteriores);
 
             } catch (Exception e) {
                 e.printStackTrace();

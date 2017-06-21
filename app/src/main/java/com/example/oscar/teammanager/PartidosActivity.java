@@ -82,7 +82,7 @@ public class PartidosActivity extends AppCompatActivity {
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql","select p.*, pe.nomPeña, pe.rutaFoto from partido p, peña pe where p.codPeña in (SELECT codPeña FROM componente_peña WHERE CodigoJug = "+"'"+correoUsuario+"'"+") and p.codPeña = pe.codPeña");
+                parametrosPosteriores.put("ins_sql","select p.*, pe.nomPeña, pe.rutaFoto from partido p, peña pe where p.codPeña in (SELECT codPeña FROM componente_peña WHERE CodigoJug = "+"'"+correoUsuario+"'"+") and p.codPeña = pe.codPeña order by fechaPartido desc");
                 jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {

@@ -59,7 +59,7 @@ public class InvitarJugadorActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final AlertDialog.Builder builders = new AlertDialog.Builder(InvitarJugadorActivity.this);
-        builders.setMessage("Seleccione una peña para registar un nuevo jugador");
+        builders.setMessage("Seleccione el equipo del que se va enviar una invitacion");
         builders.setPositiveButton(getResources().getString(R.string.acept),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

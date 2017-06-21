@@ -111,20 +111,20 @@ public class EstadisticasTab3 extends Fragment {
             }
 
             if (json != null) {
-                for (int i = 0; i < json.length(); i++) {
-                    try {
-                        jsonObject3 = json.getJSONObject(i);
-                        multa = new Multas();
-                        multa.setCodMulta(jsonObject3.getInt("CodMulta"));
-                        multa.setCodigoJug(jsonObject3.getString("Nombre"));
-                        multa.setCantidad(jsonObject3.getInt("Cantidad"));
-                        multa.setEstado(jsonObject3.getString("Estado"));
-                        multa.setTipoMulta(jsonObject3.getString("TipoMulta"));
-                        arrayListaMultas.add(multa);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    for (int i = 0; i < json.length(); i++) {
+                        try {
+                            jsonObject3 = json.getJSONObject(i);
+                            multa = new Multas();
+                            multa.setCodMulta(jsonObject3.getInt("CodMulta"));
+                            multa.setCodigoJug(jsonObject3.getString("Nombre"));
+                            multa.setCantidad(jsonObject3.getInt("Cantidad"));
+                            multa.setEstado(jsonObject3.getString("Estado"));
+                            multa.setTipoMulta(jsonObject3.getString("TipoMulta"));
+                            arrayListaMultas.add(multa);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
 
                 lvEstMult.setVisibility(View.VISIBLE);
                 tvInfo.setVisibility(View.GONE);

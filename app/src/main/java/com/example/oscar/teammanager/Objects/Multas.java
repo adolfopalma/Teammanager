@@ -13,14 +13,15 @@ public class Multas implements Serializable {
     String tipoMulta;
     String codigoJug;
     String estado;
+    String nomJug;
 
-
-    public Multas(int codMulta,int cantidad,String tipoMulta,String codigoJug,String estado) {
+    public Multas(int codMulta,int cantidad,String tipoMulta,String codigoJug,String estado,String nomJug) {
         this.codMulta = codMulta;
         this.cantidad = cantidad;
         this.tipoMulta = tipoMulta;
         this.codigoJug = codigoJug;
         this.estado = estado;
+        this.nomJug = nomJug;
     }
 
 
@@ -33,6 +34,15 @@ public class Multas implements Serializable {
 
     public void setCodMulta(int codMulta) {
         this.codMulta = codMulta;
+    }
+
+
+    public String getNomJug() {
+        return nomJug;
+    }
+
+    public void setNomJug(String nomJug) {
+        this.nomJug = nomJug;
     }
 
     public int getCantidad() {

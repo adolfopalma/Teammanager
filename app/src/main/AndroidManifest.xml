@@ -83,7 +83,6 @@
             android:name=".Utils.NotificationUpdateService"
             android:enabled="true"
             android:exported="false" />
-
         <service
             android:name=".Utils.MyserviceActivity"
             android:enabled="true"
@@ -106,6 +105,10 @@
         <activity
             android:name=".EditarPerfil"
             android:label="@string/title_activity_editar_perfil"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".GestionMulta"
+            android:label="@string/title_activity_gestion_multa"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 
