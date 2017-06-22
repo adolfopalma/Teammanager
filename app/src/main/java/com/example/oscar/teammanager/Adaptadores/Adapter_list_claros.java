@@ -28,9 +28,7 @@ public class Adapter_list_claros extends BaseAdapter{
     protected Activity actividad;
     protected String correo;
     private ClaseConexion devuelveJSON;
-    private String  url_insert;
-    private String IP_Server;
-    protected ImageButton amarilla, roja, gol;
+    protected ImageButton amarilla, roja;
     protected TextView tvGol, tvAmarilla, tvRoja;
 
 
@@ -84,7 +82,7 @@ public class Adapter_list_claros extends BaseAdapter{
                 int numAmarilla = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
                 int numRoja = Integer.parseInt(String.valueOf(tvRoja.getText()));
                 if(numAmarilla == 2 || numRoja == 1){
-                    Snackbar.make(view, "Jugador expulsado", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view, R.string.jugador_exp, Snackbar.LENGTH_LONG).show();
                 }else {
                     GlobalParams.MarcadorClaro = GlobalParams.MarcadorClaro + 1;
                     correo = items.get(position).getCorreo();

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="5dip"
-            android:text="No se ha disputado ningun encuentro"
+            android:text="@string/text_no_partido"
             android:textSize="24dip" />
 
     </LinearLayout>

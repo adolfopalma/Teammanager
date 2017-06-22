@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by ptmarketing04 on 30/03/2017.
+ * Created by oscar on 30/03/2017.
  */
 
 public class EstadisticasTab2 extends Fragment {
@@ -43,7 +43,7 @@ public class EstadisticasTab2 extends Fragment {
     private ArrayList<Peñas> arrayPeñas;
     private ArrayList<Estadisticas> arrayListaPuntos;
     protected ListView lvEstPunt;
-    protected int idPeña;
+
 
 
     public EstadisticasTab2() {
@@ -62,7 +62,6 @@ public class EstadisticasTab2 extends Fragment {
         lvEstPunt = (ListView)view.findViewById(R.id.lvEstPunt);
         devuelveJSON = new ClaseConexion();
         arrayListaPuntos = new ArrayList<>();
-        arrayPeñas = new ArrayList<>();
         new EstadisticasTab2.ConsultaTaskPuntos().execute();
 
     }
@@ -70,7 +69,7 @@ public class EstadisticasTab2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        idPeña = getArguments().getInt("id");
+
         return inflater.inflate(R.layout.layout_estadisticas2, container, false);
 
     }
@@ -82,7 +81,7 @@ public class EstadisticasTab2 extends Fragment {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(getContext());
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(getResources().getString(R.string.load));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -93,8 +92,7 @@ public class EstadisticasTab2 extends Fragment {
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql","select j.Nombre, e.CodigoJug, e.PartidosJugados, e.PartidosGanados, e.PartidosPerdidos, e.PartidosEmpatados, e.Puntos, e.codPeña from estadisticas e, jugadores j where e.codPeña = "+idPeña+" and e.CodigoJug = j.Correo ORDER BY Puntos DESC");
-
+                parametrosPosteriores.put("ins_sql","select j.Nombre, e.CodigoJug, e.PartidosJugados, e.PartidosGanados, e.PartidosPerdidos, e.PartidosEmpatados, e.Puntos, e.codPeña from estadisticas e, jugadores j where e.codPeña = "+GlobalParams.codPeña+" and e.CodigoJug = j.Correo ORDER BY Puntos DESC");
                 jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {
@@ -133,8 +131,6 @@ public class EstadisticasTab2 extends Fragment {
                         e.printStackTrace();
                     }
                 }
-
-
                 lvEstPunt.setAdapter(new ListaPuntosAdapter(getActivity(), arrayListaPuntos));
 
             } else {
@@ -153,6 +149,6 @@ public class EstadisticasTab2 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //lvEstPunt.setAdapter(new ListaPuntosAdapter(getActivity(), arrayListaPuntos));
+        lvEstPunt.setAdapter(new ListaPuntosAdapter(getActivity(), arrayListaPuntos));
     }
 }

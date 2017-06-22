@@ -6,7 +6,7 @@ import com.example.oscar.teammanager.Objects.Peñas;
 import java.util.ArrayList;
 
 /**
- * Created by ptmarketing04 on 31/03/2017.
+ * Created by oscar on 31/03/2017.
  */
 
 public class GlobalParams {
@@ -19,6 +19,7 @@ public class GlobalParams {
 
     //Datos usuario
     public static String correoUsuario = "";
+    public static String passUsu = "";
 
     //Datos notificaciones
     public static ArrayList<Peñas> diaPartido = null;

@@ -20,14 +20,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="10"
-            android:text="Nombre" />
+            android:text="@string/text_nombre" />
 
         <TextView
             android:id="@+id/textView22"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Tipo" />
+            android:text="@string/text_tipo_est" />
 
         <TextView
             android:id="@+id/textView21"
@@ -42,7 +42,7 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Estado" />
+            android:text="@string/text_estado" />
 
     </LinearLayout>
 
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:text="No hay multas impuestas"
+        android:text="@string/text_no_multas"
         android:textAlignment="center"
         android:visibility="gone" />
 

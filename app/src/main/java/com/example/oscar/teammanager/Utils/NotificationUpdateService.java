@@ -9,7 +9,7 @@ public class NotificationUpdateService extends Service {
     public static final String ACTION_START = "com.example.oscar.teammanager.START_NOTIFY_SERVICE";
     public static final String ACTION_STOP = "com.example.oscar.teammanager.STOP_NOTIFY_SERVICE";
 
-    private ChronometerApplication mApplication;
+   // private ChronometerApplication mApplication;
     private long mStartTime;
     private boolean mThreadCanRun;
 
@@ -19,7 +19,7 @@ public class NotificationUpdateService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mApplication = (ChronometerApplication)getApplication();
+        //mApplication = (ChronometerApplication)getApplication();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class NotificationUpdateService extends Service {
 
         mUpdateThread = null;
         mUpdateNotification = null;
-        mApplication.cancelNotification();
+       // mApplication.cancelNotification();
 
     }
 
@@ -81,8 +81,8 @@ public class NotificationUpdateService extends Service {
             while(mThreadCanRun) {
 
                 long since = System.currentTimeMillis() - mStartTime;
-                mApplication.showNotification(ChronometerState.IN_BACKGROUND,
-                        Helpers.ConvertTimeToString(since));
+                //mApplication.showNotification(ChronometerState.IN_BACKGROUND,
+                        //Helpers.ConvertTimeToString(since));
 
                 //sleep for 1 second
                 try {

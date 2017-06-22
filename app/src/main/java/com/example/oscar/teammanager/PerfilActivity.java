@@ -139,6 +139,12 @@ public class PerfilActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.action_cuenta) {
+            Intent i = new Intent(PerfilActivity.this, GestionCuenta.class);
+            startActivity(i);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -150,9 +156,6 @@ public class PerfilActivity extends AppCompatActivity {
     public void calcularEdad(String fecha){
         Date fechaNac=null;
         try {
-            /**Se puede cambiar la mascara por el formato de la fecha
-             que se quiera recibir, por ejemplo año mes día "yyyy-MM-dd"
-             en este caso es día mes año*/
             fechaNac = new SimpleDateFormat("dd-MM-yyyy").parse(fecha);
         } catch (Exception ex) {
             System.out.println("Error:"+ex);
@@ -179,7 +182,7 @@ public class PerfilActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(PerfilActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(getResources().getString(R.string.load));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -243,7 +246,7 @@ public class PerfilActivity extends AppCompatActivity {
 
 
             } else {
-                Snackbar.make(findViewById(android.R.id.content), "Error de conexion ", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(android.R.id.content), R.string.error_conex, Snackbar.LENGTH_LONG).show();
             }
         }
 
@@ -307,7 +310,7 @@ public class PerfilActivity extends AppCompatActivity {
 
 
             } else {
-                Snackbar.make(findViewById(android.R.id.content), "Error de conexion ", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(android.R.id.content), R.string.error_conex, Snackbar.LENGTH_LONG).show();
             }
         }
 
@@ -363,7 +366,7 @@ public class PerfilActivity extends AppCompatActivity {
 
             } else {
                 lv.setVisibility(View.GONE);
-                tvInfo.setText("No hay equipos en los que estes registrado");
+                tvInfo.setText(R.string.no_equip_reg);
             }
         }
 
@@ -378,7 +381,7 @@ public class PerfilActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(PerfilActivity.this);
-            pDialog.setMessage("Actualizando...");
+            pDialog.setMessage(getResources().getString(R.string.act));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();

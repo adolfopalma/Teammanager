@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingTop="20dp"
-            android:text="REGISTRO"
+            android:text="@string/registro"
             android:textSize="20sp" />
 
     </android.support.design.widget.AppBarLayout>

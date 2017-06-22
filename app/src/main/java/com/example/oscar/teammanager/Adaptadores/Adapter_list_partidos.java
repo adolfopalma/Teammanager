@@ -11,7 +11,7 @@ import com.example.oscar.teammanager.Objects.Peñas;
 import java.util.ArrayList;
 
 /**
- * Created by ptmarketing05 on 19/05/2017.
+ * Created by oscar on 19/05/2017.
  */
 
 public class Adapter_list_partidos extends BaseAdapter {

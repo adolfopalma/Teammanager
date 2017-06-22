@@ -6,31 +6,31 @@
         <item
             android:id="@+id/nav_peñas"
             android:icon="@drawable/penia"
-            android:title="Crear peña" />
+            android:title="@string/text_equipo" />
 
         <item
             android:id="@+id/nav_estadisticas"
             android:icon="@drawable/linechar"
-            android:title="Estadisticas" />
+            android:title="@string/text_estadis" />
         <item
             android:id="@+id/nav_partidos"
             android:icon="@drawable/whistlee"
-            android:title="Partidos" />
+            android:title="@string/title_activity_partidos" />
 
         <item
             android:id="@+id/nav_multas"
             android:icon="@drawable/pencil"
-            android:title="Multas" />
+            android:title="@string/title_activity_multa" />
 
         <item
             android:id="@+id/nav_administrar"
             android:icon="@drawable/gerente"
-            android:title="Administrar" />
+            android:title="@string/title_adminis" />
 
         <item
             android:id="@+id/nav_jugadores"
             android:icon="@drawable/new_user"
-            android:title="Invitar jugadores" />
+            android:title="@string/title_invi_jug" />
     </group>
 
     <item android:title="Extras">
@@ -38,7 +38,7 @@
             <item
                 android:id="@+id/nav_info"
                 android:icon="@android:drawable/ic_menu_info_details"
-                android:title="Informacion" />
+                android:title="@string/title_infor" />
             <item
                 android:id="@+id/nav_contacto"
                 android:icon="@android:drawable/ic_dialog_email"

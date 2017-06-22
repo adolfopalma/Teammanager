@@ -5,112 +5,27 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_centerHorizontal="false"
-    android:background="@color/colorPrimary"
+    android:layout_margin="10dp"
+    android:background="@android:color/transparent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.oscar.teammanager.AdministrarActivity"
     tools:showIn="@layout/activity_administrar">
 
-        <LinearLayout android:layout_weight="1" android:layout_height="fill_parent" android:layout_width="fill_parent">
-
-            <LinearLayout
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@color/White"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView26"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="MULTAS"
-                    android:textColor="@color/Black" />
-
-                <ImageButton
-                    android:id="@+id/ibMultas"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/pencils" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@android:color/white"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView26"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="EQUIPOS"
-                    android:textColor="@color/Black" />
-
-                <ImageButton
-                    android:id="@+id/ibEquipos"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/pencils" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@android:color/white"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView26"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="INVITACIONES"
-                    android:textColor="@color/Black" />
-
-                <ImageButton
-                    android:id="@+id/ibInvitacion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/pencils" />
-
-            </LinearLayout>
-
-        </LinearLayout><![CDATA[
-
-
-    />
-
-
-    ]]>
-
-    <LinearLayout android:layout_weight="1" android:layout_height="fill_parent" android:layout_width="fill_parent">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="10dp"
+        android:layout_weight="1">
 
         <LinearLayout
+            android:id="@+id/ibMultas"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="40dp"
             android:layout_weight="1"
             android:background="@color/White"
             android:orientation="vertical">
@@ -122,11 +37,10 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="ESTADISTICAS"
+                android:text="@string/title_multas"
                 android:textColor="@color/Black" />
 
             <ImageButton
-                android:id="@+id/ibEstadisticas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -136,9 +50,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ibEquipos"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="40dp"
             android:layout_weight="1"
             android:background="@android:color/white"
             android:orientation="vertical">
@@ -150,11 +68,10 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="PARTIDOS"
+                android:text="@string/title_equipos"
                 android:textColor="@color/Black" />
 
             <ImageButton
-                android:id="@+id/ibPartidos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -164,9 +81,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ibInvitacion"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="40dp"
             android:layout_weight="1"
             android:background="@android:color/white"
             android:orientation="vertical">
@@ -178,11 +99,112 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="CUENTA"
+                android:text="@string/title_inv"
                 android:textColor="@color/Black" />
 
             <ImageButton
-                android:id="@+id/ibCuenta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/pencils" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="10dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/ibEstadisticas"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="40dp"
+            android:layout_weight="1"
+            android:background="@color/White"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/title_estad"
+                android:textColor="@color/Black" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/pencils" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ibPartidos"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="40dp"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/title_partidos"
+                android:textColor="@color/Black" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/pencils" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ibCuenta"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="40dp"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/title_cuenta"
+                android:textColor="@color/Black" />
+
+            <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

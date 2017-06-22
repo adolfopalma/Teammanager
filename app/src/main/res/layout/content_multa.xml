@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="Selecciona un jugador:" />
+                android:text="@string/text_selec" />
 
             <Spinner
                 android:id="@+id/spinner_jug"
@@ -70,7 +70,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Seleccione tipo de sancion:" />
+                android:text="@string/text_sancion" />
 
             <LinearLayout
                 android:id="@+id/linearCheck"
@@ -85,7 +85,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:checked="true"
-                    android:text="Retraso" />
+                    android:text="@string/text_retraso" />
 
                 <CheckBox
                     android:id="@+id/checkBox"
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
-                    android:text="No asistencia" />
+                    android:text="@string/text_asistencia" />
             </LinearLayout>
 
             <View

@@ -13,7 +13,7 @@ import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.R;
 
 /**
- * Created by ptmarketing05 on 17/05/2017.
+ * Created by oscar on 17/05/2017.
  */
 
 public class Item_Goles extends LinearLayout {

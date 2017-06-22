@@ -26,6 +26,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
@@ -46,7 +47,7 @@ import java.util.List;
 public class AdministrarActivity extends AppCompatActivity {
 
     protected Toolbar tb;
-    protected ImageButton multas,invitaciones,equipos,estadisticas,cuenta,partidos;
+    protected LinearLayout multas,invitaciones,equipos,estadisticas,cuenta,partidos;
     private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
@@ -56,6 +57,7 @@ public class AdministrarActivity extends AppCompatActivity {
     protected Spinner spinner;
     protected Button bAcept;
     protected int idPeña;
+    protected TextView tvInfoDialog;
 
 
     @Override
@@ -64,12 +66,12 @@ public class AdministrarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_administrar);
         tb = (Toolbar)findViewById(R.id.toolbar);
 
-        multas = (ImageButton)findViewById(R.id.ibMultas);
-        equipos = (ImageButton)findViewById(R.id.ibEquipos);
-        invitaciones = (ImageButton)findViewById(R.id.ibInvitacion);
-        estadisticas = (ImageButton)findViewById(R.id.ibEstadisticas);
-        cuenta = (ImageButton)findViewById(R.id.ibCuenta);
-        partidos = (ImageButton)findViewById(R.id.ibPartidos);
+        multas = (LinearLayout)findViewById(R.id.ibMultas);
+        equipos = (LinearLayout)findViewById(R.id.ibEquipos);
+        invitaciones = (LinearLayout)findViewById(R.id.ibInvitacion);
+        estadisticas = (LinearLayout)findViewById(R.id.ibEstadisticas);
+        cuenta = (LinearLayout)findViewById(R.id.ibCuenta);
+        partidos = (LinearLayout)findViewById(R.id.ibPartidos);
         arrayPeñas = new ArrayList<>();
         devuelveJSON = new ClaseConexion();
 
@@ -100,16 +102,16 @@ public class AdministrarActivity extends AppCompatActivity {
         estadisticas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent i = new Intent(AdministrarActivity.this, GestionEstadisticas.class);
-                //startActivity(i);
+                Intent i = new Intent(AdministrarActivity.this, GestionEstadisticas.class);
+                startActivity(i);
             }
         });
 
         cuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent i = new Intent(AdministrarActivity.this, GestionCuenta.class);
-                //startActivity(i);
+                Intent i = new Intent(AdministrarActivity.this, GestionCuenta.class);
+                startActivity(i);
             }
         });
 
@@ -117,8 +119,8 @@ public class AdministrarActivity extends AppCompatActivity {
         partidos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent i = new Intent(AdministrarActivity.this, GestionPartidos.class);
-                //startActivity(i);
+                Intent i = new Intent(AdministrarActivity.this, GestionPartidos.class);
+                startActivity(i);
             }
         });
 
@@ -130,10 +132,12 @@ public class AdministrarActivity extends AppCompatActivity {
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_list_equipo);
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
 
         spinner = (Spinner)dialog.findViewById(R.id.spinner);
         bAcept = (Button)dialog.findViewById(R.id.bAceptar);
+        tvInfoDialog = (TextView)dialog.findViewById(R.id.tvInfoDialog);
+        tvInfoDialog.setText(R.string.seleccion_equipo);
 
 
         //Accion de boton guardar filtrado
@@ -169,7 +173,7 @@ public class AdministrarActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(AdministrarActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(getResources().getString(R.string.load));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -181,7 +185,6 @@ public class AdministrarActivity extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
                 parametrosPosteriores.put("ins_sql", "select * from peña where CodAministrador  = " + "'" + GlobalParams.correoUsuario + "'");
-                System.out.println("---------------------------------"+GlobalParams.url_consulta+parametrosPosteriores);
                 jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {

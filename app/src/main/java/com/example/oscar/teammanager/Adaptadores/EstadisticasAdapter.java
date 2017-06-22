@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ptmarketing04 on 30/03/2017.
+ * Created by oscar on 30/03/2017.
  */
 
 public class EstadisticasAdapter extends FragmentPagerAdapter {

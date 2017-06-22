@@ -18,7 +18,7 @@
         android:layout_gravity="center_vertical"
         android:layout_margin="20dp"
         android:layout_weight="1"
-        android:text="Escriba correo de usuario y pulse aceptar. Asegurese que escribe correctamente el correo"
+        android:text="@string/text_añadir_usu"
         android:textAlignment="center"
         android:textColor="@color/White"
         android:textSize="11dip" />
@@ -44,7 +44,7 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="ejemplo@correo.com"
+            android:hint="@string/text_ejemplo"
             android:inputType="textEmailAddress"
             android:textColor="@color/White"
             android:textColorHint="@color/Gray" />
@@ -65,7 +65,7 @@
             android:layout_marginBottom="5dip"
             android:layout_marginTop="15dip"
             android:layout_weight="1"
-            android:text="Añadir"
+            android:text="@string/text_añadir"
             android:textColor="@color/Black" />
 
         <Button
@@ -75,7 +75,7 @@
             android:layout_marginBottom="5dip"
             android:layout_marginTop="15dip"
             android:layout_weight="1"
-            android:text="Cancelar"
+            android:text="@string/cancel"
             android:textColor="@color/Black" />
 
     </LinearLayout>

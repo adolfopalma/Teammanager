@@ -9,7 +9,7 @@ import com.example.oscar.teammanager.Objects.Jugadores;
 import java.util.ArrayList;
 
 /**
- * Created by ptmarketing05 on 11/05/2017.
+ * Created by oscar on 11/05/2017.
  */
 
 public class GestionListAdapter  extends BaseAdapter {

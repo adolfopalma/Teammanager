@@ -50,7 +50,7 @@
                         android:layout_weight="1"
                         android:ellipsize="end"
                         android:lines="2"
-                        android:text="Nombre Peña"
+                        android:text="@string/text_nom"
                         android:textColor="@android:color/white" />
 
                     <TextView
@@ -78,7 +78,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_margin="5dp"
                         android:gravity="center"
-                        android:text="Administrador:"
+                        android:text="@string/text_administrador"
                         android:textColor="@android:color/white"
                         android:visibility="visible" />
 

@@ -13,7 +13,7 @@
         android:layout_weight="1"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:text="Configuracion"
+        android:text="@string/text_config"
         android:textColor="@color/ColorPrueba"
         android:textSize="24sp" />
 
@@ -70,7 +70,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_weight="0.33"
                     android:gravity="center"
-                    android:text="Retraso:"
+                    android:text="@string/text_retraso2"
                     android:textColor="@color/Black"
                     android:textSize="18sp" />
 
@@ -102,7 +102,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Falta asistencia:"
+                    android:text="@string/text_falta_asistencia"
                     android:textColor="@color/Black"
                     android:textSize="18sp" />
 
@@ -144,7 +144,7 @@
             android:layout_marginBottom="5dip"
             android:layout_marginTop="15dip"
             android:layout_weight="1"
-            android:text="Aceptar"
+            android:text="@string/acept"
             android:textColor="@android:color/white" />
 
         <Button
@@ -154,7 +154,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="15dp"
             android:layout_weight="1"
-            android:text="Cancelar" />
+            android:text="@string/cancel" />
 
     </LinearLayout>
 

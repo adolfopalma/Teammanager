@@ -71,7 +71,7 @@ public class PartidosActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(PartidosActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(getResources().getString(R.string.load));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();

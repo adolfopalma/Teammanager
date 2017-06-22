@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Intent i = new Intent(MainActivity.this, PartidoActivity.class);
                     startActivity(i);
                 }else{
-                    Snackbar.make(findViewById(android.R.id.content), "Solo los administradores pueden gestionar un partido.", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.admin_res, Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -182,6 +182,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     new DialogInterface.OnClickListener() {
                         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                         public void onClick(DialogInterface dialog, int which) {
+                            editor.putBoolean("is_login", false);
+                            editor.commit();
                             finish();
                             Intent i = new Intent(MainActivity.this, LoginActivity.class);
                             startActivity(i);
@@ -259,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(getResources().getString(R.string.load));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -277,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     return jSONArray;
                 }else{
                     System.out.println("Error al obtener datos JSON");
-                    Snackbar.make(findViewById(android.R.id.content), "Usuario o contraseña incorrectos  ", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.user_log_incorrect, Snackbar.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -342,7 +344,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_item3.setEnabled(false);
             nav_item4.setEnabled(false);
             pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(getResources().getString(R.string.load));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -353,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql","select p.*, j.Nombre from peña p, jugadores j where codPeña in (SELECT codPeña FROM componente_peña WHERE CodigoJug = "+"'"+correoUsuario+"') and p.CodAministrador = j.Correo");
+                parametrosPosteriores.put("ins_sql","select p.*, j.Nombre from peña p, jugadores j where codPeña in (SELECT CodPeña FROM componente_peña WHERE CodigoJug = "+"'"+correoUsuario+"') and p.CodAministrador = j.Correo");
                 jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
                 if (jSONArray.length() > 0) {

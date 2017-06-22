@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="5dip"
-            android:text="Aun no estas registrado en ningun equipo"
+            android:text="@string/text_no_equip"
             android:textSize="14dip" />
 
     </LinearLayout>

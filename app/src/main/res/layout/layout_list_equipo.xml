@@ -20,7 +20,7 @@
         android:layout_weight="1"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:text="Seleccione un equipo"
+        android:text="@string/text_selec_equip"
         android:textColor="@color/ColorPrueba"
         android:textSize="24sp" />
 
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Jugadores:"
+                android:text="@string/text_jugadores"
                 android:textColor="@android:color/white"
                 android:visibility="gone" />
 
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Equipos:"
+                android:text="@string/text_equipos"
                 android:textColor="@android:color/white" />
 
             <Spinner
@@ -106,7 +106,7 @@
             android:layout_marginBottom="5dip"
             android:layout_marginTop="15dip"
             android:layout_weight="1"
-            android:text="Aceptar"
+            android:text="@string/acept"
             android:textColor="@android:color/white" />
 
     </LinearLayout>

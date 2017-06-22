@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -95,11 +96,11 @@ public class MultaActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 new MailJob(user, passwd).execute(
-                        new MailJob.Mail("soporteteammanager@gmail.com", correo.toString(), "Sancion Team Manager", "El admninistrador de la peña " + nomPeña + " le ha impuesto una sancion por "+tipoMulta)
+                        new MailJob.Mail(getResources().getString(R.string.soporte), correo.toString(), "Sancion Team Manager", "El admninistrador de la peña " + nomPeña + " le ha impuesto una sancion por "+tipoMulta)
                 );
 
                 final AlertDialog.Builder builders = new AlertDialog.Builder(MultaActivity.this);
-                builders.setMessage("Se ha notificado mediante email al usuario");
+                builders.setMessage(getResources().getString(R.string.notifi));
                 builders.setPositiveButton(getResources().getString(R.string.acept),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -115,7 +116,6 @@ public class MultaActivity extends AppCompatActivity {
 
         ConsultEquipTask task= new ConsultEquipTask();
         task.execute();
-        dialog();
 
         checkAsistencia.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -157,6 +157,28 @@ public class MultaActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_multa, menu);
+
+        MenuItem item = menu.findItem(R.id.spinner);
+        spinner = (Spinner) MenuItemCompat.getActionView(item);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View v, int postion, long arg3) {
+                idPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
+                nomPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getNombre();
+                arrayListJugadores.clear();
+                ConsulTask task = new ConsulTask();
+                task.execute();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
         return true;
     }
 
@@ -208,32 +230,6 @@ public class MultaActivity extends AppCompatActivity {
 
 
 
-    public void dialog() {
-        //Creacion dialog de filtrado
-        dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.layout_list_equipo);
-        dialog.setCancelable(false);
-
-        spinner = (Spinner) dialog.findViewById(R.id.spinner);
-        bDialogAcept = (Button)dialog.findViewById(R.id.bAceptar);
-
-
-        //Accion de boton guardar filtrado
-        dialog.findViewById(R.id.bAceptar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                idPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
-                nomPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getNombre();
-                ConsulTask task = new ConsulTask();
-                task.execute();
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-    }
-
 
 
     public void rellenaEspinersPeña(){
@@ -263,7 +259,7 @@ public class MultaActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(MultaActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(getResources().getString(R.string.load));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -328,7 +324,7 @@ public class MultaActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(MultaActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(getResources().getString(R.string.load));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -400,7 +396,7 @@ public class MultaActivity extends AppCompatActivity {
                 tipoMulta = "Retraso";
             }
             pDialog = new ProgressDialog(MultaActivity.this);
-            pDialog.setMessage("Guardando...");
+            pDialog.setMessage(getResources().getString(R.string.saved));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -418,7 +414,7 @@ public class MultaActivity extends AppCompatActivity {
                     try {
                         switch (jsonObject.getInt(("added"))){
                             case 1:
-                                Snackbar.make(findViewById(android.R.id.content), "Multa guardada.", Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(findViewById(android.R.id.content), R.string.multa_guardada, Snackbar.LENGTH_LONG).show();
                                 break;
                             default:
                                 Snackbar.make(findViewById(android.R.id.content), "Error.", Snackbar.LENGTH_LONG).show();

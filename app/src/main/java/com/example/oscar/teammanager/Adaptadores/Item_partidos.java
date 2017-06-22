@@ -19,7 +19,7 @@ import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.R;
 
 /**
- * Created by ptmarketing05 on 19/05/2017.
+ * Created by oscar on 19/05/2017.
  */
 
 public class Item_partidos extends LinearLayout {

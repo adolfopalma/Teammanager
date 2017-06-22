@@ -49,7 +49,7 @@
                 android:ellipsize="start"
                 android:ems="10"
                 android:gravity="center_horizontal"
-                android:hint="Nombre jugador"
+                android:hint="@string/text_nom_jug"
                 android:inputType="textCapSentences"
                 android:singleLine="true" />
 
@@ -63,7 +63,7 @@
                 android:ellipsize="start"
                 android:ems="10"
                 android:gravity="center_horizontal"
-                android:hint="Nick  (opcional)"
+                android:hint="@string/text_nick"
                 android:inputType="textCapSentences"
                 android:singleLine="true" />
 
@@ -88,7 +88,7 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:gravity="center_horizontal"
-                    android:hint="Fecha nacimiento"
+                    android:hint="@string/text_nacimiento"
                     android:inputType="text"
                     android:singleLine="true" />
 
@@ -112,7 +112,7 @@
                 android:ellipsize="start"
                 android:ems="10"
                 android:gravity="center_horizontal"
-                android:hint="Correo electronico"
+                android:hint="@string/text_correo"
                 android:inputType="textEmailAddress"
                 android:singleLine="true" />
 
@@ -126,7 +126,7 @@
                 android:ellipsize="start"
                 android:ems="10"
                 android:gravity="center_horizontal"
-                android:hint="Contraseña"
+                android:hint="@string/text_pass"
                 android:inputType="textPassword"
                 android:singleLine="true" />
 
@@ -141,10 +141,9 @@
                 android:ellipsize="start"
                 android:ems="10"
                 android:gravity="center_horizontal"
-                android:hint="Edad"
                 android:paddingTop="10dp"
                 android:singleLine="true"
-                android:text="Tipo de jugador"
+                android:text="@string/text_tipo"
                 android:textSize="16sp" />
 
             <Spinner
@@ -153,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="125dp"
                 android:layout_marginRight="115dp"
-                android:hint="Tipo de jugador"
+                android:hint="@string/text_tipo"
                 android:inputType="textPersonName"
                 android:singleLine="true" />
         </LinearLayout>

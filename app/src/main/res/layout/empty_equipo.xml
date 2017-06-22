@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="5dip"
-            android:text="No eres administrador de ningun equipo"
+            android:text="@string/text_no_admin"
             android:textSize="24dip" />
 
         <TextView
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="5dip"
-            android:text="Para gestionar el partido de un equipo debe ser administrador"
+            android:text="@string/text_info_gestion"
             android:textSize="14dip" />
 
     </LinearLayout>

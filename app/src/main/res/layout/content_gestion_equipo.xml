@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Detalles"
+                android:text="@string/text_detalles"
                 android:textColor="@android:color/white" />
 
             <RelativeLayout
@@ -111,7 +111,7 @@
                             android:id="@+id/textView20"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Fecha de creacion:"
+                            android:text="@string/text_fecha"
                             android:textColor="@android:color/white" />
 
                         <TextView
@@ -134,7 +134,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="Administrador:"
+                            android:text="@string/text_administrador"
                             android:textColor="@android:color/white"
                             android:visibility="visible" />
 
@@ -157,7 +157,7 @@
                             android:id="@+id/textView8"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Dia de partido:"
+                            android:text="@string/text_dia_partido"
                             android:textColor="@android:color/white" />
 
                         <TextView
@@ -181,7 +181,7 @@
                             android:id="@+id/textView9"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Hora de partido:"
+                            android:text="@string/text_hora"
                             android:textColor="@android:color/white" />
 
                         <TextView
@@ -213,7 +213,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Componentes" />
+            android:text="@string/text_compentes" />
 
         <ListView
             android:id="@+id/lv_gestion"

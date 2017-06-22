@@ -12,7 +12,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
- * Created by ptmarketing05 on 10/05/2017.
+ * Created by oscar on 10/05/2017.
  */
 
 public class MailJob extends AsyncTask<MailJob.Mail,Void,Void> {

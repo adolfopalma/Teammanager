@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="10"
-            android:text="Nombre" />
+            android:text="@string/text_nombre" />
 
         <TextView
             android:id="@+id/tvJugados"

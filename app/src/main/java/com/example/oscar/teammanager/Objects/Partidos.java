@@ -3,7 +3,7 @@ package com.example.oscar.teammanager.Objects;
 import java.io.Serializable;
 
 /**
- * Created by ptmarketing05 on 19/05/2017.
+ * Created by oscar on 19/05/2017.
  */
 
 public class Partidos implements Serializable{

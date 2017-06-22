@@ -8,7 +8,7 @@ import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.R;
 
 /**
- * Created by ptmarketing05 on 12/05/2017.
+ * Created by oscar on 12/05/2017.
  */
 
 public class Item_list_jugador_claros extends LinearLayout {
@@ -25,6 +25,11 @@ public class Item_list_jugador_claros extends LinearLayout {
 
 
     public void setListJugador(Jugadores j) {
-        nombreJugador.setText(""+j.getNombre());
+        if(j.getNick().equals("")) {
+            nombreJugador.setText("" + j.getNombre());
+        }else{
+            nombreJugador.setText("" + j.getNick());
+
+        }
     }
 }

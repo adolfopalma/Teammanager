@@ -117,11 +117,11 @@ public class NuevoGrupoActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 if(nombrePeña.getText().toString().equals("")){
-                    Snackbar.make(findViewById(android.R.id.content), "Rellene los campos obligatorios", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.campos_oblig, Snackbar.LENGTH_SHORT).show();
                     nombrePeña.setHintTextColor(Color.RED);
-                    nombrePeña.setHint("Obligatorio");
+                    nombrePeña.setHint(R.string.oblig);
                 }else if(!ClaseConexion.compruebaConexion(NuevoGrupoActivity.this)){
-                    Snackbar.make(findViewById(android.R.id.content), "Conexion limitada o nula, comprueba tu conexion.", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.conexion_limi, Snackbar.LENGTH_LONG).show();
                 }else{
                     //Ejecuto Asyntask para consultar
                     CompruebaTask task = new CompruebaTask();
@@ -166,13 +166,13 @@ public class NuevoGrupoActivity extends AppCompatActivity{
     //Relleno spinner de tipo de jugador
     public void rellenaSpinner(){
         List<String> tipoJugadores = new ArrayList();
-        tipoJugadores.add("Lunes");
-        tipoJugadores.add("Martes");
-        tipoJugadores.add("Miercoles");
-        tipoJugadores.add("Jueves");
-        tipoJugadores.add("Viernes");
-        tipoJugadores.add("Sabado");
-        tipoJugadores.add("Domingo");
+        tipoJugadores.add(getResources().getString(R.string.lunes));
+        tipoJugadores.add(getResources().getString(R.string.martes));
+        tipoJugadores.add(getResources().getString(R.string.miercoles));
+        tipoJugadores.add(getResources().getString(R.string.jueves));
+        tipoJugadores.add(getResources().getString(R.string.viernes));
+        tipoJugadores.add(getResources().getString(R.string.sabado));
+        tipoJugadores.add(getResources().getString(R.string.domingo));
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_plegado, tipoJugadores);
         adapter.setDropDownViewResource(R.layout.spinner_desplegado);
@@ -238,7 +238,7 @@ public class NuevoGrupoActivity extends AppCompatActivity{
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(NuevoGrupoActivity.this);
-            pDialog.setMessage("Creando peña...");
+            pDialog.setMessage(getResources().getString(R.string.creando));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -269,8 +269,7 @@ public class NuevoGrupoActivity extends AppCompatActivity{
             if(datos){
                 pDialog.dismiss();
                 AlertDialog.Builder builders = new AlertDialog.Builder(NuevoGrupoActivity.this);
-                builders.setMessage("Ya existe una peña registrada con este nombre y administrador.\n" +
-                        "Pruebe con otro nombre");
+                builders.setMessage(getResources().getString(R.string.equipo_repe));
                 builders.setPositiveButton(getResources().getString(R.string.cambiar),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -316,7 +315,7 @@ public class NuevoGrupoActivity extends AppCompatActivity{
                         case 1:
                             pDialog.dismiss();
                             AlertDialog.Builder builders = new AlertDialog.Builder(NuevoGrupoActivity.this);
-                            builders.setMessage("Peña creada correctamente");
+                            builders.setMessage(getResources().getString(R.string.equipo_creado));
                             builders.setPositiveButton(getResources().getString(R.string.acept),
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -331,7 +330,7 @@ public class NuevoGrupoActivity extends AppCompatActivity{
                             break;
                         default:
                             pDialog.dismiss();
-                            Snackbar.make(findViewById(android.R.id.content), "Error en el registro de la peña.", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(findViewById(android.R.id.content), R.string.error_equipo, Snackbar.LENGTH_LONG).show();
                             break;
                     }
                 } catch (JSONException e) {
@@ -340,7 +339,7 @@ public class NuevoGrupoActivity extends AppCompatActivity{
             }else{
                 pDialog.dismiss();
                 System.out.println("OBJETO NULO.");
-                Snackbar.make(findViewById(android.R.id.content), "Error al conectar.", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(android.R.id.content), R.string.error_conect, Snackbar.LENGTH_LONG).show();
             }
             AsignarPeñaTask task = new AsignarPeñaTask();
             task.execute();

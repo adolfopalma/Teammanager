@@ -109,6 +109,22 @@
         <activity
             android:name=".GestionMulta"
             android:label="@string/title_activity_gestion_multa"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".GestionEstadisticas"
+            android:label="@string/title_activity_gestion_estadisticas"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".GestionPartidos"
+            android:label="@string/title_activity_gestion_partidos"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".GestionCuenta"
+            android:label="@string/title_activity_gestion_cuenta"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".GestionAdministrador"
+            android:label="@string/title_activity_gestion_administrador"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 

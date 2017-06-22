@@ -15,11 +15,11 @@
 
         <TextView
             android:id="@+id/textView23"
-            android:layout_width="100dp"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="12"
-            android:text="Nombre" />
+            android:text="@string/text_nombre" />
 
         <TextView
             android:id="@+id/textView22"

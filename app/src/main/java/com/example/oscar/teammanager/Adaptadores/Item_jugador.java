@@ -11,7 +11,7 @@ import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.R;
 
 /**
- * Created by ptmarketing05 on 11/05/2017.
+ * Created by oscar on 11/05/2017.
  */
 
 public class Item_jugador extends LinearLayout {
@@ -38,6 +38,7 @@ public class Item_jugador extends LinearLayout {
 
 
     public void setJugador(Jugadores j) {
+
         nombreJugador.setText(""+j.getNombre());
         tipoJugador.setText(""+j.getTipoJug());
         result = decodeBase64(j.getRutaFoto());

@@ -62,10 +62,10 @@ public class LoginActivity extends AppCompatActivity{
     //Metodo con el que compruebo la conexion, si tengo ejecuto asynctask de logueo
     public void IniciarSesion(View view) {
         if(mEmailView.getText().toString().isEmpty() || mPasswordView.getText().toString().isEmpty()){
-            Snackbar.make(findViewById(android.R.id.content), "Rellene todos los campos.", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(android.R.id.content), R.string.rellene_campos, Snackbar.LENGTH_LONG).show();
         }else {
             if (!ClaseConexion.compruebaConexion(this)) {
-                Snackbar.make(findViewById(android.R.id.content), "Conexion limitada o nula, comprueba tu conexion.", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(android.R.id.content), R.string.conexion_limi, Snackbar.LENGTH_LONG).show();
             } else {
                 //Guardo el email del usuario en preferencias que utilizo en toda aplicacion de clave primaria
                 UserLoginTask task = new UserLoginTask(mEmailView.getText().toString(), mPasswordView.getText().toString());
@@ -82,11 +82,14 @@ public class LoginActivity extends AppCompatActivity{
                 Intent intent = new Intent(this, MainActivity.class);
                 correo = mEmailView.getText().toString();
                 GlobalParams.correoUsuario = correo;
+                GlobalParams.passUsu = pass;
+                editor.putBoolean("is_login", true);
+                editor.putString("us_pass", pass);
                 editor.putString("us_email", correo);
                 editor.commit();
                 startActivity(intent);
             }else{
-                Snackbar.make(findViewById(android.R.id.content), "Correo o contraseña erroneos ", Snackbar.LENGTH_LONG).show();;
+                Snackbar.make(findViewById(android.R.id.content), R.string.login_eror, Snackbar.LENGTH_LONG).show();
             }
         }
     }
@@ -114,7 +117,7 @@ public class LoginActivity extends AppCompatActivity{
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(LoginActivity.this);
-            pDialog.setMessage("Comprobando...");
+            pDialog.setMessage(getResources().getString(R.string.comprob));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -158,7 +161,7 @@ public class LoginActivity extends AppCompatActivity{
 
                 compruebaUsuario(mEmail.toString(), mPassword.toString());
             }else{
-                Snackbar.make(findViewById(android.R.id.content), "Problema de conexion con el servidor.", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(android.R.id.content), R.string.problem_serv, Snackbar.LENGTH_LONG).show();
 
             }
 

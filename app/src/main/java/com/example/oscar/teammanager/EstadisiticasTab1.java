@@ -30,7 +30,7 @@ public class EstadisiticasTab1 extends Fragment {
     private Estadisticas estadisticas;
     private ArrayList<Estadisticas> arrayListaEstadisticas;
     ListView lvEst;
-    protected int idPeña;
+
 
 
     public EstadisiticasTab1() {
@@ -55,7 +55,7 @@ public class EstadisiticasTab1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        idPeña = getArguments().getInt("id");
+
         return inflater.inflate(R.layout.layout_estadisticas1, container, false);
 
     }
@@ -64,7 +64,6 @@ public class EstadisiticasTab1 extends Fragment {
     class ConsultaTaskGoles extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
-
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(getContext());
@@ -72,6 +71,7 @@ public class EstadisiticasTab1 extends Fragment {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
+
         }
 
         @Override
@@ -79,7 +79,8 @@ public class EstadisiticasTab1 extends Fragment {
             try {
 
                 HashMap<String, String> parametrosPosteriores = new HashMap<>();
-                parametrosPosteriores.put("ins_sql","select j.Nombre, e.CodigoJug, e.Goles, e.TarjetaAmarilla, e.TarjetaRoja, e.codPeña from estadisticas e, jugadores j where e.codPeña = "+idPeña+" and e.CodigoJug = j.Correo ORDER BY Goles DESC");
+                parametrosPosteriores.put("ins_sql","select j.Nombre, e.CodigoJug, e.Goles, e.TarjetaAmarilla, e.TarjetaRoja, e.codPeña from estadisticas e, jugadores j where e.codPeña = "+GlobalParams.codPeña+" and e.CodigoJug = j.Correo ORDER BY Goles DESC");
+                System.out.println("--------------"+GlobalParams.url_consulta+parametrosPosteriores);
 
                 jSONArray = devuelveJSON.sendRequest(GlobalParams.url_consulta, parametrosPosteriores);
 
@@ -113,7 +114,6 @@ public class EstadisiticasTab1 extends Fragment {
                         estadisticas.setTarjetaAmarilla(jsonObject.getInt("TarjetaAmarilla"));
                         estadisticas.setTarjetaRoja(jsonObject.getInt("TarjetaRoja"));
                         arrayListaEstadisticas.add(estadisticas);
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

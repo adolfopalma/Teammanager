@@ -139,6 +139,7 @@ public class EditarPerfil extends AppCompatActivity {
             return true;
         }
 
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -204,7 +205,7 @@ public class EditarPerfil extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(EditarPerfil.this);
-            pDialog.setMessage("Actualizando...");
+            pDialog.setMessage(getResources().getString(R.string.act));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -216,7 +217,6 @@ public class EditarPerfil extends AppCompatActivity {
 
                 HashMap<String, String> parametrosPost = new HashMap<>();
                 parametrosPost.put("ins_sql", "UPDATE jugadores set Nombre = "+"'"+nombre+"',"+"  Edad = "+"'"+edad+"',"+"  TipoJugador = "+"'"+tipo+"',"+" Nick = "+"'"+nick+"',"+" Ruta_Foto = " +"'"+fot+"' where  Correo = '"+correo+"'");
-                System.out.println("------------------"+GlobalParams.url_insert+parametrosPost);
                 jsonObject = devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost);
 
             } catch (Exception e) {
@@ -237,7 +237,7 @@ public class EditarPerfil extends AppCompatActivity {
                         case 1:
                             pDialog.dismiss();
                             AlertDialog.Builder builders = new AlertDialog.Builder(EditarPerfil.this);
-                            builders.setMessage("Perfil actualizado.");
+                            builders.setMessage(getResources().getString(R.string.perfil_act));
                             builders.setPositiveButton(getResources().getString(R.string.acept),
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -272,7 +272,5 @@ public class EditarPerfil extends AppCompatActivity {
 
         }
     }
-
-
 
 }

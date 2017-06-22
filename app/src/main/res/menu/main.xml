@@ -13,18 +13,12 @@
                 android:id="@+id/pref"
                 android:orderInCategory="100"
                 android:icon="@mipmap/ic_pref"
-                android:title="Preferencias"
-                app:showAsAction="always|withText" />
-            <item
-                android:id="@+id/notificaciones"
-                android:orderInCategory="100"
-                android:title="Notificaciones"
-                android:icon="@drawable/ic_notifications_black_24dp"
+                android:title="@string/title_pref"
                 app:showAsAction="always|withText" />
             <item
                 android:id="@+id/salir"
                 android:orderInCategory="100"
-                android:title="Logout"
+                android:title="@string/title_cerrar"
                 android:icon="@mipmap/ic_logout"
                 app:showAsAction="always|withText" />
         </menu>

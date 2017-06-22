@@ -12,7 +12,7 @@ import com.example.oscar.teammanager.R;
 import java.util.ArrayList;
 
 /**
- * Created by ptmarketing05 on 22/05/2017.
+ * Created by oscar on 22/05/2017.
  */
 
 public class ListaPuntosAdapter extends BaseAdapter {

@@ -59,7 +59,7 @@ public class InvitarJugadorActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final AlertDialog.Builder builders = new AlertDialog.Builder(InvitarJugadorActivity.this);
-        builders.setMessage("Seleccione el equipo del que se va enviar una invitacion");
+        builders.setMessage(getResources().getString(R.string.invi));
         builders.setPositiveButton(getResources().getString(R.string.acept),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -93,7 +93,7 @@ public class InvitarJugadorActivity extends AppCompatActivity {
             public void onClick(View v) {
                 cont =0;
                 if(correoInvitado.getText().toString().isEmpty()){
-                    Snackbar.make(findViewById(android.R.id.content), "Inserte al menos un correo valido", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.correo_valid, Snackbar.LENGTH_LONG).show();
                 }else {
                     enviar();
                 }
@@ -165,11 +165,11 @@ public class InvitarJugadorActivity extends AppCompatActivity {
     public void enviar(){
         String peña = spinner.getSelectedItem().toString();
         new MailJob(user, passwd).execute(
-                new MailJob.Mail("soporteteammanager@gmail.com", correoInvitado.getText().toString(), "Invitacion Team Manager", "El admninistrador de la peña " + peña + " le ha invitado a unirse al equipo.\n Descargue aqui la aplicacion Team Manager")
+                new MailJob.Mail("soporteteammanager@gmail.com", correoInvitado.getText().toString(), getResources().getString(R.string.invi_tm), "El admninistrador de la peña " + peña + " le ha invitado a unirse al equipo.\n Descargue aqui la aplicacion Team Manager")
         );
 
         final AlertDialog.Builder builders = new AlertDialog.Builder(InvitarJugadorActivity.this);
-        builders.setMessage("El email ha sido enviado");
+        builders.setMessage(getResources().getString(R.string.email_enviado));
         builders.setPositiveButton(getResources().getString(R.string.acept),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -192,7 +192,7 @@ public class InvitarJugadorActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(InvitarJugadorActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(getResources().getString(R.string.load));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();

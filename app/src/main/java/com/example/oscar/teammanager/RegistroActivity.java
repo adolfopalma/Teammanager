@@ -85,14 +85,14 @@ public class RegistroActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(ededad.getText().toString().equals("") || edcontraseña.getText().toString().equals("") || ednombre.getText().toString().equals("") || edcorreo.getText().toString().equals("")) {
-                    Snackbar.make(findViewById(android.R.id.content), "Rellene todos los campos", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.rellene_campos, Snackbar.LENGTH_SHORT).show();
                 }else if(!ClaseConexion.compruebaConexion(RegistroActivity.this)){
-                    Snackbar.make(findViewById(android.R.id.content), "Conexion limitada o nula, comprueba tu conexion.", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.conexion_limi, Snackbar.LENGTH_LONG).show();
                 }else{
                     if (!isEmailValid(edcorreo.getText().toString())) {
-                        Snackbar.make(findViewById(android.R.id.content), "Error, formato de correo no valido", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(findViewById(android.R.id.content), R.string.invalid_correo, Snackbar.LENGTH_LONG).show();
                     }else if (!isPasswordValid(edcontraseña.getText().toString())) {
-                        Snackbar.make(findViewById(android.R.id.content), "Error, su contraseña debe contener al menos 4 caracteres", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(findViewById(android.R.id.content), R.string.envalid_pass, Snackbar.LENGTH_LONG).show();
                     }else{
                         RegistroTask task = new RegistroTask();
                         task.execute();
@@ -201,10 +201,10 @@ public class RegistroActivity extends AppCompatActivity {
     //Relleno spinner de tipo de jugador
     public void rellenaSpinner(){
         List<String> tipoJugadores = new ArrayList();
-        tipoJugadores.add("Portero");
-        tipoJugadores.add("Defensa");
-        tipoJugadores.add("Lateral");
-        tipoJugadores.add("Delantero");
+        tipoJugadores.add(getResources().getString(R.string.portero));
+        tipoJugadores.add(getResources().getString(R.string.defensa));
+        tipoJugadores.add(getResources().getString(R.string.lateral));
+        tipoJugadores.add(getResources().getString(R.string.delantero));
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_plegado, tipoJugadores);
         adapter.setDropDownViewResource(R.layout.spinner_desplegado);
@@ -227,7 +227,7 @@ public class RegistroActivity extends AppCompatActivity {
             rutaFoto = encodedImageData;
 
             pDialog = new ProgressDialog(RegistroActivity.this);
-            pDialog.setMessage("Registrando...");
+            pDialog.setMessage(getResources().getString(R.string.registrando));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -255,7 +255,7 @@ public class RegistroActivity extends AppCompatActivity {
                 }
 
                 if(listaCorreos.contains(correo)){
-                    Snackbar.make(findViewById(android.R.id.content), "Ya existe un usuario registrado con este correo. Intentelo con otro", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.usu_rep, Snackbar.LENGTH_LONG).show();
                 }else{
                     HashMap<String, String> parametrosPost = new HashMap<>();
                     parametrosPost.put("ins_sql","INSERT INTO jugadores(Nombre,Edad,Correo,Pass,TipoJugador,Ruta_Foto,Nick) VALUES ("+"'"+nombre+"'"+","+"'"+edad+"'"+","+"'"+correo+"'"+","+"'"+pass+"'"+","+"'"+tipoJugador+"'"+","+"'"+rutaFoto+"','"+nick+"')");
@@ -264,17 +264,17 @@ public class RegistroActivity extends AppCompatActivity {
                     if(jsonObject != null) {
                         switch (jsonObject.getInt("added")){
                             case 1:
-                                Snackbar.make(findViewById(android.R.id.content), "El usuario se registró correctamente.", Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(findViewById(android.R.id.content), R.string.usu_correct, Snackbar.LENGTH_LONG).show();
                                 rutaFoto = null;
                                 encodedImageData = null;
                                 break;
                             default:
-                                Snackbar.make(findViewById(android.R.id.content), "Error en el registro del usuario.", Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(findViewById(android.R.id.content), R.string.usu_error, Snackbar.LENGTH_LONG).show();
                                 break;
                         }
                     }else{
                         System.out.println("OBJETO NULO.");
-                        Snackbar.make(findViewById(android.R.id.content), "Error en el registro del usuario.", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(findViewById(android.R.id.content), R.string.usu_error, Snackbar.LENGTH_LONG).show();
                     }
                 }
 

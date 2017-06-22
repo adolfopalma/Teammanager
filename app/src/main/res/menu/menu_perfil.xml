@@ -9,4 +9,11 @@
         android:icon="@drawable/pencil_edit"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_cuenta"
+        android:orderInCategory="1"
+        android:title="Cuenta"
+        android:icon="@drawable/gerente"
+        app:showAsAction="always" />
+
 </menu>

@@ -213,7 +213,9 @@ public class PartidoActivity extends AppCompatActivity {
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                     fecha = df.format(date);
 
-                    resultado = "Claro: " + tvMarcadorClaro.getText().toString() + " - " + tvMarcadorOscuro.getText().toString() + " :Oscuro";
+                    resultado = "Claro: "+ tvMarcadorClaro.getText().toString() + " - " + tvMarcadorOscuro.getText().toString() + " :Oscuro";
+
+                    System.out.println();
 
                     PartidoTask task = new PartidoTask();
                     task.execute();
@@ -223,8 +225,8 @@ public class PartidoActivity extends AppCompatActivity {
 
 
                     final AlertDialog.Builder builders = new AlertDialog.Builder(PartidoActivity.this);
-                    if (ganador.equals("Empate")) {
-                        builders.setMessage("Ha habido un empate entre el equipo oscuro y el equipo claro");
+                    if (ganador.equals(R.string.empate)) {
+                        builders.setMessage(getResources().getString(R.string.empate_msj));
                     } else
                         builders.setMessage(getResources().getString(R.string.ganador_partido) + ganador);
                     builders.setPositiveButton(getResources().getString(R.string.acept),
@@ -268,7 +270,7 @@ public class PartidoActivity extends AppCompatActivity {
                         BtnStart.setEnabled(true);
                         BtnStop.setEnabled(true);
                     } else {
-                        Snackbar.make(findViewById(android.R.id.content), "No hay suficientes jugadores seleccionados para jugar", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(findViewById(android.R.id.content), R.string.msj_insufi, Snackbar.LENGTH_LONG).show();
 
                     }
                 }
@@ -368,6 +370,7 @@ public class PartidoActivity extends AppCompatActivity {
                 jugador.setNombre(Nombre);
                 jugador.setCorreo("");
                 jugador.setRutaFoto(null);
+                jugador.setRutaFoto(null);
                 jugador.setTipoJug("");
                 if(jugadoresClaros.size() > jugadoresOscuros.size()){
                     jugadoresOscuros.add(jugador);
@@ -422,11 +425,11 @@ public class PartidoActivity extends AppCompatActivity {
         }
 
         if(m1 < m2){
-            ganador = "Equipo Oscuro";
+            ganador = getResources().getString(R.string.equip_oscuro);
         }else if(m1 > m2){
-            ganador = "Equipo Claro";
+            ganador = getResources().getString(R.string.equip_claro);
         }else{
-            ganador = "Empate";
+            ganador = getResources().getString(R.string.empate);
         }
 
         switch(ganador){
@@ -662,7 +665,7 @@ public class PartidoActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(PartidoActivity.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(getResources().getString(R.string.load));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -680,7 +683,7 @@ public class PartidoActivity extends AppCompatActivity {
                     return jSONArray;
                 }else{
                     System.out.println("Error al obtener datos JSON");
-                    Snackbar.make(findViewById(android.R.id.content), "Error de conexion", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.error_conex, Snackbar.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -701,6 +704,7 @@ public class PartidoActivity extends AppCompatActivity {
                         jugador = new Jugadores();
                         jugador.setNombre(jsonObject.getString("Nombre"));
                         jugador.setCorreo(jsonObject.getString("Correo"));
+                        jugador.setNick(jsonObject.getString("Nick"));
                         jugador.setRutaFoto(jsonObject.getString("Ruta_Foto"));
                         jugador.setTipoJug(jsonObject.getString("TipoJugador"));
                         arrayListaJugadores.add(jugador);
@@ -785,7 +789,7 @@ public class PartidoActivity extends AppCompatActivity {
                 rellenaEspinersPeñas();
 
             } else {
-                Snackbar.make(findViewById(android.R.id.content), "Error de conexion", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(android.R.id.content), R.string.error_conex, Snackbar.LENGTH_LONG).show();
             }
         }
 
@@ -813,10 +817,10 @@ public class PartidoActivity extends AppCompatActivity {
                 if(jsonObject != null) {
                     switch (jsonObject.getInt("added")){
                         case 1:
-                           System.out.println("Añadido");
+                           System.out.println(R.string.añadido);
                             break;
                         default:
-                            System.out.println("No añadido");
+                            System.out.println(R.string.no_añadido);
                             break;
                     }
                 }else{
@@ -895,7 +899,7 @@ public class PartidoActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         final AlertDialog.Builder builderc = new AlertDialog.Builder(PartidoActivity.this);
-        builderc.setMessage("Esta sefuro que desea salir, el partido se cancelará.");
+        builderc.setMessage(getResources().getString(R.string.salir));
         builderc.setPositiveButton(getResources().getString(R.string.acept),
                 new DialogInterface.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

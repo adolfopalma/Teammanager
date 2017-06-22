@@ -1,10 +1,9 @@
 package com.example.oscar.teammanager.Utils;
 
 /**
- * Created by saeid on 27.02.16.
- *
- * States of the chronometer
+ * Created by oscar on 27/04/2017.
  */
+
 public enum ChronometerState {
 
     STOPPED,

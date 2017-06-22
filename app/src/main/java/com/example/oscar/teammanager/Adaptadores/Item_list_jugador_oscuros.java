@@ -25,6 +25,10 @@ public class Item_list_jugador_oscuros extends LinearLayout {
 
 
     public void setListJugador(Jugadores j) {
-        nombreJugador.setText(""+j.getNombre());
+        if(j.getNick().equals("")) {
+            nombreJugador.setText("" + j.getNombre());
+        }else{
+            nombreJugador.setText("" + j.getNick());
+        }
     }
 }

@@ -41,8 +41,7 @@
                 android:hint="@string/prompt_email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:singleLine="true"
-                android:text="ramajo@gmail.com" />
+                android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -61,8 +60,7 @@
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:singleLine="true"
-                android:text="1234" />
+                android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
@@ -73,7 +71,7 @@
             android:layout_marginTop="16dp"
             android:background="#2e8b57"
             android:onClick="IniciarSesion"
-            android:text="INICIAR SESION"
+            android:text="@string/iniciar"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -93,7 +91,7 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:onClick="registro"
-            android:text="REGISTRO"
+            android:text="@string/registro"
             android:textColor="@android:color/black" />
     </LinearLayout>
 

@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:text="Equipo Claro"
+            android:text="@string/text_claro"
             android:textColor="@android:color/white" />
 
         <TextView
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Tiempo"
+                android:text="@string/text_tiempo"
                 android:textColor="@android:color/black" />
 
             <TextView
@@ -82,7 +82,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:gravity="end"
-            android:text="Equipo Oscuro"
+            android:text="@string/text_oscuro"
             android:textColor="@android:color/white" />
 
     </LinearLayout>
@@ -101,7 +101,7 @@
             android:layout_weight="0.32"
             android:background="@color/ColorPrueba"
             android:gravity="center"
-            android:text="Sortear"
+            android:text="@string/text_sortear"
             android:textColor="@android:color/white" />
 
         <Button
@@ -112,7 +112,7 @@
             android:layout_weight="0.37"
             android:background="@color/ColorPrueba"
             android:gravity="center"
-            android:text="Comenzar"
+            android:text="@string/text_comenzar"
             android:textColor="@android:color/white" />
 
         <Button
@@ -123,7 +123,7 @@
             android:layout_weight="0.31"
             android:background="@color/ColorPrueba"
             android:gravity="center"
-            android:text="Finalizar"
+            android:text="@string/text_finalizar"
             android:textColor="@android:color/white" />
     </LinearLayout>
 

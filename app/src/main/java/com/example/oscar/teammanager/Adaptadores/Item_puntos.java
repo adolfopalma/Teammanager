@@ -8,7 +8,7 @@ import com.example.oscar.teammanager.Objects.Estadisticas;
 import com.example.oscar.teammanager.R;
 
 /**
- * Created by ptmarketing05 on 22/05/2017.
+ * Created by oscar on 22/05/2017.
  */
 
 public class Item_puntos extends LinearLayout {

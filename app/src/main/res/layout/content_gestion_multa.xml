@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="10"
-                android:text="Nombre" />
+                android:text="@string/text_nombre" />
 
             <TextView
                 android:id="@+id/textView22"
@@ -46,7 +46,7 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Accion"
+                android:text="@string/text_accion"
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="No hay impagos en este equipo"
+            android:text="@string/text_impagos"
             android:textAlignment="center"
             android:visibility="gone" />
 

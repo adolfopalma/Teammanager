@@ -159,7 +159,7 @@ public class EditarEquipo extends AppCompatActivity {
 
                 if(jugadores.get(pos).getCorreo().equals(administrador)){
                     final AlertDialog.Builder builderc = new AlertDialog.Builder(EditarEquipo.this);
-                    builderc.setMessage("El jugador seleccionado es el administrador de este equipo, no se puede eliminar. Para cambiar de administrador desde el menu administrar podrá gestionarlo");
+                    builderc.setMessage(R.string.jugador_administrador);
                     builderc.setPositiveButton(getResources().getString(R.string.acept),
                             new DialogInterface.OnClickListener() {
                                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -172,13 +172,14 @@ public class EditarEquipo extends AppCompatActivity {
                 }else {
                     jugadores.remove(pos);
                     lv.setAdapter(new GestionListAdapter(EditarEquipo.this, jugadores));
+                    Snackbar.make(findViewById(android.R.id.content), "Jugador : " + jugadores.get(pos).getNombre() + " eliminado", Snackbar.LENGTH_LONG).show();
                     BorrarComponentTask task = new BorrarComponentTask();
                     task.execute();
                 }
 
                 if(jugadores.size() < 0){
                     lv.setVisibility(View.GONE);
-                    tvInfo.setText("No hay componentes");
+                    tvInfo.setText(R.string.no_comp);
                 }
                 return true;
             }
@@ -209,7 +210,7 @@ public class EditarEquipo extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_borrar) {
             AlertDialog.Builder builderc = new AlertDialog.Builder(EditarEquipo.this);
-            builderc.setMessage("¿Esta seguro que desea eliminar permanentemente este equipo?");
+            builderc.setMessage(getResources().getString(R.string.equipo_delete));
             builderc.setPositiveButton(getResources().getString(R.string.acept),
                     new DialogInterface.OnClickListener() {
                         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -232,7 +233,7 @@ public class EditarEquipo extends AppCompatActivity {
 
     public void onClick(View v){
         gestionar.setVisibility(View.GONE);
-        tvInfo.setText("Componentes");
+        tvInfo.setText(R.string.componentes);
         lv.setVisibility(View.VISIBLE);
     }
 
@@ -342,7 +343,7 @@ public class EditarEquipo extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(EditarEquipo.this);
-            pDialog.setMessage("Actualizando...");
+            pDialog.setMessage(getResources().getString(R.string.act));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -350,11 +351,6 @@ public class EditarEquipo extends AppCompatActivity {
             nombre = nombreEquipo.getText().toString();
             dia = spinner.getSelectedItem().toString();
             hora = horaPartido.getText().toString();
-            /*if(fot == null){
-                fot = null;
-            }else {
-                fot = encodedImageData;
-            }*/
         }
 
         @Override
@@ -383,7 +379,7 @@ public class EditarEquipo extends AppCompatActivity {
                         case 1:
                             pDialog.dismiss();
                             AlertDialog.Builder builders = new AlertDialog.Builder(EditarEquipo.this);
-                            builders.setMessage("Equipo actualizado correctamente");
+                            builders.setMessage(getResources().getString(R.string.equip_act));
                             builders.setPositiveButton(getResources().getString(R.string.acept),
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -427,7 +423,7 @@ public class EditarEquipo extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(EditarEquipo.this);
-            pDialog.setMessage("Borrando...");
+            pDialog.setMessage(getResources().getString(R.string.borra));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -448,6 +444,10 @@ public class EditarEquipo extends AppCompatActivity {
                 HashMap<String, String> parametrosPost3 = new HashMap<>();
                 parametrosPost3.put("ins_sql"," delete from componente_peña where codPeña = "+codPeña);
                 devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost3);
+
+                HashMap<String, String> parametrosPost4 = new HashMap<>();
+                parametrosPost4.put("ins_sql"," delete from estadisticas where codPeña = "+codPeña);
+                devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost4);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -478,7 +478,7 @@ public class EditarEquipo extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(EditarEquipo.this);
-            pDialog.setMessage("Borrando...");
+            pDialog.setMessage(getResources().getString(R.string.borra));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -492,6 +492,9 @@ public class EditarEquipo extends AppCompatActivity {
                 parametrosPost.put("ins_sql"," delete from componente_peña where CodigoJug = "+"'"+CodUsuario+"' and CodPeña = "+codPeña);
                 devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost);
 
+                HashMap<String, String> parametrosPost2 = new HashMap<>();
+                parametrosPost2.put("ins_sql"," delete from estadisticas where CodigoJug = "+"'"+CodUsuario+"' and codPeña = "+codPeña);
+                devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPost2);
 
             } catch (Exception e) {
                 e.printStackTrace();

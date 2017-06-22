@@ -39,7 +39,7 @@
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Nombre peña" />
+                    android:text="@string/text_nom" />
 
                 <TextView
                     android:id="@+id/tvNomEquipo"
@@ -60,7 +60,7 @@
                     android:id="@+id/textView25"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Fecha Partido" />
+                    android:text="@string/text_fecha_partido" />
 
                 <TextView
                     android:id="@+id/tvFecha"
@@ -81,7 +81,7 @@
                     android:id="@+id/textView29"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Ganador" />
+                    android:text="@string/text_ganador" />
 
                 <TextView
                     android:id="@+id/tvGanador"
@@ -101,7 +101,7 @@
                     android:id="@+id/textView24"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Resultado" />
+                    android:text="@string/text_result" />
 
                 <TextView
                     android:id="@+id/tvResultado"

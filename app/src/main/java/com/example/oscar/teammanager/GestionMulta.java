@@ -1,16 +1,15 @@
 package com.example.oscar.teammanager;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -23,21 +22,14 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.example.oscar.teammanager.Adaptadores.Adapter_gestion_multa;
-import com.example.oscar.teammanager.Adaptadores.GestionListAdapter;
-import com.example.oscar.teammanager.Adaptadores.ListaMultasAdapter;
-import com.example.oscar.teammanager.Adaptadores.PeñaListAdapter;
-import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Multas;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +51,7 @@ public class GestionMulta extends AppCompatActivity {
     private Peñas peña;
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
-    protected TextView tvInfo;
+    protected TextView tvInfo, tvInfoDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,13 +82,34 @@ public class GestionMulta extends AppCompatActivity {
 
         ConsultEquipTask task= new ConsultEquipTask();
         task.execute();
-        dialog();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_gestion_multa, menu);
+
+        MenuItem item = menu.findItem(R.id.spinner);
+        spinner = (Spinner) MenuItemCompat.getActionView(item);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View v, int postion, long arg3) {
+                idPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
+                GlobalParams.codPeña = idPeña;
+                nomPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getNombre();
+                ConsulTask task = new ConsulTask();
+                task.execute();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
         return true;
     }
 
@@ -114,35 +127,27 @@ public class GestionMulta extends AppCompatActivity {
             return true;
         }
 
+        /*if (id == R.id.action_reset) {
+            AlertDialog.Builder builderc = new AlertDialog.Builder(GestionMulta.this);
+            builderc.setMessage("Esta seguro que desea resetear las multas, los valores se restauraran a 0");
+            builderc.setPositiveButton(getResources().getString(R.string.acept),
+                    new DialogInterface.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                        public void onClick(DialogInterface dialog, int which) {
+                            ResetTask task = new ResetTask();
+                            task.execute();
+                        }
+                    });
+            builderc.setNegativeButton(getResources().getString(R.string.cancel), null);
+            builderc.create();
+            builderc.show();
+            return true;
+        }*/
+
         return super.onOptionsItemSelected(item);
     }
 
-    public void dialog() {
-        //Creacion dialog de filtrado
-        dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.layout_list_equipo);
-        dialog.setCancelable(false);
 
-        spinner = (Spinner) dialog.findViewById(R.id.spinner);
-        bDialogAcept = (Button)dialog.findViewById(R.id.bAceptar);
-
-
-        //Accion de boton guardar filtrado
-        dialog.findViewById(R.id.bAceptar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                idPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
-                GlobalParams.codPeña = idPeña;
-                nomPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getNombre();
-                ConsulTask task = new ConsulTask();
-                task.execute();
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-    }
 
     public void rellenaEspinersPeña(){
         List<String> list = new ArrayList<String>();
@@ -160,7 +165,7 @@ public class GestionMulta extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(GestionMulta.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(getResources().getString(R.string.load));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -225,7 +230,7 @@ public class GestionMulta extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(GestionMulta.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(getResources().getString(R.string.load));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -286,5 +291,6 @@ public class GestionMulta extends AppCompatActivity {
             pDialog.dismiss();
         }
     }
+
 
 }

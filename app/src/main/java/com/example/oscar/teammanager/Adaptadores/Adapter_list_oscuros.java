@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by ptmarketing05 on 12/05/2017.
+ * Created by oscar on 12/05/2017.
  */
 
 public class Adapter_list_oscuros extends BaseAdapter{
@@ -91,7 +91,7 @@ public class Adapter_list_oscuros extends BaseAdapter{
                 int num = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
                 int num2 = Integer.parseInt(String.valueOf(tvRoja.getText()));
                 if(num == 2 || num2 == 1){
-                    Snackbar.make(view, "Jugador expulsado", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view, R.string.jugador_exp, Snackbar.LENGTH_LONG).show();
 
                 }else {
                     GlobalParams.MarcadorOscuro = GlobalParams.MarcadorOscuro + 1;

@@ -69,7 +69,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-thin"
-                        android:text="Dia de partido"
+                        android:text="@string/text_dia_partido"
                         android:textSize="18sp" />
 
                     <Spinner
@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:editable="false"
-                        android:text="Hora partido"
+                        android:text="@string/text_hora"
                         android:textSize="18sp" />
 
                     <ImageButton

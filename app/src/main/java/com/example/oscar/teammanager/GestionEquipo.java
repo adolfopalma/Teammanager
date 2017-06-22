@@ -143,7 +143,7 @@ public class GestionEquipo extends AppCompatActivity {
                 }
 
                 if(usuario_repetido){
-                    Snackbar.make(findViewById(android.R.id.content), "El usuario introducido ya es componente de este equipo.", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.usu_repe, Snackbar.LENGTH_LONG).show();
                     dialog.dismiss();
                 }else {
                     AddTask task = new AddTask();
@@ -243,7 +243,7 @@ public class GestionEquipo extends AppCompatActivity {
         protected void onPreExecute() {
             id = datos.getInt("id");
             pDialog = new ProgressDialog(GestionEquipo.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(getResources().getString(R.string.act));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -325,7 +325,7 @@ public class GestionEquipo extends AppCompatActivity {
         protected void onPreExecute() {
             id = datos.getInt("id");
             pDialog = new ProgressDialog(GestionEquipo.this);
-            pDialog.setMessage("Cargando...");
+            pDialog.setMessage(getResources().getString(R.string.load));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -405,7 +405,7 @@ public class GestionEquipo extends AppCompatActivity {
             usuario_repetido = false;
             usuario_registrado = false;
             pDialog = new ProgressDialog(GestionEquipo.this);
-            pDialog.setMessage("Añadiendo...");
+            pDialog.setMessage(getResources().getString(R.string.add));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -461,7 +461,7 @@ public class GestionEquipo extends AppCompatActivity {
 
                 }else{
                     usuario_registrado = false;
-                    Snackbar.make(findViewById(android.R.id.content), "El usuario introducido no esta aún registrado en la aplicacion.", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.usu_no_reg, Snackbar.LENGTH_LONG).show();
 
                 }
 

@@ -8,7 +8,7 @@ import com.example.oscar.teammanager.Objects.Multas;
 import com.example.oscar.teammanager.R;
 
 /**
- * Created by ptmarketing05 on 23/05/2017.
+ * Created by oscar on 23/05/2017.
  */
 
 public class Item_multas extends LinearLayout {
@@ -31,7 +31,7 @@ public class Item_multas extends LinearLayout {
         nomJug.setText(""+m.getCodigoJug());
         tipo.setText(""+m.getTipoMulta());
         cantidad.setText(""+m.getCantidad());
-        if(m.getEstado().equals("No pagado")){
+        if(m.getEstado().equals(R.string.no_pag)){
             estado.setText(""+m.getEstado());
             estado.setTextColor(Color.RED);
         }else{
