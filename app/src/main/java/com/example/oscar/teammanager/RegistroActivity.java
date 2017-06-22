@@ -105,6 +105,7 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
 
+    //metodo para limpiar campos
     private void limpiarCampos() {
         ededad.setText("");
         edcontraseña.setText("");
@@ -135,6 +136,7 @@ public class RegistroActivity extends AppCompatActivity {
         startActivityForResult(intent, ACT_GALERIA);
     }
 
+    //metodo que redimensiona imagen
     public Bitmap redimensionarImagenMaximo(Bitmap mBitmap, float newWidth, float newHeigth){
         //Redimensionamos
         int width = mBitmap.getWidth();
@@ -149,6 +151,7 @@ public class RegistroActivity extends AppCompatActivity {
         return Bitmap.createBitmap(mBitmap, 0, 0, width, height, matrix, false);
     }
 
+    //dialog con calendario para seleccionar fecha de nacimiento
     public void fechaNacimiento(View view){
         // Get Current Date
         final Calendar c = Calendar.getInstance();
@@ -182,19 +185,9 @@ public class RegistroActivity extends AppCompatActivity {
                 bm = BitmapFactory.decodeStream(bis);
                 redimensionarImagenMaximo(bm, 20,20);
                 foto.setImageBitmap(bm);
-                encodedImageData =getEncoded64ImageStringFromBitmap(bm);
+                encodedImageData =GlobalParams.getEncoded64ImageStringFromBitmap(bm);
             } catch (FileNotFoundException e) {}
         }
-    }
-
-
-    public String getEncoded64ImageStringFromBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, stream);
-        byte[] byteFormat = stream.toByteArray();
-        // get the base 64 string
-        String imgString = Base64.encodeToString(byteFormat, Base64.NO_WRAP);
-        return imgString;
     }
 
 

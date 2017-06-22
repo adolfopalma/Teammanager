@@ -3,6 +3,7 @@ package com.example.oscar.teammanager.Utils;
 import android.content.Context;
 import com.example.oscar.teammanager.PartidoActivity;
 
+//clase que contiene hilo para el tiempo del partido
 public class Chronometer implements Runnable {
 
     public static final long MILLIS_TO_MINUTES = 60000;
@@ -23,7 +24,7 @@ public class Chronometer implements Runnable {
 
 
     public void start() {
-        if(mStartTime == 0) { //if the start time was not set before! e.g. by second constructor
+        if(mStartTime == 0) {
             mStartTime = System.currentTimeMillis();
         }
         mIsRunning = true;

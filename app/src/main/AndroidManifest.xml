@@ -83,10 +83,6 @@
             android:name=".Utils.NotificationUpdateService"
             android:enabled="true"
             android:exported="false" />
-        <service
-            android:name=".Utils.MyserviceActivity"
-            android:enabled="true"
-            android:exported="false" />
 
         <activity
             android:name=".PartidosActivity"

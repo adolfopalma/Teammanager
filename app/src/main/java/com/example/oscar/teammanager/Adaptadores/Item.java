@@ -13,9 +13,9 @@ import android.util.Base64;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.R;
+import com.example.oscar.teammanager.Utils.GlobalParams;
 
 /**
  * Created by oscar on 12/12/2016.
@@ -44,43 +44,17 @@ public class Item extends LinearLayout {
         imagePeña = (ImageView) findViewById(R.id.peña_img);
     }
 
-    public static Bitmap decodeBase64(String input)
-    {
-        byte[] decodedBytes = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-    }
 
-    public Bitmap getRoundedRectBitmap(Bitmap bitmap, int pixels)
-    {
-        result = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        canvas = new Canvas(result);
-
-        color = 0xff424242;
-        paint = new Paint();
-        rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        rectF = new RectF(rect);
-        roundPx = pixels;
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        return result;
-    }
 
     public void setPeña(Peñas p) {
         nomPeña.setText(""+p.getNombre());
         diaPeña.setText(""+p.getDiaPartido());
         horaPeña.setText(""+p.getHoraPartido());
         administradorPeña.setText(""+p.getNomAdministrador());
-        result = decodeBase64(p.getRutaFoto());
+        result = GlobalParams.decodeBase64(p.getRutaFoto());
 
         if(result != null) {
-            imagePeña.setImageBitmap(getRoundedRectBitmap(result, 12));
+            imagePeña.setImageBitmap(GlobalParams.getRoundedRectBitmap(result, 12));
         }
 
     }

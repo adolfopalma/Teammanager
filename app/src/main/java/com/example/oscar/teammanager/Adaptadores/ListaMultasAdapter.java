@@ -5,11 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.example.oscar.teammanager.Objects.Estadisticas;
 import com.example.oscar.teammanager.Objects.Multas;
 import com.example.oscar.teammanager.R;
-
 import java.util.ArrayList;
 
 /**

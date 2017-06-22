@@ -3,7 +3,6 @@ package com.example.oscar.teammanager.Adaptadores;
 import android.content.Context;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.R;
 

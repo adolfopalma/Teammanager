@@ -1,26 +1,19 @@
 package com.example.oscar.teammanager;
 
-
 import android.app.ProgressDialog;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.example.oscar.teammanager.Adaptadores.ListaMultasAdapter;
 import com.example.oscar.teammanager.Objects.Multas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +25,7 @@ import java.util.HashMap;
  * Created by oscar on 30/03/2017.
  */
 
+//clase que muestra las multas impuestas
 public class EstadisticasTab3 extends Fragment {
 
     private JSONArray jSONArray3;

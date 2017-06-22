@@ -10,18 +10,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import com.example.oscar.teammanager.Adaptadores.ListaGolesAdapter;
 import com.example.oscar.teammanager.Adaptadores.ListaPuntosAdapter;
 import com.example.oscar.teammanager.Objects.Estadisticas;
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +27,7 @@ import java.util.HashMap;
  * Created by oscar on 30/03/2017.
  */
 
+//Clase que muestra la clasificacion por puntos
 public class EstadisticasTab2 extends Fragment {
 
     private JSONArray jSONArray;

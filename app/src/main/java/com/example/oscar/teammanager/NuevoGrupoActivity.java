@@ -32,11 +32,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,6 +49,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+//clase que crea un nuevo equipo
 public class NuevoGrupoActivity extends AppCompatActivity{
 
     //Declaracion de variables
@@ -189,43 +188,12 @@ public class NuevoGrupoActivity extends AppCompatActivity{
                 bis = new BufferedInputStream(is);
                 bm = BitmapFactory.decodeStream(bis);
                 bm = bm.createScaledBitmap(bm, 150, 150, true);
-                foto.setImageBitmap(getRoundedRectBitmap(bm,12));
+                foto.setImageBitmap(GlobalParams.getRoundedRectBitmap(bm,12));
 
-                encodedImageData =getEncoded64ImageStringFromBitmap(bm);
+                encodedImageData =GlobalParams.getEncoded64ImageStringFromBitmap(bm);
             } catch (FileNotFoundException e) {
             }
         }
-    }
-
-    public String getEncoded64ImageStringFromBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-        byte[] byteFormat = stream.toByteArray();
-        // get the base 64 string
-        String imgString = Base64.encodeToString(byteFormat, Base64.NO_WRAP);
-        return imgString;
-    }
-
-    public  Bitmap getRoundedRectBitmap(Bitmap bitmap, int pixels)
-    {
-        result = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        canvas = new Canvas(result);
-
-        color = 0xff424242;
-        paint = new Paint();
-        rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        rectF = new RectF(rect);
-        roundPx = pixels;
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        return result;
     }
 
 

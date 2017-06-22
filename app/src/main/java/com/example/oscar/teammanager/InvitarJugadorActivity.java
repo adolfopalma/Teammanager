@@ -19,12 +19,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
 import com.example.oscar.teammanager.Utils.MailJob;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +30,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
+//clase que gestiona las invitaciones a nuevos usuarios
 public class InvitarJugadorActivity extends AppCompatActivity {
 
     public static SharedPreferences sp;
@@ -58,6 +58,7 @@ public class InvitarJugadorActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Muestro mensajede informacion
         final AlertDialog.Builder builders = new AlertDialog.Builder(InvitarJugadorActivity.this);
         builders.setMessage(getResources().getString(R.string.invi));
         builders.setPositiveButton(getResources().getString(R.string.acept),
@@ -91,6 +92,9 @@ public class InvitarJugadorActivity extends AppCompatActivity {
         benviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //compruebo que el campo no este vacion y si no lo esta ejecuto metodo enviar que instacia objeto de la clase
+                //MailJob y envia correo
                 cont =0;
                 if(correoInvitado.getText().toString().isEmpty()){
                     Snackbar.make(findViewById(android.R.id.content), R.string.correo_valid, Snackbar.LENGTH_LONG).show();
@@ -109,8 +113,9 @@ public class InvitarJugadorActivity extends AppCompatActivity {
 
     }
 
+
+    //muestra un dialogo donde puedo introducir el correo del destinatario, se pueden escribir mas de un correo
     public void dialogAdd() {
-        //Creacion dialog de filtrado
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_correo_invitacion);
@@ -120,12 +125,13 @@ public class InvitarJugadorActivity extends AppCompatActivity {
         bDialogAcept = (Button)dialog.findViewById(R.id.bGuardar);
         bDialogCancel = (Button)dialog.findViewById(R.id.bCancelarFiltro);
 
-        //Accion de boton guardar filtrado
+
         dialog.findViewById(R.id.bGuardar).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
 
+                //añado los correos introducidos separados con una coma si hay mas de uno excepto el ultimo valor
                 if(arrayCorreos.size() <= 0) {
                     arrayCorreos.add(correo.getText().toString());
                 }else{
@@ -162,6 +168,7 @@ public class InvitarJugadorActivity extends AppCompatActivity {
         spinner.setAdapter(dataAdapter);
     }
 
+    //metodo que contruye el correo a traves de la clase mailJob
     public void enviar(){
         String peña = spinner.getSelectedItem().toString();
         new MailJob(user, passwd).execute(
@@ -186,6 +193,7 @@ public class InvitarJugadorActivity extends AppCompatActivity {
     }
 
 
+    //task que consulta equipos administrados
     class JugadoresTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 

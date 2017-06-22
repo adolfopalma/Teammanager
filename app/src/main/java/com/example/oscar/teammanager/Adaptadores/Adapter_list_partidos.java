@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import com.example.oscar.teammanager.Objects.Partidos;
-import com.example.oscar.teammanager.Objects.Peñas;
-
 import java.util.ArrayList;
 
 /**

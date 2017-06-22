@@ -20,28 +20,25 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+//clase que gestiona si eres administrador y poder cambiarlo
 public class GestionAdministrador extends AppCompatActivity {
 
     protected Spinner spinner,spinnerJug;
     protected List<String> list;
     private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
-    private JSONObject jsonObject, jsonObject3, jsonObject2;
+    private JSONObject jsonObject, jsonObject2;
     protected ArrayList<Peñas> arrayPeñas;
     private Peñas peña;
     protected Jugadores jugador;

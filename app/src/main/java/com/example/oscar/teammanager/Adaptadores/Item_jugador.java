@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.R;
+import com.example.oscar.teammanager.Utils.GlobalParams;
 
 /**
  * Created by oscar on 11/05/2017.
@@ -29,19 +30,11 @@ public class Item_jugador extends LinearLayout {
         imageJug = (ImageView) findViewById(R.id.peña_img);
     }
 
-    public static Bitmap decodeBase64(String input)
-    {
-        byte[] decodedBytes = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-    }
-
-
-
     public void setJugador(Jugadores j) {
 
         nombreJugador.setText(""+j.getNombre());
         tipoJugador.setText(""+j.getTipoJug());
-        result = decodeBase64(j.getRutaFoto());
+        result = GlobalParams.decodeBase64(j.getRutaFoto());
 
         if(result != null) {
             imageJug.setImageBitmap(result);

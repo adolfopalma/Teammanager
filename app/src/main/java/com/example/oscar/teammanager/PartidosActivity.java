@@ -6,28 +6,22 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-
 import com.example.oscar.teammanager.Adaptadores.Adapter_list_partidos;
-import com.example.oscar.teammanager.Adaptadores.PeñaListAdapter;
 import com.example.oscar.teammanager.Objects.Partidos;
-import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
+//clase que gestiona los datos de partidos jugados
 public class PartidosActivity extends AppCompatActivity {
 
     public static SharedPreferences sp;
@@ -65,6 +59,7 @@ public class PartidosActivity extends AppCompatActivity {
 
     }
 
+    //task que consulta datos de partidos jugados ordenador por fecha descendente
     class PartidosTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 

@@ -3,13 +3,14 @@ package com.example.oscar.teammanager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,17 +19,14 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 
+//Clase que gestiona las opciones de la cuenta
 public class GestionCuenta extends AppCompatActivity {
 
     protected LinearLayout contraseña,baja,admin;
@@ -38,6 +36,8 @@ public class GestionCuenta extends AppCompatActivity {
     protected EditText passActual, passNueva, passRepetir;
     protected Button bCambiar, bCancelar;
     protected String passNuev;
+    public static SharedPreferences sp;
+    public static SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,8 @@ public class GestionCuenta extends AppCompatActivity {
         contraseña = (LinearLayout)findViewById(R.id.lnDatos);
         baja = (LinearLayout)findViewById(R.id.lnBaja);
         admin = (LinearLayout)findViewById(R.id.lnAdmin);
+        sp = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+        editor = sp.edit();
 
 
         contraseña.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +64,9 @@ public class GestionCuenta extends AppCompatActivity {
         baja.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //compruebo que no sea adminstrador, en el caso de serlo primero lo redirijo a gestion de administrador para que elija otro administrado
+                //si no es administrador muestro mensaje de alerta y si acepta ejecuto task para eliminar usuario
                 if(GlobalParams.administradores != null && GlobalParams.administradores.contains(GlobalParams.correoUsuario)){
                     AlertDialog.Builder builderc = new AlertDialog.Builder(GestionCuenta.this);
                     builderc.setMessage(getResources().getString(R.string.administrador_borr));
@@ -83,6 +88,8 @@ public class GestionCuenta extends AppCompatActivity {
                             new DialogInterface.OnClickListener() {
                                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                 public void onClick(DialogInterface dialog, int which) {
+                                    editor.putBoolean("is_login", false);
+                                    editor.commit();
                                     BajaTask task = new BajaTask();
                                     task.execute();
                                 }
@@ -104,8 +111,8 @@ public class GestionCuenta extends AppCompatActivity {
 
     }
 
+    //metodo que muestra un dialogo en el que puedo cambiar la contraseña
     public void dialog() {
-        //Creacion dialog de filtrado
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_pass);
@@ -117,11 +124,14 @@ public class GestionCuenta extends AppCompatActivity {
         bCambiar = (Button)dialog.findViewById(R.id.bGuardar);
         bCambiar = (Button)dialog.findViewById(R.id.bCancelarFiltro);
 
-        //Accion de boton guardar filtrado
+
         dialog.findViewById(R.id.bGuardar).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+
+                //comprueblo que todos los campos estan rellenos,si lo estan compruebo que la contraseña actual es correcta
+                //si lo es tambien compruebo que la contraseña nueva introducida dos veces coinciden y ejecuto la task para modificar
                 String passAct = passActual.getText().toString();
                 passNuev = passNueva.getText().toString();
                 String passRep = passRepetir.getText().toString();
@@ -175,6 +185,7 @@ public class GestionCuenta extends AppCompatActivity {
         dialog.show();
     }
 
+    //task que da de baja al usuario
     class BajaTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -240,6 +251,7 @@ public class GestionCuenta extends AppCompatActivity {
         }
     }
 
+    //task que actualiza datos de contraseña
     class PassTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 

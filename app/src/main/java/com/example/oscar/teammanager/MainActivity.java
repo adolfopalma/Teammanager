@@ -7,16 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.NotificationCompat;
-import android.util.Base64;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -36,16 +32,15 @@ import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-import com.example.oscar.teammanager.Utils.MyserviceActivity;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
+//Clase principal de la app en la que aparecen una lista de equipos en los que se es componente, el menu , boton flotante de partdo
+//y acciones de toolbar
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static SharedPreferences sp;
@@ -94,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView adapter, View view, int position, long arg) {
+
+                //inicio actividad de vista de equipo seleccionada
                 Intent intent = new Intent(MainActivity.this, GestionEquipo.class);
                 intent.putExtra("posicion",position);
                 intent.putExtra("id",arrayPeñas.get(position).getId());
@@ -105,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //comprueblo si es administrador, si no lo es el boton no esta activo, si lo esta inicio actividad de partido
                 if(arrayAdministradores.contains(correoUsuario)) {
                     Intent i = new Intent(MainActivity.this, PartidoActivity.class);
                     startActivity(i);
@@ -132,6 +131,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //accion pulsando en el menu sobre cualquier parte de informacion de perfil se abre nueva actividad
+                //de vista de perfil donde podre editar
                 Intent intent = new Intent(MainActivity.this, PerfilActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -149,15 +151,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void startService(){
-        Intent intent = new Intent(this, MyserviceActivity.class);
-        startService(intent);
-    }
 
-    public void stopService(){
-        Intent intent = new Intent(this, MyserviceActivity.class);
-        stopService(intent);
-    }
 
 
     @Override
@@ -176,6 +170,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.salir) {
+
+            //muestro cuadro de dialogo, si el usuario acepta saldra de la aplicacion a la activity de logueo
             AlertDialog.Builder builderc = new AlertDialog.Builder(MainActivity.this);
             builderc.setMessage(R.string.msj_desconectar);
             builderc.setPositiveButton(getResources().getString(R.string.acept),
@@ -240,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         else if (id == R.id.nav_contacto) {
-            stopService();
+
 
         }
 
@@ -249,12 +245,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    public static Bitmap decodeBase64(String input) {
-        byte[] decodedBytes = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-    }
 
-
+    // task que consulta datos de usuario
     class MainTaskJug extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -315,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 tvTipo.setText(arrayJugadores.get(0).getTipoJug().toString());
 
                 if(!arrayJugadores.get(0).getRutaFoto().equals("null")) {
-                    foto = decodeBase64(arrayJugadores.get(0).getRutaFoto());
+                    foto = GlobalParams.decodeBase64(arrayJugadores.get(0).getRutaFoto());
                     fotoMenu.setImageBitmap(foto);
                 }
 
@@ -330,6 +322,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    //task que consulta datos de equipos
     class MainTaskPeña extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
         Menu menuNav = navigationView.getMenu();
@@ -393,11 +386,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 }
 
-                GlobalParams.diaPartido = new ArrayList<Peñas>();
-                GlobalParams.diaPartido = arrayPeñas;
 
-                //startService();
-
+                //guardo administradores en parametros globales
                 for(int i=0; i<arrayPeñas.size(); i++){
                     arrayAdministradores.add(arrayPeñas.get(i).getAdministrador().toString());
                 }
@@ -405,6 +395,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 GlobalParams.administradores = new ArrayList<String>();
                 GlobalParams.administradores = arrayAdministradores;
 
+                //compruebo si es administrador para habilitar o inhabilitar las opciones de administrador en el menu
                 if(!arrayAdministradores.contains(correoUsuario.toString()) || arrayAdministradores.size() < 0) {
                     nav_item2.setEnabled(false);
                     nav_item3.setEnabled(false);
@@ -444,7 +435,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 super.onBackPressed();
             }
 
-            //De lo contrario muestra un mensaje al usuario:
+            //De lo contrario muestra un mensaje al usuario si acepta saldra totalmente de la aplicacion
         } else {
             AlertDialog.Builder builderc = new AlertDialog.Builder(MainActivity.this);
             builderc.setMessage(R.string.msj_cerrar);

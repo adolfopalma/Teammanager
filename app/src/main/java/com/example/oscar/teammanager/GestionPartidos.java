@@ -20,19 +20,17 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+//Clase en la que se puede resetear los partidos jugados
 public class GestionPartidos extends AppCompatActivity {
 
     protected Dialog dialog;
@@ -70,6 +68,8 @@ public class GestionPartidos extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //muestro un cuadro de alerta, si el usuario acepta ejecuto task que borra los datos de partidos
                 android.app.AlertDialog.Builder builderc = new android.app.AlertDialog.Builder(GestionPartidos.this);
                 builderc.setMessage(getResources().getString(R.string.reset_part));
                 builderc.setPositiveButton(getResources().getString(R.string.acept),
@@ -106,7 +106,6 @@ public class GestionPartidos extends AppCompatActivity {
             list.add(arrayPeñas.get(i).getNombre().toString());
         }
 
-
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
@@ -114,8 +113,7 @@ public class GestionPartidos extends AppCompatActivity {
     }
 
 
-
-
+    //task que consulta los equipos administrados
     class ConsultEquipTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -177,6 +175,8 @@ public class GestionPartidos extends AppCompatActivity {
         }
     }
 
+
+    //task que borra los datos de partido del equipo seleccionado
     class ResetTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
         int idPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();

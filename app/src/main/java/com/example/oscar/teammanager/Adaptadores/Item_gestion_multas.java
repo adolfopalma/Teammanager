@@ -1,11 +1,8 @@
 package com.example.oscar.teammanager.Adaptadores;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.oscar.teammanager.Objects.Multas;
 import com.example.oscar.teammanager.R;
 
@@ -16,7 +13,6 @@ import com.example.oscar.teammanager.R;
 public class Item_gestion_multas extends LinearLayout {
 
     TextView nomJug,tipo,cantidad;
-
 
     public Item_gestion_multas(Context context) {
         super(context);

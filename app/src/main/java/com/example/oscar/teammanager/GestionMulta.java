@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+//Clase que gestiona las multas impuestas
 public class GestionMulta extends AppCompatActivity {
 
     protected Dialog dialog;
@@ -79,7 +79,6 @@ public class GestionMulta extends AppCompatActivity {
             }
         });
 
-
         ConsultEquipTask task= new ConsultEquipTask();
         task.execute();
     }
@@ -94,6 +93,8 @@ public class GestionMulta extends AppCompatActivity {
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
+            //hace que cambie el codigo de el equipo seleccionado en cada momento y ejecuto task
+            //que consulta datos de multas de el equipo seleccionado
             @Override
             public void onItemSelected(AdapterView<?> parent, View v, int postion, long arg3) {
                 idPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
@@ -159,6 +160,8 @@ public class GestionMulta extends AppCompatActivity {
         spinner.setAdapter(dataAdapter);
     }
 
+
+    //task que consulta los equipos administrados
     class ConsultEquipTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -224,6 +227,7 @@ public class GestionMulta extends AppCompatActivity {
         }
     }
 
+    //task que consula las multas de el equipo seleccionado
     class ConsulTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 

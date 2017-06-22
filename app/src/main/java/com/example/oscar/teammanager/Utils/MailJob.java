@@ -15,6 +15,7 @@ import javax.mail.internet.MimeMessage;
  * Created by oscar on 10/05/2017.
  */
 
+//Clase para la gestion de email de la aplicacion
 public class MailJob extends AsyncTask<MailJob.Mail,Void,Void> {
     private final String user;
     private final String pass;

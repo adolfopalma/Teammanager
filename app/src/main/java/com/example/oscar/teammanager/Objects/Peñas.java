@@ -17,7 +17,6 @@ public class Peñas implements Serializable {
     String fechaCreacion;
 
 
-
     public Peñas(int id, String nombre,String administrador,String fechaCreacion, String diaPartido, String horaPartido, String rutaFoto, String nomAdministrador) {
         this.id = id;
         this.nombre = nombre;

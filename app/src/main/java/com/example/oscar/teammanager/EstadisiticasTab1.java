@@ -21,7 +21,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+//clase que muestra los datos de clasificacion por goles
 public class EstadisiticasTab1 extends Fragment {
 
     private JSONArray jSONArray;
@@ -30,7 +30,6 @@ public class EstadisiticasTab1 extends Fragment {
     private Estadisticas estadisticas;
     private ArrayList<Estadisticas> arrayListaEstadisticas;
     ListView lvEst;
-
 
 
     public EstadisiticasTab1() {

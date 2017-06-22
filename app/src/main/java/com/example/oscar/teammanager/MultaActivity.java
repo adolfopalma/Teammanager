@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,20 +22,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
-
-import com.example.oscar.teammanager.Adaptadores.GestionListAdapter;
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
 import com.example.oscar.teammanager.Utils.MailJob;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +40,7 @@ public class MultaActivity extends AppCompatActivity {
     protected CheckBox checkRetraso,checkAsistencia;
     protected Dialog dialog;
     protected Spinner spinner,spinner_jug;
-    protected Button bDialogAcept,bDialogCancel,aceptPref,cancelPref;
+    protected Button aceptPref,cancelPref;
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
     private JSONArray jSONArray;
@@ -90,11 +84,14 @@ public class MultaActivity extends AppCompatActivity {
 
         correoUsuario = sp.getString("us_email", correoUsuario);
 
+        //boton de notificar multa, esta inhabilitado hasta que no se impone una multa
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setEnabled(false);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //envio correo a traves de la clase MailJob al usuario informando de la multa establecida
                 new MailJob(user, passwd).execute(
                         new MailJob.Mail(getResources().getString(R.string.soporte), correo.toString(), "Sancion Team Manager", "El admninistrador de la peña " + nomPeña + " le ha impuesto una sancion por "+tipoMulta)
                 );
@@ -165,6 +162,8 @@ public class MultaActivity extends AppCompatActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View v, int postion, long arg3) {
+
+                //selecciono el equipo y ejecuto task de consulta de datos
                 idPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
                 nomPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getNombre();
                 arrayListJugadores.clear();
@@ -191,7 +190,7 @@ public class MultaActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_cantidad) {
-            //Creacion dialog de filtrado
+            //Creacion dialog en el que puedo modificar la cantida en cada tipo de multa, por defecto es 3 retraso y 5 no asistencia
             dialog = new Dialog(this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.layout_pref);
@@ -252,7 +251,7 @@ public class MultaActivity extends AppCompatActivity {
         spinner_jug.setAdapter(dataAdapter);
     }
 
-
+    //task que consultaEquipos administrados
     class ConsultEquipTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -318,6 +317,8 @@ public class MultaActivity extends AppCompatActivity {
         }
     }
 
+
+    //task que consulta jugadores de equipo seleccionado
     class ConsulTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -371,8 +372,6 @@ public class MultaActivity extends AppCompatActivity {
                 }
 
                 rellenaEspinersJug();
-            } else {
-
             }
         }
 
@@ -382,11 +381,14 @@ public class MultaActivity extends AppCompatActivity {
         }
     }
 
+    //task que actualiza datos de multa
     class MultaTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
         @Override
         protected void onPreExecute() {
+
+            //compruebo tipo de multa impuesta
             correo = arrayListJugadores.get(spinner_jug.getSelectedItemPosition()).getCorreo();
             if(checkAsistencia.isChecked()){
                 cantidadMulta = GlobalParams.multaFaltaAsistencia;

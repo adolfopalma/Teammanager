@@ -16,8 +16,6 @@ public class Jugadores implements Serializable{
     String tipoJug;
     String rutaFoto;
 
-
-
     public Jugadores(int id, String nombre, String nick, String edad, String correo, String pass, String tipoJug, String rutaFoto) {
         this.id = id;
         this.nombre = nombre;
@@ -28,7 +26,6 @@ public class Jugadores implements Serializable{
         this.tipoJug = tipoJug;
         this.rutaFoto = rutaFoto;
     }
-
 
 
     public Jugadores(){

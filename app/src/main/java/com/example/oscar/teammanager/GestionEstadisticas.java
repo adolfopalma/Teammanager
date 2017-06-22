@@ -18,29 +18,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
-
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+//Clase en la que puedes resetear los datos de estadisticas
 public class GestionEstadisticas extends AppCompatActivity {
 
     protected Dialog dialog;
     protected Spinner spinner;
-    protected Button bDialogAcept;
-    protected TextView tvInfoDialog;
     private JSONArray jSONArray;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
@@ -74,6 +68,8 @@ public class GestionEstadisticas extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //muestro mensaje de alerta si el usuario acepta ejecuto task que reestablece las estadisiticas
                 android.app.AlertDialog.Builder builderc = new android.app.AlertDialog.Builder(GestionEstadisticas.this);
                 builderc.setMessage(getResources().getString(R.string.reset_estad));
                 builderc.setPositiveButton(getResources().getString(R.string.acept),
@@ -110,7 +106,6 @@ public class GestionEstadisticas extends AppCompatActivity {
             list.add(arrayPeñas.get(i).getNombre().toString());
         }
 
-
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
@@ -118,8 +113,7 @@ public class GestionEstadisticas extends AppCompatActivity {
     }
 
 
-
-
+    //task que consulta los equipos administrados
     class ConsultEquipTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -181,6 +175,8 @@ public class GestionEstadisticas extends AppCompatActivity {
             }
         }
 
+
+        //Task que actualiza datos
         class ResetTask extends AsyncTask<String, String, JSONArray> {
             private ProgressDialog pDialog;
             int idPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();

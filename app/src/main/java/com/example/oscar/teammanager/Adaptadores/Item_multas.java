@@ -15,7 +15,6 @@ public class Item_multas extends LinearLayout {
 
     TextView nomJug,tipo, estado, cantidad;
 
-
     public Item_multas(Context context) {
         super(context);
         inflate(context, R.layout.item_list_multas, this);
@@ -31,16 +30,13 @@ public class Item_multas extends LinearLayout {
         nomJug.setText(""+m.getCodigoJug());
         tipo.setText(""+m.getTipoMulta());
         cantidad.setText(""+m.getCantidad());
-        if(m.getEstado().equals(R.string.no_pag)){
+        if(m.getEstado().equals("No pagado")){
             estado.setText(""+m.getEstado());
             estado.setTextColor(Color.RED);
         }else{
             estado.setText(""+m.getEstado());
             estado.setTextColor(Color.GREEN);
         }
-
-
-
     }
 
 }

@@ -1,19 +1,13 @@
 package com.example.oscar.teammanager;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,31 +18,27 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.example.oscar.teammanager.Adaptadores.Adapter_List_perfil;
-import com.example.oscar.teammanager.Adaptadores.PeñaListAdapter;
 import com.example.oscar.teammanager.Objects.Estadisticas;
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by ptmarketing05 on 09/05/2017.
+ * Created by oscar on 09/05/2017.
  */
 
+//clase que gestiona la informacion de perfil
 public class PerfilActivity extends AppCompatActivity {
 
     protected Toolbar tb;
@@ -127,6 +117,8 @@ public class PerfilActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_modificar) {
+
+            //inicio nueva actividad pasando los datos necesarios para modificar
             Intent i = new Intent(PerfilActivity.this, EditarPerfil.class);
             i.putExtra("correo", correo.getText().toString());
             i.putExtra("nombre", nombre.getText().toString());
@@ -148,11 +140,8 @@ public class PerfilActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static Bitmap decodeBase64(String input) {
-        byte[] decodedBytes = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-    }
 
+    //metodo para calcular edad usuario a traves de fecha de nacimiento
     public void calcularEdad(String fecha){
         Date fechaNac=null;
         try {
@@ -176,6 +165,8 @@ public class PerfilActivity extends AppCompatActivity {
 
     }
 
+
+    //task que consulta datos de usuario
     class PerfilTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -239,7 +230,7 @@ public class PerfilActivity extends AppCompatActivity {
                 if(arrayJugadores.get(0).getRutaFoto().equals("null")){
                     foto.setImageResource(R.drawable.perfil);
                 }else {
-                    result = decodeBase64(arrayJugadores.get(0).getRutaFoto());
+                    result = GlobalParams.decodeBase64(arrayJugadores.get(0).getRutaFoto());
                     foto.setImageBitmap(result);
                 }
 
@@ -256,8 +247,10 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
+
+    //task que consulta datos de estadisticas totals personales
     class TotalTask extends AsyncTask<String, String, JSONArray> {
-        private ProgressDialog pDialog;
+
 
         @Override
         protected void onPreExecute() {
@@ -319,6 +312,7 @@ public class PerfilActivity extends AppCompatActivity {
         }
     }
 
+    //task que consulta datos de equipos pertenecientes
     class EquipoTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -372,46 +366,6 @@ public class PerfilActivity extends AppCompatActivity {
 
         @Override
         protected void onCancelled() {
-        }
-    }
-
-    class ModificarTask extends AsyncTask<String, String, JSONArray> {
-        private ProgressDialog pDialog;
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(PerfilActivity.this);
-            pDialog.setMessage(getResources().getString(R.string.act));
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
-        }
-
-        @Override
-        protected JSONArray doInBackground(String... args) {
-            try {
-
-                HashMap<String, String> parametrosPostJugados = new HashMap<>();
-                parametrosPostJugados.put("ins_sql", "UPDATE jugadores SET Nombre = , Edad = , Correo = , Pass = ,TipoJugador = , Ruta_Foto =  WHERE (Correo = "+correoUsuario+")");
-                devuelveJSON.sendInsert(GlobalParams.url_insert, parametrosPostJugados);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        protected void onPostExecute(JSONArray json) {
-            if (pDialog != null && pDialog.isShowing()) {
-                pDialog.dismiss();
-            }
-
-        }
-
-        @Override
-        protected void onCancelled() {
-            pDialog.dismiss();
         }
     }
 

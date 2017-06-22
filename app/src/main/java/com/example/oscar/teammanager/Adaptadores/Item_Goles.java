@@ -1,15 +1,9 @@
 package com.example.oscar.teammanager.Adaptadores;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.oscar.teammanager.Objects.Estadisticas;
-import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.R;
 
 /**
@@ -19,9 +13,6 @@ import com.example.oscar.teammanager.R;
 public class Item_Goles extends LinearLayout {
 
     TextView nombreJugador, goles, amarillas, rojas, tvNum;
-    int cont = 1;
-
-
 
     public Item_Goles(Context context) {
         super(context);
@@ -32,20 +23,13 @@ public class Item_Goles extends LinearLayout {
         amarillas = (TextView) findViewById(R.id.tvAmarilla);
         rojas = (TextView) findViewById(R.id.tvRoja);
         tvNum = (TextView)findViewById(R.id.tvNum);
-
-
     }
-
-
-
 
     public void setGoles(Estadisticas e) {
         nombreJugador.setText(""+e.getCorreoJug());
         goles.setText(""+e.getGoles());
         amarillas.setText(""+e.getTarjetaAmarilla());
         rojas.setText(""+e.getTarjetaRoja());
-//        tvNum.setText(cont+1);
-
     }
 }
 

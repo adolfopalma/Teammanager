@@ -13,17 +13,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+//Clase que gestiona el inicio de sesion del usuario
 public class LoginActivity extends AppCompatActivity{
 
     //Declaro variables
@@ -100,7 +99,6 @@ public class LoginActivity extends AppCompatActivity{
         Intent intent = new Intent(this, RegistroActivity.class);
         startActivity(intent);
     }
-
 
 
     //Asynctask para consultar datos

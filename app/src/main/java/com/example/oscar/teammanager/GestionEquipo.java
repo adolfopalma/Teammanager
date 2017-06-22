@@ -6,11 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.AsyncTask;
@@ -18,13 +15,10 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,13 +29,13 @@ import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+//clase que gestiona los equipos , puedo añadir componentes y editar el equipo
 public class GestionEquipo extends AppCompatActivity {
 
     public static SharedPreferences sp;
@@ -119,8 +113,8 @@ public class GestionEquipo extends AppCompatActivity {
         task2.execute();
     }
 
+    //muestra un dialog em el que puedes introducir el correo de un usuario ya registrado y añadirlo al equipo
     public void dialogAdd() {
-        //Creacion dialog de filtrado
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layour_add_jug);
@@ -130,11 +124,12 @@ public class GestionEquipo extends AppCompatActivity {
         bDialogAcept = (Button)dialog.findViewById(R.id.bGuardar);
         bDialogCancel = (Button)dialog.findViewById(R.id.bCancelarFiltro);
 
-        //Accion de boton guardar filtrado
         dialog.findViewById(R.id.bGuardar).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+
+                //compruebo que el usuario no este ya en el equipo si no lo esta ejecuto task para añadir datos a la base de datos
                 correo = correoAdd.getText().toString();
                 for(int i=0; i< arrayListaJugadores.size(); i++){
                     if(arrayListaJugadores.get(i).getCorreo().equals(correo)) {
@@ -167,7 +162,7 @@ public class GestionEquipo extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // menu que muestra iconos de gestion en toolbar si eres adminstrado, si no lo eres no aparecen
         getMenuInflater().inflate(R.menu.menu_gestion, menu);
         if(!GlobalParams.administradores.contains(correoUsuario.toString()) || GlobalParams.administradores.size() < 0){
             menu.findItem(R.id.action_modificar).setVisible(false);
@@ -188,6 +183,8 @@ public class GestionEquipo extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_modificar) {
+
+            //Inicio nueva actividad de modificacion pasandole los datos necesarios
             Intent i = new Intent(GestionEquipo.this, EditarEquipo.class);
             i.putExtra("id", arrayPeñas.get(0).getId());
             i.putExtra("nombre", nombrePeña.getText().toString());
@@ -209,33 +206,7 @@ public class GestionEquipo extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static Bitmap decodeBase64(String input) {
-
-        byte[] decodedBytes = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-    }
-
-    public Bitmap getRoundedRectBitmap(Bitmap bitmap, int pixels) {
-        result = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        canvas = new Canvas(result);
-
-        color = 0xff424242;
-        paint = new Paint();
-        rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        rectF = new RectF(rect);
-        roundPx = pixels;
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        return result;
-    }
-
+    //task que consulta datos de equipo
     class GestionTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -243,7 +214,7 @@ public class GestionEquipo extends AppCompatActivity {
         protected void onPreExecute() {
             id = datos.getInt("id");
             pDialog = new ProgressDialog(GestionEquipo.this);
-            pDialog.setMessage(getResources().getString(R.string.act));
+            pDialog.setMessage(getResources().getString(R.string.load));
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
             pDialog.show();
@@ -302,8 +273,8 @@ public class GestionEquipo extends AppCompatActivity {
 
 
                 if(!arrayPeñas.get(0).getRutaFoto().equals("null")) {
-                    foto = decodeBase64(arrayPeñas.get(0).getRutaFoto());
-                    fotoPeña.setImageBitmap(getRoundedRectBitmap(foto, 12));
+                    foto = GlobalParams.decodeBase64(arrayPeñas.get(0).getRutaFoto());
+                    fotoPeña.setImageBitmap(GlobalParams.getRoundedRectBitmap(foto, 12));
                 }
 
 
@@ -318,6 +289,7 @@ public class GestionEquipo extends AppCompatActivity {
         }
     }
 
+    //task que consulta los componentes de ese equipo
     class GestionJugTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -396,6 +368,7 @@ public class GestionEquipo extends AppCompatActivity {
         }
     }
 
+    //task para añadir componentes al equipo seleccionado
     class AddTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 

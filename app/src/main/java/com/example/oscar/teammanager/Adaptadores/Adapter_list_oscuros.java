@@ -3,7 +3,6 @@ package com.example.oscar.teammanager.Adaptadores;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +10,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.R;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -86,6 +80,9 @@ public class Adapter_list_oscuros extends BaseAdapter{
 
         gol.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                //Cada vez que pulso el boton gol incremento en 1 el marcador personal de cada jugador y el marcador global
+                //y ejecuto la task que actualiza los los goles
                 tvAmarilla = (TextView)view.findViewById(R.id.tvAmarilla);
                 tvRoja = (TextView)view.findViewById(R.id.tvRoja);
                 int num = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
@@ -111,6 +108,9 @@ public class Adapter_list_oscuros extends BaseAdapter{
 
         amarilla.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                //Cada vez que pulso el boton amarilla incremento su valor en 1, si llego a dos incremento el valor de roja
+                //y inhabilito al jugador, ademas ejecuto la task para actualizar datos
                 tvAmarilla = (TextView)view.findViewById(R.id.tvAmarilla);
                 tvRoja = (TextView)view.findViewById(R.id.tvRoja);
                 int num = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
@@ -143,6 +143,8 @@ public class Adapter_list_oscuros extends BaseAdapter{
 
         roja.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                //Cuando pulso el boton roja incremento en 1 su valos, inhabilito el jugador con sus botones y ejecuto task para actualizar datos
                 tvAmarilla = (TextView)view.findViewById(R.id.tvAmarilla);
                 int num = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
 

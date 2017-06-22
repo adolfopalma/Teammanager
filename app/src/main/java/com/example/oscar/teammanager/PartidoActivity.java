@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+//Clase que gestiona un partido de un equipo
 public class PartidoActivity extends AppCompatActivity {
 
     public static final String START_TIME = "START_TIME";
@@ -72,7 +73,7 @@ public class PartidoActivity extends AppCompatActivity {
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
     protected Dialog dialog;
-    protected Spinner spinnerP, spinnerJ;
+    protected Spinner spinnerP;
     protected String correoUsuario,ganador,fecha,resultado;
     private Peñas peña;
     private ArrayList<Peñas> arrayPeñas;
@@ -85,10 +86,7 @@ public class PartidoActivity extends AppCompatActivity {
     String compuestoEmpate = "";
     String compuestoJugados = "";
     String nomPeña;
-    String marcadorClaro;
-    String marcadorOscuro;
     protected Menu menuBar;
-
 
     //Listas
     private ArrayList<Jugadores> arrayListaJugadores;
@@ -109,6 +107,10 @@ public class PartidoActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Calendar cal = new GregorianCalendar();
+        Date date = cal.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        fecha = df.format(date);
 
         mContext = this;
         lista_jug = (LinearLayout)findViewById(R.id.lista_jugadores);
@@ -143,6 +145,8 @@ public class PartidoActivity extends AppCompatActivity {
             BtnStart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    //desactivo boton sortear y activo el service del tiempo y el thread
                     BtnSortear.setEnabled(false);
 
                     //if the chronometer has not been instantiated before...
@@ -167,7 +171,10 @@ public class PartidoActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    //if the chronometer had been instantiated before...
+
+                    //Paro el hilo y el service y reestablezco el timepo a 0.
+                    //despues compruebo el ganador y creo un compuesto de string para la task de actualizar datos
+                    //y ejecutos la tasks de actualizar datos
                     if (mChrono != null) {
                         //stop the chronometer
                         mChrono.stop();
@@ -181,41 +188,7 @@ public class PartidoActivity extends AppCompatActivity {
                     }
 
                     compruebaGanador();
-
-
-                    if (listaIdsGanadores != null) {
-                        for (int i = 0; i < listaIdsGanadores.size(); i++) {
-                            compuestoGanadores = compuestoGanadores + " " + listaIdsGanadores.get(i);
-                        }
-                    }
-
-                    if (listaIdsPerdedores != null) {
-                        for (int i = 0; i < listaIdsPerdedores.size(); i++) {
-                            compuestoPerdedores = compuestoPerdedores + " " + listaIdsPerdedores.get(i);
-                        }
-                    }
-
-                    if (listaIdsEmpate != null) {
-                        for (int i = 0; i < listaIdsEmpate.size(); i++) {
-                           compuestoEmpate = compuestoEmpate + " " + listaIdsEmpate.get(i);
-                        }
-                    }
-
-                    if (listaIdsJugPartido != null) {
-                        for (int i = 0; i < listaIdsJugPartido.size(); i++) {
-                            compuestoJugados = compuestoJugados + " " + listaIdsJugPartido.get(i);
-                        }
-                    }
-
-
-                    Calendar cal = new GregorianCalendar();
-                    Date date = cal.getTime();
-                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                    fecha = df.format(date);
-
-                    resultado = "Claro: "+ tvMarcadorClaro.getText().toString() + " - " + tvMarcadorOscuro.getText().toString() + " :Oscuro";
-
-                    System.out.println();
+                    creacionConsulta();
 
                     PartidoTask task = new PartidoTask();
                     task.execute();
@@ -223,7 +196,8 @@ public class PartidoActivity extends AppCompatActivity {
                     UpdateTask task1 = new UpdateTask();
                     task1.execute();
 
-
+                    // finalmente muestro un dialog donde aparece el ganador y cuando acepta el usuario
+                    //cierro activity y inicio nueva activity de partido donde podra ver los datos de partido
                     final AlertDialog.Builder builders = new AlertDialog.Builder(PartidoActivity.this);
                     if (ganador.equals(R.string.empate)) {
                         builders.setMessage(getResources().getString(R.string.empate_msj));
@@ -247,6 +221,13 @@ public class PartidoActivity extends AppCompatActivity {
             BtnSortear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    //compruebo que tienen datos las listas de porteros y jugadores
+                    //desactivo boton elegir equipo
+                    //reestablezco parametros globales de marcador
+                    //muestro boton añadir invitado
+                    //reparto los jugadores y le paso la lista al adaptador, guardo las listas en parametros globales
+                    //y habilito boton de inicio y parado de partido
                     if (tempList.size() > 0 || arrayListaPorteros.size() > 0) {
                         menuBar.findItem(R.id.action_añadir).setVisible(false);
                         GlobalParams.MarcadorClaro = 0;
@@ -260,7 +241,7 @@ public class PartidoActivity extends AppCompatActivity {
 
                         jugadoresClaros.clear();
                         jugadoresOscuros.clear();
-                        process();
+                        repartirJugadores();
                         alc = (new Adapter_list_claros(PartidoActivity.this, jugadoresClaros));
                         lvClaro.setAdapter(alc);
                         alo = (new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
@@ -271,7 +252,6 @@ public class PartidoActivity extends AppCompatActivity {
                         BtnStop.setEnabled(true);
                     } else {
                         Snackbar.make(findViewById(android.R.id.content), R.string.msj_insufi, Snackbar.LENGTH_LONG).show();
-
                     }
                 }
             });
@@ -310,8 +290,9 @@ public class PartidoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //muestro un dialogo donde puede seleccionar el equipo que disputara el partido
     public void dialog() {
-        //Creacion dialog de filtrado
+
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_list_equipo);
@@ -324,6 +305,10 @@ public class PartidoActivity extends AppCompatActivity {
         dialog.findViewById(R.id.bAceptar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //Cuando pulso el boton aceptar ejecuto task que consulta los datos de los jugadores
+                // del equipo seleccionado y los muestro en una lista
+                //y muestro un cuadro de alerta con la informacion de lo que hay que hacer
                 GlobalParams.codPeña = arrayPeñas.get(spinnerP.getSelectedItemPosition()).getId();
                 nomPeña = arrayPeñas.get(spinnerP.getSelectedItemPosition()).getNombre();
                 lv.setVisibility(View.VISIBLE);
@@ -352,8 +337,38 @@ public class PartidoActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    //metodo que crea una strings para hacer las consultas de las tasks
+    public void creacionConsulta(){
+
+        resultado = "Claro: "+ tvMarcadorClaro.getText().toString() + " - " + tvMarcadorOscuro.getText().toString() + " :Oscuro";
+
+        if (listaIdsGanadores != null) {
+            for (int i = 0; i < listaIdsGanadores.size(); i++) {
+                compuestoGanadores = compuestoGanadores + " " + listaIdsGanadores.get(i);
+            }
+        }
+
+        if (listaIdsPerdedores != null) {
+            for (int i = 0; i < listaIdsPerdedores.size(); i++) {
+                compuestoPerdedores = compuestoPerdedores + " " + listaIdsPerdedores.get(i);
+            }
+        }
+
+        if (listaIdsEmpate != null) {
+            for (int i = 0; i < listaIdsEmpate.size(); i++) {
+                compuestoEmpate = compuestoEmpate + " " + listaIdsEmpate.get(i);
+            }
+        }
+
+        if (listaIdsJugPartido != null) {
+            for (int i = 0; i < listaIdsJugPartido.size(); i++) {
+                compuestoJugados = compuestoJugados + " " + listaIdsJugPartido.get(i);
+            }
+        }
+    }
+
+    //muestro un dialog donde puedes introducir el nombre de un invitado y añadirlo al partido
     public void añadirInvitado() {
-        //Creacion dialog de filtrado
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_jugador_invitado);
@@ -365,6 +380,9 @@ public class PartidoActivity extends AppCompatActivity {
         dialog.findViewById(R.id.bAddJugador).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //creo un objeto de tipo jugador y lo inserto en el equipo correspondiente.
+                //el invitado entrara en el equipo que menos jugadores tenga
                 String Nombre = textJugInvi.getText().toString();
                 jugador = new Jugadores();
                 jugador.setNombre(Nombre);
@@ -404,6 +422,9 @@ public class PartidoActivity extends AppCompatActivity {
         spinnerP.setAdapter(dataAdapter);
     }
 
+    //metodo que comprueba el ganador y los jugadores del equipo que han ganado, perdido o empatado
+    //lleno unas arraylist de string con los jugadores que han jugado, otro con los que han ganado, los que han perdido
+    //y los que han empatado
     public void compruebaGanador(){
         int m1 = Integer.valueOf(tvMarcadorClaro.getText().toString());
         int m2 = Integer.valueOf(tvMarcadorOscuro.getText().toString());
@@ -486,15 +507,17 @@ public class PartidoActivity extends AppCompatActivity {
         }
     }
 
-    private void suffleList(ArrayList<Jugadores> list) {
+    //metodo que desordena la lista de forma aleatoria
+    private void desordenarLista(ArrayList<Jugadores> list) {
         final long seed = System.nanoTime();
         Collections.shuffle(list, new Random(seed));
     }
 
-    public void process() {
+    //metoodo que reparte a los jugadores en dos equipos
+    public void repartirJugadores() {
         int numAle = (int) (Math.random() * 2);
-        suffleList(tempList);
-        suffleList(arrayListaPorteros);
+        desordenarLista(tempList);
+        desordenarLista(arrayListaPorteros);
 
 
             for (int i = 0; i < tempList.size(); i++) {
@@ -538,10 +561,7 @@ public class PartidoActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Update the text of tv_timer
-     * @param timeAsText the text to update tv_timer with
-     */
+    //hilo que actualiza el tiempo y el resultado del marcador
     public void updateTimerText(final String timeAsText) {
         runOnUiThread(new Runnable() {
             @Override
@@ -557,11 +577,6 @@ public class PartidoActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         loadInstance();
-
-        //stop background services and notifications
-        /*ChronometerApplication ch = new ChronometerApplication();
-        ch.stopBackgroundServices();
-        ch.cancelNotification();*/
     }
 
     @Override
@@ -570,27 +585,16 @@ public class PartidoActivity extends AppCompatActivity {
         saveInstance();
 
         if(mChrono != null && mChrono.isRunning()) {
-            //start background notification and timer
-/*            ((ChronometerApplication)getApplication())
-                    .startBackgroundServices(mChrono.getStartTime());*/
         }
     }
 
     @Override
     protected void onDestroy() {
         saveInstance();
-
-        //When back button is pressed, app will be destoyed by OS. We do not want this to stop us
-        //from showing the notification if the chronometer is running!
-        if(mChrono == null || !mChrono.isRunning()) {
-            //stop background services and notifications
-            /*((ChronometerApplication) getApplication()).stopBackgroundServices();
-            ((ChronometerApplication) getApplication()).cancelNotification();*/
-        }
-
         super.onDestroy();
     }
 
+    //Carga de datos al restaurar
     private void loadInstance() {
 
         SharedPreferences pref = getPreferences(MODE_PRIVATE);
@@ -624,15 +628,15 @@ public class PartidoActivity extends AppCompatActivity {
 
         String oldEtLapsText = pref.getString(ET_LAPST_TEXT, "");
         if(!oldEtLapsText.isEmpty()) { //if old timer was saved correctly
-            //mEtLaps.setText(oldEtLapsText);
         }
 
         String oldTvTimerText = pref.getString(TV_TIMER_TEXT, "");
         if(!oldTvTimerText.isEmpty()){
-            //mTvTimer.setText(oldTvTimerText);
+
         }
     }
 
+    //guardado de datos al bloquear o cerrar
     private void saveInstance() {
         SharedPreferences pref = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
@@ -648,17 +652,11 @@ public class PartidoActivity extends AppCompatActivity {
             editor.putInt(LAP_COUNTER, 1);
         }
 
-        //We save the lap text in any case. only a new click on start button should clear this text!
-       // editor.putString(ET_LAPST_TEXT, mEtLaps.getText().toString());
-
-        //Same story for timer text
-       // editor.putString(TV_TIMER_TEXT, mTvTimer.getText().toString());
-
         editor.commit();
     }
 
 
-
+    // task que consulta los jugadores del equipo seleccionado
     class ConsultaTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -714,6 +712,9 @@ public class PartidoActivity extends AppCompatActivity {
                     }
                 }
 
+                //metodo onclick para seleccionar los jugadores asistentes al partido
+                //si son porteros los añado a una lista y si son jugadores a otra para que no coincidan dos portero
+                //en un mismo equipo y otro ninguno
                 lv.setAdapter(new GestionListAdapter(PartidoActivity.this, arrayListaJugadores));
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -732,8 +733,6 @@ public class PartidoActivity extends AppCompatActivity {
                     }
                 });
 
-            } else {
-
             }
         }
 
@@ -743,13 +742,10 @@ public class PartidoActivity extends AppCompatActivity {
         }
     }
 
+
+    //task que consulta datos de equipos administrados
     class EquipoTask extends AsyncTask<String, String, JSONArray> {
 
-
-        @Override
-        protected void onPreExecute() {
-
-        }
 
         @Override
         protected JSONArray doInBackground(String... args) {
@@ -798,6 +794,8 @@ public class PartidoActivity extends AppCompatActivity {
         }
     }
 
+
+    //task que actualiza los datos de partido
     class PartidoTask extends AsyncTask<String, String, JSONArray> {
 
 
@@ -843,6 +841,8 @@ public class PartidoActivity extends AppCompatActivity {
         }
     }
 
+
+    //task que actualiza los datos estadisticas
     class UpdateTask extends AsyncTask<String, String, JSONArray> {
 
         @Override

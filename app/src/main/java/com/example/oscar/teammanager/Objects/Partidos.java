@@ -16,9 +16,6 @@ public class Partidos implements Serializable{
     String ganador;
     String rutaFoto;
 
-
-
-
     public Partidos(int id, int CodPeña, String nomPeña, String fechaPartido, String resultado, String ganador, String rutaFoto) {
         this.id = id;
         this.CodPeña = CodPeña;

@@ -1,41 +1,25 @@
 package com.example.oscar.teammanager;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +28,7 @@ import java.util.List;
  * Created by oscar on 28/05/2017.
  */
 
+//Clase de la activity administracion
 public class AdministrarActivity extends AppCompatActivity {
 
     protected Toolbar tb;
@@ -86,6 +71,8 @@ public class AdministrarActivity extends AppCompatActivity {
         equipos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //ejecuto task para consultar los equipos que administro
                 ConsultEquipTask task = new ConsultEquipTask();
                 task.execute();
             }
@@ -127,8 +114,9 @@ public class AdministrarActivity extends AppCompatActivity {
 
     }
 
+    //Metodo que crea un cuadro de dialogo donde selecciono equipo del que soy administrador
     public void dialogAdd() {
-        //Creacion dialog de filtrado
+
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_list_equipo);
@@ -140,11 +128,12 @@ public class AdministrarActivity extends AppCompatActivity {
         tvInfoDialog.setText(R.string.seleccion_equipo);
 
 
-        //Accion de boton guardar filtrado
+
         dialog.findViewById(R.id.bAceptar).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+
                 idPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
                 Intent intent = new Intent(AdministrarActivity.this, GestionEquipo.class);
                 intent.putExtra("id",idPeña);
@@ -155,7 +144,7 @@ public class AdministrarActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    //relleno los datos de los spinner de el filtro
+    //relleno los datos de el spinner
     public void rellenaEspiners(){
         List<String> list = new ArrayList<String>();
         for (int i = 0; i <arrayPeñas.size() ; i++) {
@@ -167,6 +156,7 @@ public class AdministrarActivity extends AppCompatActivity {
     }
 
 
+    //task que consulta los equipos que administro
     class ConsultEquipTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 

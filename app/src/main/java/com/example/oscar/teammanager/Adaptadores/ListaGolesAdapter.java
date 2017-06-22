@@ -5,11 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.example.oscar.teammanager.Objects.Estadisticas;
-import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.R;
-
 import java.util.ArrayList;
 
 /**
@@ -26,7 +23,6 @@ public class ListaGolesAdapter extends BaseAdapter {
         this.items=items;
         this.actividad = a;
     }
-
 
 
     @Override

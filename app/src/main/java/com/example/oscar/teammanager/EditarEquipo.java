@@ -7,12 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -22,7 +16,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,18 +28,14 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
 import com.example.oscar.teammanager.Adaptadores.GestionListAdapter;
-import com.example.oscar.teammanager.Adaptadores.PeñaListAdapter;
 import com.example.oscar.teammanager.Objects.Jugadores;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -54,6 +43,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+//Clase para editar los equipo creados y eliminar componentes de el equipo
 public class EditarEquipo extends AppCompatActivity {
 
     protected Bundle extras;
@@ -62,13 +52,6 @@ public class EditarEquipo extends AppCompatActivity {
     protected ListView lv;
     protected TextView horaPartido,tvInfo;
     protected ImageView fotoEquipo;
-    private  int color;
-    private Paint paint;
-    private Rect rect;
-    private RectF rectF;
-    private Bitmap result;
-    private Canvas canvas;
-    private  float roundPx;
     private static int ACT_GALERIA = 1;
     private static Uri fotoGaleria;
     private static InputStream is;
@@ -102,6 +85,7 @@ public class EditarEquipo extends AppCompatActivity {
         tvInfo = (TextView)findViewById(R.id.tvInfo);
 
 
+        //Obtengo datos necesarios de la activiy anterior
         extras = getIntent().getExtras();
         codPeña = extras.getInt("id");
         String nombre = extras.getString("nombre");
@@ -116,12 +100,13 @@ public class EditarEquipo extends AppCompatActivity {
             fotoEquipo.setImageResource(R.drawable.penia);
             fot = null;
         }else {
-            fotoEquipo.setImageBitmap(getRoundedRectBitmap(foto, 12));
-            encodedImageData = getEncoded64ImageStringFromBitmap(foto);
+            fotoEquipo.setImageBitmap(GlobalParams.getRoundedRectBitmap(foto, 12));
+            encodedImageData = GlobalParams.getEncoded64ImageStringFromBitmap(foto);
             fot = encodedImageData;
         }
         rellenaSpinner();
 
+        //swicth para seleccionar el dato correcto de el equipo seleccionado
         switch (dia) {
             case "Lunes":
                 spinner.setSelection(0);
@@ -146,17 +131,21 @@ public class EditarEquipo extends AppCompatActivity {
                 break;
         }
 
+        //obtengo los datos globales previamente pasados desde la activity anterior y se lo paso al adaptador
         jugadores = GlobalParams.listaJugadores;
         lv.setAdapter(new GestionListAdapter(EditarEquipo.this, jugadores));
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
 
+        //Pulsacion prolongada sobre un item para eliminarlo
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
                 CodUsuario = jugadores.get(pos).getCorreo().toString();
 
+                //Compruebo si es administrador, si lo es no puede ser eliminado del equipo, si no lo es lo elimino de la lista
+                //y ejecuto la task que borra los datos
                 if(jugadores.get(pos).getCorreo().equals(administrador)){
                     final AlertDialog.Builder builderc = new AlertDialog.Builder(EditarEquipo.this);
                     builderc.setMessage(R.string.jugador_administrador);
@@ -172,11 +161,12 @@ public class EditarEquipo extends AppCompatActivity {
                 }else {
                     jugadores.remove(pos);
                     lv.setAdapter(new GestionListAdapter(EditarEquipo.this, jugadores));
-                    Snackbar.make(findViewById(android.R.id.content), "Jugador : " + jugadores.get(pos).getNombre() + " eliminado", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), "Jugador eliminado", Snackbar.LENGTH_LONG).show();
                     BorrarComponentTask task = new BorrarComponentTask();
                     task.execute();
                 }
 
+                //Si no hay componente oculto lista y muestro mensaje
                 if(jugadores.size() < 0){
                     lv.setVisibility(View.GONE);
                     tvInfo.setText(R.string.no_comp);
@@ -202,6 +192,8 @@ public class EditarEquipo extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_editar) {
+
+            //Ejecuto task que actualiza los datos
             EditarTask task = new EditarTask();
             task.execute();
             return true;
@@ -209,6 +201,8 @@ public class EditarEquipo extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_borrar) {
+
+            //Muestro mensaje de alerta para quw confirme usuario o cancele y si acepta ejecuto task que borra equipo
             AlertDialog.Builder builderc = new AlertDialog.Builder(EditarEquipo.this);
             builderc.setMessage(getResources().getString(R.string.equipo_delete));
             builderc.setPositiveButton(getResources().getString(R.string.acept),
@@ -231,6 +225,7 @@ public class EditarEquipo extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Metodo onclick que le paso al boton gestionar, si lo pulso oculto boton y muestro lista de componentes
     public void onClick(View v){
         gestionar.setVisibility(View.GONE);
         tvInfo.setText(R.string.componentes);
@@ -243,6 +238,8 @@ public class EditarEquipo extends AppCompatActivity {
         startActivityForResult(intent, ACT_GALERIA);
     }
 
+    //Metodo que obtiene la foto tomado la convierte y la muestra en imageView.
+    //tambie codifico la imagen para pasarla a la base de datos
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ACT_GALERIA && resultCode == RESULT_OK) {
@@ -252,44 +249,13 @@ public class EditarEquipo extends AppCompatActivity {
                 bis = new BufferedInputStream(is);
                 bm = BitmapFactory.decodeStream(bis);
                 bm = bm.createScaledBitmap(bm, 150, 150, true);
-                fotoEquipo.setImageBitmap(getRoundedRectBitmap(bm,12));
+                fotoEquipo.setImageBitmap(GlobalParams.getRoundedRectBitmap(bm,12));
 
-                encodedImageData = getEncoded64ImageStringFromBitmap(bm);
+                encodedImageData = GlobalParams.getEncoded64ImageStringFromBitmap(bm);
                 fot = encodedImageData;
             } catch (FileNotFoundException e) {
             }
         }
-    }
-
-
-    public String getEncoded64ImageStringFromBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-        byte[] byteFormat = stream.toByteArray();
-        // get the base 64 string
-        String imgString = Base64.encodeToString(byteFormat, Base64.NO_WRAP);
-        return imgString;
-    }
-
-    public Bitmap getRoundedRectBitmap(Bitmap bitmap, int pixels) {
-        result = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        canvas = new Canvas(result);
-
-        color = 0xff424242;
-        paint = new Paint();
-        rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        rectF = new RectF(rect);
-        roundPx = pixels;
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        return result;
     }
 
     //Metodo para deplegar dialog con reloj para seleccionar hora
@@ -333,6 +299,8 @@ public class EditarEquipo extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
+
+    //task para actualizar datos de equipo
     class EditarTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
         String nombre;
@@ -415,6 +383,7 @@ public class EditarEquipo extends AppCompatActivity {
         }
     }
 
+    //task que borra equipo
     class BorrarTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
@@ -470,6 +439,7 @@ public class EditarEquipo extends AppCompatActivity {
         }
     }
 
+    //task que borra componente del equipo
     class BorrarComponentTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 

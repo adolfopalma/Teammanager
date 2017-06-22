@@ -77,6 +77,9 @@ public class Adapter_list_claros extends BaseAdapter{
 
         gol.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                //Cada vez que pulso el boton gol incremento en 1 el marcador personal de cada jugador y el marcador global
+                //y ejecuto la task que actualiza los los goles
                 tvAmarilla = (TextView)view.findViewById(R.id.tvAmarilla);
                 tvRoja = (TextView)view.findViewById(R.id.tvRoja);
                 int numAmarilla = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
@@ -101,6 +104,9 @@ public class Adapter_list_claros extends BaseAdapter{
 
         amarilla.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                //Cada vez que pulso el boton amarilla incremento su valor en 1, si llego a dos incremento el valor de roja
+                //y inhabilito al jugador, ademas ejecuto la task para actualizar datos
                 tvAmarilla = (TextView)view.findViewById(R.id.tvAmarilla);
                 tvRoja = (TextView)view.findViewById(R.id.tvRoja);
                 int numAmarilla = Integer.parseInt(String.valueOf(tvAmarilla.getText()));
@@ -136,6 +142,8 @@ public class Adapter_list_claros extends BaseAdapter{
 
         roja.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                //Cuando pulso el boton roja incremento en 1 su valos, inhabilito el jugador con sus botones y ejecuto task para actualizar datos
                 tvAmarilla = (TextView)view.findViewById(R.id.tvAmarilla);
                 tvRoja = (TextView) view.findViewById(R.id.tvRoja);
                 int numAmarilla = Integer.parseInt(String.valueOf(tvAmarilla.getText()));

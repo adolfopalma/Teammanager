@@ -45,6 +45,8 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+
+//Clase que edita la informacion de perfil
 public class EditarPerfil extends AppCompatActivity {
 
     protected Bundle extras;
@@ -76,6 +78,7 @@ public class EditarPerfil extends AppCompatActivity {
         spinner = (Spinner)findViewById(R.id.spinner3);
         ivFoto =(CircleImageView) findViewById(R.id.ivFoto);
 
+        //Obtengo datos de activiy anterior
         extras = getIntent().getExtras();
         correo = extras.getString("correo");
         String nombre = extras.getString("nombre");
@@ -83,7 +86,7 @@ public class EditarPerfil extends AppCompatActivity {
         String edad = extras.getString("edad");
         String tipo = extras.getString("tipo");
         fot =  extras.getString("foto");
-        foto = decodeBase64(fot);
+        foto = GlobalParams.decodeBase64(fot);
 
 
         nombreJug.setText(nombre);
@@ -95,11 +98,12 @@ public class EditarPerfil extends AppCompatActivity {
             fot = null;
         }else {
             ivFoto.setImageBitmap(foto);
-            encodedImageData = getEncoded64ImageStringFromBitmap(foto);
+            encodedImageData = GlobalParams.getEncoded64ImageStringFromBitmap(foto);
             fot = encodedImageData;
         }
         rellenaSpinner();
 
+        //swicth para seleccionar valor correspondiente del jugador
         switch (tipo) {
             case "Portero":
                 spinner.setSelection(0);
@@ -134,6 +138,7 @@ public class EditarPerfil extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_editar) {
+            //Ejecuto task para editar los datos
             EditarTask task = new EditarTask();
             task.execute();
             return true;
@@ -141,11 +146,6 @@ public class EditarPerfil extends AppCompatActivity {
 
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public static Bitmap decodeBase64(String input) {
-        byte[] decodedBytes = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 
     //Relleno spinner de tipo de jugador
@@ -177,7 +177,7 @@ public class EditarPerfil extends AppCompatActivity {
                 bm = BitmapFactory.decodeStream(bis);
                 ivFoto.setImageBitmap(bm);
 
-                encodedImageData = getEncoded64ImageStringFromBitmap(bm);
+                encodedImageData = GlobalParams.getEncoded64ImageStringFromBitmap(bm);
                 fot = encodedImageData;
             } catch (FileNotFoundException e) {
             }
@@ -185,15 +185,7 @@ public class EditarPerfil extends AppCompatActivity {
     }
 
 
-    public String getEncoded64ImageStringFromBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-        byte[] byteFormat = stream.toByteArray();
-        // get the base 64 string
-        String imgString = Base64.encodeToString(byteFormat, Base64.NO_WRAP);
-        return imgString;
-    }
-
+    // task para actualizar datos de perfil
     class EditarTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
         String  nombre = nombreJug.getText().toString();

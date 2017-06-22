@@ -4,12 +4,12 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+//Servicio que hace que el tiempo siga contando aunque el movil este bloqueado en el partido
 public class NotificationUpdateService extends Service {
 
     public static final String ACTION_START = "com.example.oscar.teammanager.START_NOTIFY_SERVICE";
     public static final String ACTION_STOP = "com.example.oscar.teammanager.STOP_NOTIFY_SERVICE";
 
-   // private ChronometerApplication mApplication;
     private long mStartTime;
     private boolean mThreadCanRun;
 
@@ -19,18 +19,16 @@ public class NotificationUpdateService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        //mApplication = (ChronometerApplication)getApplication();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         if(intent.getAction().equalsIgnoreCase(ACTION_START)) {
-            //todo make sure this is OK! e.g. check against current time
             mStartTime = intent.getLongExtra("START_TIME", System.currentTimeMillis());
             start();
             return START_REDELIVER_INTENT;
-        } else { //currently other case is only stop!
+        } else {
             stop();
             stopSelf();
         }
@@ -65,7 +63,6 @@ public class NotificationUpdateService extends Service {
 
         mUpdateThread = null;
         mUpdateNotification = null;
-       // mApplication.cancelNotification();
 
     }
 
@@ -81,10 +78,7 @@ public class NotificationUpdateService extends Service {
             while(mThreadCanRun) {
 
                 long since = System.currentTimeMillis() - mStartTime;
-                //mApplication.showNotification(ChronometerState.IN_BACKGROUND,
-                        //Helpers.ConvertTimeToString(since));
 
-                //sleep for 1 second
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {

@@ -3,7 +3,6 @@ package com.example.oscar.teammanager.Adaptadores;
 import android.content.Context;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.oscar.teammanager.Objects.Estadisticas;
 import com.example.oscar.teammanager.R;
 
@@ -14,9 +13,6 @@ import com.example.oscar.teammanager.R;
 public class Item_puntos extends LinearLayout {
 
     TextView nombreJugador, jugados, ganados, perdidos, empatados, puntos,num;
-    int cont = 1;
-
-
 
     public Item_puntos(Context context) {
         super(context);
@@ -32,9 +28,6 @@ public class Item_puntos extends LinearLayout {
 
     }
 
-
-
-
     public void setPuntos(Estadisticas e) {
         nombreJugador.setText(""+e.getCorreoJug());
         jugados.setText(""+e.getPartidosJugados());
@@ -42,7 +35,5 @@ public class Item_puntos extends LinearLayout {
         perdidos.setText(""+e.getPartidosPerdidos());
         empatados.setText(""+e.getPartidosEmpatados());
         puntos.setText(""+e.getPuntos());
-        //num.setText();
-
     }
 }

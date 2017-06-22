@@ -3,22 +3,15 @@ package com.example.oscar.teammanager.Adaptadores;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
-
 import com.example.oscar.teammanager.Objects.Multas;
 import com.example.oscar.teammanager.R;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
 import com.example.oscar.teammanager.Utils.GlobalParams;
-
 import org.json.JSONArray;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -77,6 +70,8 @@ public class Adapter_gestion_multa extends BaseAdapter {
 
         bPagar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                //Ejecuto task para actualizar datos
                 codMulta = items.get(position).getCodMulta();
                 UpdateEstadoTask task = new UpdateEstadoTask();
                 task.execute();
@@ -89,6 +84,7 @@ public class Adapter_gestion_multa extends BaseAdapter {
         return view;
     }
 
+    //Asynctask para actualizar esta de las multas en la base de datos
     class UpdateEstadoTask extends AsyncTask<String, String, JSONArray> {
 
         @Override

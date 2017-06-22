@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+//Clase para la vistas de las tabs que muestra las estadisticas por goles, puntos y multas
 public class EstadisticasActivity extends AppCompatActivity {
 
     protected Toolbar tbt;
@@ -112,6 +113,7 @@ public class EstadisticasActivity extends AppCompatActivity {
 
     private void setupViewPager(final ViewPager viewPager) {
 
+        //cada vez que selecciono un item diferente de spinner muestros los resultados correspondientes
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -122,17 +124,10 @@ public class EstadisticasActivity extends AppCompatActivity {
                 GlobalParams.codPeña = idPeña;
                 nomPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getNombre();
 
-                //Enviamos datos
-               // bundle = new Bundle();
-                //bundle.putInt("id", idPeña);
-
                 //Creamos los fragment
                 final EstadisiticasTab1 pt1 = new EstadisiticasTab1();
-                //pt1.setArguments(bundle);
                 final EstadisticasTab2 pt2 = new EstadisticasTab2();
-                //pt2.setArguments(bundle);
                 final EstadisticasTab3 pt3 = new EstadisticasTab3();
-                //pt3.setArguments(bundle);
 
                 //Cargamos los fragment
                 adapter.addFragment(pt1, getResources().getString(R.string.goleadores));
@@ -162,6 +157,7 @@ public class EstadisticasActivity extends AppCompatActivity {
         spinner.setAdapter(dataAdapter);
     }
 
+    //task para consultar los equipos que pertenezco
     class ConsultEquipTask extends AsyncTask<String, String, JSONArray> {
         private ProgressDialog pDialog;
 
