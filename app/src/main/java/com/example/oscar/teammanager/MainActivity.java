@@ -232,12 +232,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         else if (id == R.id.nav_info) {
-
+            Intent i = new Intent(MainActivity.this, InfoActivity.class);
+            startActivity(i);
         }
 
         else if (id == R.id.nav_contacto) {
-
-
+            Intent i = new Intent(MainActivity.this, ContactoActivity.class);
+            i.putExtra("nombreUsuario", arrayJugadores.get(0).getNombre());
+            startActivity(i);
         }
 
         drawer.closeDrawer(GravityCompat.START);

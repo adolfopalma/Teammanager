@@ -121,6 +121,14 @@
         <activity
             android:name=".GestionAdministrador"
             android:label="@string/title_activity_gestion_administrador"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".ContactoActivity"
+            android:label="@string/title_activity_contacto"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".InfoActivity"
+            android:label="@string/title_activity_info"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 

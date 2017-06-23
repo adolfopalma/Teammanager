@@ -307,9 +307,8 @@
     <string name="title_contacto">Contacto</string>
     <string name="title_pref">Preferencias</string>
     <string name="title_cerrar">Cerrar sesion</string>
-
-
-
+    <string name="title_activity_contacto">ContactoActivity</string>
+    <string name="title_activity_info">InfoActivity</string>
 
 
 </resources>
