@@ -172,7 +172,7 @@ public class InvitarJugadorActivity extends AppCompatActivity {
     public void enviar(){
         String peña = spinner.getSelectedItem().toString();
         new MailJob(user, passwd).execute(
-                new MailJob.Mail("soporteteammanager@gmail.com", correoInvitado.getText().toString(), getResources().getString(R.string.invi_tm), "El admninistrador de la peña " + peña + " le ha invitado a unirse al equipo.\n Descargue aqui la aplicacion Team Manager")
+                new MailJob.Mail("soporteteammanager@gmail.com", correoInvitado.getText().toString(), getResources().getString(R.string.invi_tm), "El administrador de la peña " + peña + " le ha invitado a unirse al equipo.\n Descargue aqui la aplicacion Team Manager\n https://play.google.com/store/apps?hl=es")
         );
 
         final AlertDialog.Builder builders = new AlertDialog.Builder(InvitarJugadorActivity.this);

@@ -32,7 +32,7 @@ public class ContactoActivity extends AppCompatActivity {
     protected ArrayList<Jugadores> arrayJugadores;
     protected EditText edMotivo;
     protected CheckBox checkSugerencia,checkError;
-    protected String tipo= "";
+    protected String tipo= "Error";
     protected Bundle extras;
     protected String nombre;
 
@@ -53,26 +53,31 @@ public class ContactoActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String text = edMotivo.getText().toString()+"\n Usuario:"+nombre;
 
-                String[] TO = {"soporteteammanager@gmail.com"}; //Direcciones email  a enviar.
-                String[] CC = {""}; //Direcciones email con copia.
+                if(edMotivo.getText().toString().equals("")){
+                    Snackbar.make(findViewById(android.R.id.content), "Rellene el motivo del reporte.", Snackbar.LENGTH_LONG).show();
+                }else {
 
-                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                    String text = edMotivo.getText().toString() + "\n Usuario:" + nombre;
 
-                emailIntent.setData(Uri.parse("mailto:"));
-                emailIntent.setType("text/plain");
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-                emailIntent.putExtra(Intent.EXTRA_CC, CC);
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, tipo);
-                emailIntent.putExtra(Intent.EXTRA_TEXT, text);
+                    String[] TO = {"soporteteammanager@gmail.com"}; //Direcciones email  a enviar.
+                    String[] CC = {""}; //Direcciones email con copia.
 
-                try {
-                    startActivity(Intent.createChooser(emailIntent, "Enviar email."));
-                    Log.i("EMAIL", "Enviando email...");
-                }
-                catch (android.content.ActivityNotFoundException e) {
-                    Toast.makeText(ContactoActivity.this, "NO existe ningún cliente de email instalado!.", Toast.LENGTH_SHORT).show();
+                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+                    emailIntent.setData(Uri.parse("mailto:"));
+                    emailIntent.setType("text/plain");
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+                    emailIntent.putExtra(Intent.EXTRA_CC, CC);
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, tipo);
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, text);
+
+                    try {
+                        startActivity(Intent.createChooser(emailIntent, "Enviar email."));
+                        Log.i("EMAIL", "Enviando email...");
+                    } catch (android.content.ActivityNotFoundException e) {
+                        Toast.makeText(ContactoActivity.this, "NO existe ningún cliente de email instalado!.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

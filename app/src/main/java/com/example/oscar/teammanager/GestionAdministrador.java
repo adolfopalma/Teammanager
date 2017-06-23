@@ -76,8 +76,14 @@ public class GestionAdministrador extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                             public void onClick(DialogInterface dialog, int which) {
-                                UpdateTask task1 = new UpdateTask();
-                                task1.execute();
+                                String correo = arrayListaJugadores.get(spinnerJug.getSelectedItemPosition()).getCorreo();
+
+                                if(GlobalParams.administradores.contains(correo)){
+                                    Snackbar.make(findViewById(android.R.id.content), "El jugador seleccionado ya es el administrador de este equipo.", Snackbar.LENGTH_LONG).show();
+                                }else {
+                                    UpdateTask task1 = new UpdateTask();
+                                    task1.execute();
+                                }
                             }
                         });
                 builderc.setNegativeButton(getResources().getString(R.string.cancel), null);

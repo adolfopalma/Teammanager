@@ -138,9 +138,13 @@ public class EditarPerfil extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_editar) {
-            //Ejecuto task para editar los datos
+            //Compruebo campo obligatoria y Ejecuto task para editar los datos
+            if(nombreJug.getText().toString().equals("")){
+                Snackbar.make(findViewById(android.R.id.content), "Debe rellenar el campo nombre obligatoriamente", Snackbar.LENGTH_LONG).show();
+            }else{
             EditarTask task = new EditarTask();
             task.execute();
+            }
             return true;
         }
 

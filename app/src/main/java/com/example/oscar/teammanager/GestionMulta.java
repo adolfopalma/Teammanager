@@ -51,7 +51,7 @@ public class GestionMulta extends AppCompatActivity {
     private Peñas peña;
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
-    protected TextView tvInfo, tvInfoDialog;
+    protected TextView tvInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +97,7 @@ public class GestionMulta extends AppCompatActivity {
             //que consulta datos de multas de el equipo seleccionado
             @Override
             public void onItemSelected(AdapterView<?> parent, View v, int postion, long arg3) {
+                arrayListaMultas.clear();
                 idPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getId();
                 GlobalParams.codPeña = idPeña;
                 nomPeña = arrayPeñas.get(spinner.getSelectedItemPosition()).getNombre();

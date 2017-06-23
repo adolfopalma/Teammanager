@@ -387,6 +387,7 @@ public class PartidoActivity extends AppCompatActivity {
                 jugador = new Jugadores();
                 jugador.setNombre(Nombre);
                 jugador.setCorreo("");
+                jugador.setNick("");
                 jugador.setRutaFoto(null);
                 jugador.setRutaFoto(null);
                 jugador.setTipoJug("");
