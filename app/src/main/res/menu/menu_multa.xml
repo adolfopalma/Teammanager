@@ -6,7 +6,7 @@
         android:id="@+id/action_cantidad"
         android:orderInCategory="1"
         android:title="Modificar sancion"
-        android:icon="@drawable/icon"
+        android:icon="@mipmap/ic_cuenta"
         app:showAsAction="always" />
 
     <item

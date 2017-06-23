@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@android:color/transparent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.oscar.teammanager.PerfilActivity"
@@ -13,7 +13,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/Prueba6"
+        android:layout_margin="5dp"
+        android:background="@drawable/shape"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -87,7 +88,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/Prueba2"
+        android:layout_margin="5dp"
+        android:background="@drawable/shape"
         android:orientation="vertical">
 
         <TextView
@@ -165,8 +167,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="5dp"
         android:layout_weight="1"
-        android:background="@color/Prueba5"
+        android:background="@drawable/shape"
         android:orientation="vertical">
 
         <TextView

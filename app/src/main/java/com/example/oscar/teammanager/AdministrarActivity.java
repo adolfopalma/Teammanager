@@ -51,6 +51,7 @@ public class AdministrarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_administrar);
         tb = (Toolbar)findViewById(R.id.toolbar);
 
+        tb.setTitle("Panel de administracion");
         multas = (LinearLayout)findViewById(R.id.ibMultas);
         equipos = (LinearLayout)findViewById(R.id.ibEquipos);
         invitaciones = (LinearLayout)findViewById(R.id.ibInvitacion);

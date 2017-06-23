@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import com.example.oscar.teammanager.Objects.Peñas;
 import com.example.oscar.teammanager.Utils.ClaseConexion;
@@ -44,7 +45,7 @@ public class GestionPartidos extends AppCompatActivity {
     public static SharedPreferences sp;
     public static SharedPreferences.Editor editor;
     protected List<String> list;
-    protected ImageButton button;
+    protected ImageView button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class GestionPartidos extends AppCompatActivity {
 
         devuelveJSON = new ClaseConexion();
         arrayPeñas = new ArrayList<>();
-        button = (ImageButton)findViewById(R.id.ibReset);
+        button = (ImageView)findViewById(R.id.ibReset);
 
         sp = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         editor = sp.edit();

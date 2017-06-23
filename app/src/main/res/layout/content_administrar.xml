@@ -6,7 +6,7 @@
     android:layout_height="fill_parent"
     android:layout_centerHorizontal="false"
     android:layout_margin="10dp"
-    android:background="@android:color/transparent"
+    android:background="@color/Prueba5"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.oscar.teammanager.AdministrarActivity"
@@ -27,7 +27,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="40dp"
             android:layout_weight="1"
-            android:background="@color/White"
+            android:background="@color/Prueba6"
             android:orientation="vertical">
 
             <TextView
@@ -40,12 +40,13 @@
                 android:text="@string/title_multas"
                 android:textColor="@color/Black" />
 
-            <ImageButton
+            <ImageView
+                android:id="@+id/mult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                app:srcCompat="@drawable/pencils" />
+                app:srcCompat="@mipmap/ic_multa" />
 
         </LinearLayout>
 
@@ -58,7 +59,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="40dp"
             android:layout_weight="1"
-            android:background="@android:color/white"
+            android:background="@color/Prueba6"
             android:orientation="vertical">
 
             <TextView
@@ -71,12 +72,13 @@
                 android:text="@string/title_equipos"
                 android:textColor="@color/Black" />
 
-            <ImageButton
+            <ImageView
+                android:id="@+id/equip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                app:srcCompat="@drawable/pencils" />
+                app:srcCompat="@mipmap/ic_equipos" />
 
         </LinearLayout>
 
@@ -89,7 +91,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="40dp"
             android:layout_weight="1"
-            android:background="@android:color/white"
+            android:background="@color/Prueba6"
             android:orientation="vertical">
 
             <TextView
@@ -102,12 +104,13 @@
                 android:text="@string/title_inv"
                 android:textColor="@color/Black" />
 
-            <ImageButton
+            <ImageView
+                android:id="@+id/invi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                app:srcCompat="@drawable/pencils" />
+                app:srcCompat="@mipmap/ic_invitacion" />
 
         </LinearLayout>
 
@@ -129,7 +132,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="40dp"
             android:layout_weight="1"
-            android:background="@color/White"
+            android:background="@color/Prueba6"
             android:orientation="vertical">
 
             <TextView
@@ -142,12 +145,13 @@
                 android:text="@string/title_estad"
                 android:textColor="@color/Black" />
 
-            <ImageButton
+            <ImageView
+                android:id="@+id/estadis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                app:srcCompat="@drawable/pencils" />
+                app:srcCompat="@mipmap/ic_estadistica" />
 
         </LinearLayout>
 
@@ -160,7 +164,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="40dp"
             android:layout_weight="1"
-            android:background="@android:color/white"
+            android:background="@color/Prueba6"
             android:orientation="vertical">
 
             <TextView
@@ -173,12 +177,13 @@
                 android:text="@string/title_partidos"
                 android:textColor="@color/Black" />
 
-            <ImageButton
+            <ImageView
+                android:id="@+id/partidos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                app:srcCompat="@drawable/pencils" />
+                app:srcCompat="@mipmap/ic_partido" />
 
         </LinearLayout>
 
@@ -191,7 +196,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="40dp"
             android:layout_weight="1"
-            android:background="@android:color/white"
+            android:background="@color/Prueba6"
             android:orientation="vertical">
 
             <TextView
@@ -204,12 +209,13 @@
                 android:text="@string/title_cuenta"
                 android:textColor="@color/Black" />
 
-            <ImageButton
+            <ImageView
+                android:id="@+id/cuenta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                app:srcCompat="@drawable/pencils" />
+                app:srcCompat="@mipmap/ic_cuenta_black" />
 
         </LinearLayout>
     </LinearLayout>

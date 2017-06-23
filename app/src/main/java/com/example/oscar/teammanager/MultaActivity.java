@@ -205,9 +205,14 @@ public class MultaActivity extends AppCompatActivity {
             dialog.findViewById(R.id.bAceptPref).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    if(retraso.getText().toString().equals("") || asistencia.getText().toString().equals("")){
+                        Snackbar.make(findViewById(android.R.id.content), "Escriba cantidad de dinero en cada campo o pulse cancelar.", Snackbar.LENGTH_LONG).show();
+                    }else{
                     GlobalParams.multaRetraso = Integer.valueOf(retraso.getText().toString());
                     GlobalParams.multaFaltaAsistencia =Integer.valueOf(asistencia.getText().toString());
                     dialog.dismiss();
+                    }
                 }
             });
 

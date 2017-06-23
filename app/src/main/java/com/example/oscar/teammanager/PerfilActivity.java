@@ -122,10 +122,14 @@ public class PerfilActivity extends AppCompatActivity {
             Intent i = new Intent(PerfilActivity.this, EditarPerfil.class);
             i.putExtra("correo", correo.getText().toString());
             i.putExtra("nombre", nombre.getText().toString());
-            i.putExtra("nick", arrayJugadores.get(0).getNick());
+            //i.putExtra("nick", arrayJugadores.get(0).getNick());
             i.putExtra("edad", arrayJugadores.get(0).getEdad());
             i.putExtra("tipo", tipo.getText().toString());
-            i.putExtra("foto", arrayJugadores.get(0).getRutaFoto());
+            if(arrayJugadores.get(0).getRutaFoto() != null){
+                GlobalParams.foto = result;
+            }else {
+                GlobalParams.foto = null;
+            }
             startActivity(i);
             finish();
             return true;

@@ -13,7 +13,7 @@
         android:id="@+id/action_borrar"
         android:orderInCategory="1"
         android:title="Borrar"
-        android:icon="@drawable/borrar"
+        android:icon="@mipmap/ic_borrar"
         app:showAsAction="always" />
 
 </menu>

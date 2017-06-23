@@ -54,7 +54,7 @@ public class EditarPerfil extends AppCompatActivity {
     private static Uri fotoGaleria;
     private static InputStream is;
     private static BufferedInputStream bis;
-    private static Bitmap bm, foto;
+    private static Bitmap bm;
     protected String encodedImageData;
     private ClaseConexion devuelveJSON;
     private JSONObject jsonObject;
@@ -85,20 +85,18 @@ public class EditarPerfil extends AppCompatActivity {
         String nick = extras.getString("nick");
         String edad = extras.getString("edad");
         String tipo = extras.getString("tipo");
-        fot =  extras.getString("foto");
-        foto = GlobalParams.decodeBase64(fot);
 
 
         nombreJug.setText(nombre);
         edadJug.setText(edad);
         edNick.setText(nick);
         ivFoto.setImageResource(R.drawable.foto);
-        if(foto == null){
+        if(GlobalParams.foto == null){
             ivFoto.setImageResource(R.drawable.perfil);
             fot = null;
         }else {
-            ivFoto.setImageBitmap(foto);
-            encodedImageData = GlobalParams.getEncoded64ImageStringFromBitmap(foto);
+            ivFoto.setImageBitmap(GlobalParams.foto);
+            encodedImageData = GlobalParams.getEncoded64ImageStringFromBitmap(GlobalParams.foto);
             fot = encodedImageData;
         }
         rellenaSpinner();

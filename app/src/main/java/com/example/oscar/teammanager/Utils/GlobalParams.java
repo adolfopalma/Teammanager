@@ -38,6 +38,7 @@ public class GlobalParams {
     //Datos usuario
     public static String correoUsuario = "";
     public static String passUsu = "";
+    public static Bitmap foto;
 
     //Datos notificaciones
     public static ArrayList<Peñas> diaPartido = null;
@@ -78,7 +79,7 @@ public class GlobalParams {
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 
-    //metodo para
+    //metodo para dar forma redondeada a la imagenes
     public static Bitmap getRoundedRectBitmap(Bitmap bitmap, int pixels) {
         result = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         canvas = new Canvas(result);

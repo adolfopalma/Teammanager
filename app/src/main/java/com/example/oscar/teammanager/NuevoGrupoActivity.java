@@ -69,13 +69,6 @@ public class NuevoGrupoActivity extends AppCompatActivity{
     private Peñas peña;
     private ArrayList<Peñas> listaPeñas;
     private ProgressDialog pDialog;
-    private  int color;
-    private Paint paint;
-    private Rect rect;
-    private RectF rectF;
-    private Bitmap result;
-    private Canvas canvas;
-    private float roundPx;
     protected ImageView foto;
     protected EditText nombrePeña;
     protected String encodedImageData;
@@ -94,6 +87,7 @@ public class NuevoGrupoActivity extends AppCompatActivity{
         editor = sp.edit();
         devuelveJSON = new ClaseConexion();
         foto =(ImageView) findViewById(R.id.peña_img);
+        foto.setImageResource(R.drawable.camera);
         SimpleDateFormat sdf = new SimpleDateFormat("hh-mm-dd-MM-yyyy");
         horaRuta = sdf.format(new Date());
         horaPartido = (TextView)findViewById(R.id.peña_hora);

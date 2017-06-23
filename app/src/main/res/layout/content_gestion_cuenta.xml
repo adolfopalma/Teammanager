@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/Prueba5"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.oscar.teammanager.GestionCuenta"
     tools:showIn="@layout/activity_gestion_cuenta">
@@ -14,28 +15,20 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView28"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:text="@string/text_cuenta"
-            android:textAlignment="center" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="10dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/lnDatos"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="100dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@android:color/white"
+                android:background="@color/Prueba6"
                 android:orientation="vertical">
 
                 <TextView
@@ -48,22 +41,22 @@
                     android:text="@string/text_contraseña"
                     android:textColor="@color/Black" />
 
-                <ImageButton
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/pencils" />
+                    app:srcCompat="@mipmap/ic_pass" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/lnBaja"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="100dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@android:color/white"
+                android:background="@color/Prueba6"
                 android:orientation="vertical">
 
                 <TextView
@@ -76,22 +69,22 @@
                     android:text="@string/text_eliminar"
                     android:textColor="@color/Black" />
 
-                <ImageButton
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/pencils" />
+                    app:srcCompat="@mipmap/ic_cuenta_borrar" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/lnAdmin"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="100dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@android:color/white"
+                android:background="@color/Prueba6"
                 android:orientation="vertical">
 
                 <TextView
@@ -104,12 +97,12 @@
                     android:text="@string/text_admin"
                     android:textColor="@color/Black" />
 
-                <ImageButton
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/pencils" />
+                    app:srcCompat="@mipmap/ic_admin" />
 
             </LinearLayout>
 

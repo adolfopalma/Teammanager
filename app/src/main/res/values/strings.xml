@@ -126,7 +126,7 @@
     <string name="title_activity_gestion_multa">TM</string>
     <string name="title_activity_gestion_estadisticas">TM</string>
     <string name="title_activity_gestion_partidos">TM</string>
-    <string name="title_activity_gestion_cuenta">TM</string>
+    <string name="title_activity_gestion_cuenta">Gestion cuenta</string>
     <string name="title_activity_gestion_administrador">TM</string>
 
     <string name="jugador_exp">Jugador expulsado.</string>
@@ -278,7 +278,7 @@
     <string name="text_result">Resultado</string>
     <string name="text_añadir">Añadir</string>
     <string name="text_ejemplo">ejemplo@correo.com</string>
-    <string name="text_añadir_usu">Escriba correo de usuario y pulse aceptar para añadir. Asegurese que escribe correctamente el correo</string>
+    <string name="text_añadir_usu">Escriba correo de usuario y pulse aceptar para añadir. Asegurese que escribe correctamente el correo. Podra añadir mas de un correo.</string>
     <string name="text_amarillas">Amarillas</string>
     <string name="text_rojas">Rojas</string>
     <string name="text_goles">Goles</string>
@@ -307,8 +307,8 @@
     <string name="title_contacto">Contacto</string>
     <string name="title_pref">Preferencias</string>
     <string name="title_cerrar">Cerrar sesion</string>
-    <string name="title_activity_contacto">ContactoActivity</string>
-    <string name="title_activity_info">InfoActivity</string>
+    <string name="title_activity_contacto">Contacto</string>
+    <string name="title_activity_info">Informacion</string>
 
 
 </resources>

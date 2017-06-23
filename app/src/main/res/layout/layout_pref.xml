@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/AntiqueWhite"
+    android:background="@color/Prueba6"
     android:orientation="vertical">
 
     <TextView
@@ -80,11 +80,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
                     android:layout_weight="0.06"
-                    android:background="@android:color/white"
+                    android:background="@color/GrisNegro"
                     android:ems="10"
-                    android:hint="5€"
+                    android:hint="3€"
                     android:inputType="number"
-                    android:textColor="@color/Black"
+                    android:textColor="@android:color/white"
                     android:textColorLink="@color/BeigePrueba" />
             </LinearLayout>
 
@@ -111,11 +111,11 @@
                     android:layout_width="44dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:background="@android:color/white"
+                    android:background="@color/GrisNegro"
                     android:ems="10"
                     android:hint="5€"
                     android:inputType="number"
-                    android:textColor="@color/Black"
+                    android:textColor="@android:color/white"
                     android:textColorLink="@color/BeigePrueba" />
             </LinearLayout>
 
