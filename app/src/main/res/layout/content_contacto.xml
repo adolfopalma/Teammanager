@@ -84,7 +84,8 @@
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="Error"
-                        android:textColor="@color/Black" />
+                        android:textColor="@color/Black"
+                        app:buttonTint="@color/Black" />
 
                     <CheckBox
                         android:id="@+id/checkBox"
@@ -93,7 +94,8 @@
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:text="sugerencia"
-                        android:textColor="@color/Black" />
+                        android:textColor="@color/Black"
+                        app:buttonTint="@color/Black" />
                 </LinearLayout>
 
             </LinearLayout>

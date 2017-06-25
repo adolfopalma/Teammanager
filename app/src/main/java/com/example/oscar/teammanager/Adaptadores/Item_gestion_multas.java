@@ -25,7 +25,7 @@ public class Item_gestion_multas extends LinearLayout {
 
 
     public void setGestionMulta(Multas m) {
-        nomJug.setText(""+m.getCodigoJug());
+        nomJug.setText(""+m.getNomJug());
         tipo.setText(""+m.getTipoMulta());
         cantidad.setText(""+m.getCantidad());
     }

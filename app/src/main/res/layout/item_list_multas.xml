@@ -11,7 +11,7 @@
 
         <TextView
             android:id="@+id/tvNum"
-            android:layout_width="wrap_content"
+            android:layout_width="18dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="0.31"
@@ -19,7 +19,7 @@
 
         <TextView
             android:id="@+id/tvNombre"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="10"
             android:text="@string/text_nombre" />

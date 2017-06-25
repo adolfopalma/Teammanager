@@ -148,6 +148,7 @@ public class PartidoActivity extends AppCompatActivity {
 
                     //desactivo boton sortear y activo el service del tiempo y el thread
                     BtnSortear.setEnabled(false);
+                    menuBar.findItem(R.id.action_invitado).setVisible(false);
 
                     //if the chronometer has not been instantiated before...
                     if (mChrono == null) {
@@ -372,7 +373,7 @@ public class PartidoActivity extends AppCompatActivity {
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_jugador_invitado);
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
 
         bAñadir = (Button)dialog.findViewById(R.id.bAddJugador);
         textJugInvi = (EditText)dialog.findViewById(R.id.edAddJug);
@@ -380,32 +381,36 @@ public class PartidoActivity extends AppCompatActivity {
         dialog.findViewById(R.id.bAddJugador).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //compruebo que el campo esta relleno
                 //creo un objeto de tipo jugador y lo inserto en el equipo correspondiente.
                 //el invitado entrara en el equipo que menos jugadores tenga
-                String Nombre = textJugInvi.getText().toString();
-                jugador = new Jugadores();
-                jugador.setNombre(Nombre);
-                jugador.setCorreo("");
-                jugador.setNick("");
-                jugador.setRutaFoto(null);
-                jugador.setRutaFoto(null);
-                jugador.setTipoJug("");
-                if(jugadoresClaros.size() > jugadoresOscuros.size()){
-                    jugadoresOscuros.add(jugador);
-                    alo = (new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
-                    lvOscuro.setAdapter(alo);
-                }else if(jugadoresClaros.size() < jugadoresOscuros.size()){
-                    jugadoresClaros.add(jugador);
-                    alc = (new Adapter_list_claros(PartidoActivity.this, jugadoresClaros));
-                    lvClaro.setAdapter(alc);
-                }else if(jugadoresClaros.size() == jugadoresOscuros.size()){
-                    jugadoresOscuros.add(jugador);
-                    alo = (new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
-                    lvOscuro.setAdapter(alo);
-                }
+                if (textJugInvi.getText().toString().equals("")) {
+                    Snackbar.make(findViewById(android.R.id.content), "Debe introducir el nombre del jugador invitado.", Snackbar.LENGTH_LONG).show();
+                }else {
+                    String Nombre = textJugInvi.getText().toString();
+                    jugador = new Jugadores();
+                    jugador.setNombre(Nombre);
+                    jugador.setCorreo("");
+                    jugador.setNick("");
+                    jugador.setRutaFoto(null);
+                    jugador.setRutaFoto(null);
+                    jugador.setTipoJug("");
+                    if (jugadoresClaros.size() > jugadoresOscuros.size()) {
+                        jugadoresOscuros.add(jugador);
+                        alo = (new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
+                        lvOscuro.setAdapter(alo);
+                    } else if (jugadoresClaros.size() < jugadoresOscuros.size()) {
+                        jugadoresClaros.add(jugador);
+                        alc = (new Adapter_list_claros(PartidoActivity.this, jugadoresClaros));
+                        lvClaro.setAdapter(alc);
+                    } else if (jugadoresClaros.size() == jugadoresOscuros.size()) {
+                        jugadoresOscuros.add(jugador);
+                        alo = (new Adapter_list_oscuros(PartidoActivity.this, jugadoresOscuros));
+                        lvOscuro.setAdapter(alo);
+                    }
 
-                dialog.dismiss();
+                    dialog.dismiss();
+                }
             }
         });
         dialog.show();
@@ -447,11 +452,11 @@ public class PartidoActivity extends AppCompatActivity {
         }
 
         if(m1 < m2){
-            ganador = getResources().getString(R.string.equip_oscuro);
+            ganador = "Equipo Oscuro";
         }else if(m1 > m2){
-            ganador = getResources().getString(R.string.equip_claro);
+            ganador = "Equipo Claro";
         }else{
-            ganador = getResources().getString(R.string.empate);
+            ganador = "Empate";
         }
 
         switch(ganador){
