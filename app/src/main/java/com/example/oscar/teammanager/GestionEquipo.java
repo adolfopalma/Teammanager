@@ -64,6 +64,7 @@ public class GestionEquipo extends AppCompatActivity {
     protected Dialog dialog;
     boolean usuario_repetido,usuario_registrado;
     protected GestionListAdapter ga;
+    protected Menu menuBar;
 
 
     //Listas
@@ -164,13 +165,7 @@ public class GestionEquipo extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // menu que muestra iconos de gestion en toolbar si eres adminstrado, si no lo eres no aparecen
         getMenuInflater().inflate(R.menu.menu_gestion, menu);
-        if(!GlobalParams.administradores.contains(correoUsuario.toString()) || GlobalParams.administradores.size() < 0){
-            menu.findItem(R.id.action_modificar).setVisible(false);
-            menu.findItem(R.id.action_añadir_componente).setVisible(false);
-        }else{
-            menu.findItem(R.id.action_modificar).setVisible(true);
-            menu.findItem(R.id.action_añadir_componente).setVisible(true);
-        }
+        menuBar = menu;
         return true;
     }
 
@@ -271,6 +266,19 @@ public class GestionEquipo extends AppCompatActivity {
                 diaPartido.setText(arrayPeñas.get(0).getDiaPartido().toString());
                 horaPartido.setText(arrayPeñas.get(0).getHoraPartido().toString());
 
+                if(GlobalParams.administradores != null || arrayPeñas.get(0).getAdministrador().toString() != null){
+                    if (arrayPeñas.get(0).getAdministrador().toString().equals(correoUsuario.toString())) {
+                        menuBar.findItem(R.id.action_modificar).setVisible(true);
+                        menuBar.findItem(R.id.action_añadir_componente).setVisible(true);
+                    } else {
+                        menuBar.findItem(R.id.action_modificar).setVisible(false);
+                        menuBar.findItem(R.id.action_añadir_componente).setVisible(false);
+                    }
+
+                }else {
+                     menuBar.findItem(R.id.action_modificar).setVisible(false);
+                     menuBar.findItem(R.id.action_añadir_componente).setVisible(false);
+        }
 
                 if(!arrayPeñas.get(0).getRutaFoto().equals("null")) {
                     foto = GlobalParams.decodeBase64(arrayPeñas.get(0).getRutaFoto());

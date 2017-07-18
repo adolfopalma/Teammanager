@@ -40,16 +40,13 @@ public class GlobalParams {
     public static String passUsu = "";
     public static Bitmap foto;
 
-    //Datos notificaciones
-    public static ArrayList<Peñas> diaPartido = null;
-
     //Datos partido
     public static int MarcadorOscuro = 0;
     public static int MarcadorClaro = 0;
     public static ArrayList<Jugadores> equipo1 = null;
     public static ArrayList<Jugadores> equipo2 = null;
 
-    //Datos peña en partido
+    //Datos equipo
     public static int codPeña = 0;
 
     //Datos multa
