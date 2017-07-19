@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Team manager</string>
+    <string name="acept">Accept</string>
+    <string name="act">Updating</string>
+    <string name="add">Adding</string>
+    <string name="añadido">Added</string>
+    <string name="borra">Deleting</string>
+</resources>
